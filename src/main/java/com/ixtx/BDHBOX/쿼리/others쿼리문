@@ -1,0 +1,336 @@
+############# 모든 테이블 생성 쿼리문 #####################
+#1.commercials
+CREATE TABLE `commercials` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `movie_index` int(10) unsigned NOT NULL,
+  `commercial_name` varchar(50) NOT NULL,
+  `image_name` varchar(500) NOT NULL,
+  `image_data` longblob NOT NULL,
+  `image_size` int(10) unsigned NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `started_at` datetime NOT NULL,
+  `finished_at` datetime NOT NULL,
+  `hidden_flag` tinyint(1) NOT NULL DEFAULT 1,
+  `deleted_flag` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `image_name` (`image_name`),
+  KEY `movie_index` (`movie_index`),
+  CONSTRAINT `commercials_ibfk_1` FOREIGN KEY (`movie_index`) REFERENCES `movies` (`index`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#2.contact_codes
+CREATE TABLE `contact_codes` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `contact` varchar(12) NOT NULL,
+  `code` varchar(6) NOT NULL,
+  `salt` varchar(128) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `expires_at` datetime NOT NULL,
+  `expired_flag` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `contact` (`contact`,`code`,`salt`)
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#3.credit_card_bins
+CREATE TABLE `credit_card_bins` (
+  `bi_number` varchar(8) NOT NULL,
+  `company` varchar(10) NOT NULL,
+  `label` varchar(20) NOT NULL,
+  `category` varchar(5) NOT NULL,
+  `brand` varchar(10) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  CONSTRAINT `CONSTRAINT_1` CHECK (`category` in ('개인','법인'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#4.faqs
+CREATE TABLE `faqs` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(300) NOT NULL,
+  `content` varchar(5000) NOT NULL,
+  `view` int(10) unsigned NOT NULL DEFAULT 0,
+  `writer_email` varchar(30) NOT NULL,
+  `client_ip` varchar(50) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_flag` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`index`),
+  KEY `writer_email` (`writer_email`),
+  CONSTRAINT `faqs_ibfk_1` FOREIGN KEY (`writer_email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#5.movie_images
+CREATE TABLE `movie_images` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `movie_index` int(10) unsigned NOT NULL,
+  `image_name` varchar(500) NOT NULL,
+  `image_size` int(10) unsigned NOT NULL,
+  `image_type` varchar(100) NOT NULL,
+  `image_data` longblob NOT NULL,
+  `category` varchar(10) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_flag` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`index`),
+  KEY `movie_index` (`movie_index`),
+  CONSTRAINT `movie_images_ibfk_1` FOREIGN KEY (`movie_index`) REFERENCES `movies` (`index`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `CONSTRAINT_1` CHECK (`category` in ('POSTER','PICTURE','ETC'))
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#6.movies
+CREATE TABLE `movies` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title_ko` varchar(50) NOT NULL,
+  `title_en` varchar(100) DEFAULT NULL,
+  `rating` varchar(15) NOT NULL,
+  `release_date` date NOT NULL,
+  `genre` varchar(20) NOT NULL,
+  `running_time` varchar(5) NOT NULL,
+  `synopsis` varchar(1000) NOT NULL,
+  `director` varchar(30) NOT NULL,
+  `cast` varchar(100) NOT NULL,
+  `agency` varchar(30) NOT NULL,
+  `trailer_url` varchar(500) DEFAULT NULL,
+  `status` varchar(15) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_flag` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`index`),
+  KEY `rating` (`rating`),
+  CONSTRAINT `movies_ibfk_1` FOREIGN KEY (`rating`) REFERENCES `rating_notices` (`rating`),
+  CONSTRAINT `CONSTRAINT_1` CHECK (`status` in ('COMING_SOON','NOW_PLAYING','NOT_PLAYING'))
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#7.news
+CREATE TABLE `news` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(300) NOT NULL,
+  `content` varchar(5000) NOT NULL,
+  `image_name` varchar(500) NOT NULL,
+  `image_size` int(10) unsigned NOT NULL,
+  `image_type` varchar(100) NOT NULL,
+  `image_data` longblob NOT NULL,
+  `category` varchar(10) NOT NULL,
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL,
+  `view` int(10) unsigned NOT NULL DEFAULT 0,
+  `writer_email` varchar(30) NOT NULL,
+  `client_ip` varchar(50) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_flag` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`index`),
+  CONSTRAINT `CONSTRAINT_1` CHECK (`category` in ('NEWS','EVENT','ETC'))
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#8.notice_attachments
+CREATE TABLE `notice_attachments` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `notice_index` int(10) unsigned NOT NULL,
+  `file_name` varchar(500) NOT NULL,
+  `file_size` int(10) unsigned NOT NULL,
+  `file_content_type` varchar(100) NOT NULL,
+  `file_data` longblob NOT NULL,
+  PRIMARY KEY (`index`),
+  KEY `notice_index` (`notice_index`),
+  CONSTRAINT `notice_attachments_ibfk_1` FOREIGN KEY (`notice_index`) REFERENCES `notices` (`index`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#9.notices
+CREATE TABLE `notices` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(300) NOT NULL,
+  `content` varchar(5000) NOT NULL,
+  `view` int(10) unsigned NOT NULL DEFAULT 0,
+  `writer_email` varchar(30) NOT NULL,
+  `client_ip` varchar(50) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_flag` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`index`),
+  KEY `writer_email` (`writer_email`),
+  CONSTRAINT `notices_ibfk_1` FOREIGN KEY (`writer_email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#10.payments
+CREATE TABLE `payments` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_email` varchar(50) NOT NULL,
+  `ticket_number` varchar(16) NOT NULL,
+  `category` varchar(15) NOT NULL,
+  `payment_company` varchar(10) NOT NULL,
+  `bi_number` varchar(6) DEFAULT NULL,
+  `card_number` varchar(128) DEFAULT NULL,
+  `payment_password` varchar(128) DEFAULT NULL,
+  `payment_amount` int(10) unsigned NOT NULL DEFAULT 0,
+  `auth_code` varchar(12) NOT NULL,
+  `paid_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `refunded_flag` tinyint(1) NOT NULL DEFAULT 0,
+  `refunded_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `bi_number` (`bi_number`,`card_number`),
+  KEY `user_email` (`user_email`),
+  KEY `ticket_number` (`ticket_number`),
+  CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `payments_ibfk_2` FOREIGN KEY (`ticket_number`) REFERENCES `reservations` (`ticket_number`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `CONSTRAINT_1` CHECK (`category` in ('CREDIT_CARD','ACCOUNT','SIMPLE_PAYMENT','MOBILE_PAYMENT'))
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#11.rating_notices
+CREATE TABLE `rating_notices` (
+  `rating` varchar(15) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `content` varchar(1000) NOT NULL,
+  PRIMARY KEY (`rating`),
+  CONSTRAINT `CONSTRAINT_1` CHECK (`rating` in ('ALL','12','15','18','RESTRICTED','NOT_RATED'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#12.recover_account_contact_codes
+CREATE TABLE `recover_account_contact_codes` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `contact` varchar(12) NOT NULL,
+  `code` varchar(6) NOT NULL,
+  `salt` varchar(128) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `expires_at` datetime NOT NULL,
+  `expired_flag` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `contact` (`contact`,`code`,`salt`),
+  CONSTRAINT `recover_account_contact_codes_ibfk_1` FOREIGN KEY (`contact`) REFERENCES `users` (`contact`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#13.recover_password_email_codes
+CREATE TABLE `recover_password_email_codes` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) NOT NULL,
+  `code` varchar(6) NOT NULL,
+  `salt` varchar(128) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `expires_at` datetime NOT NULL,
+  `expired_flag` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `email` (`email`,`code`,`salt`),
+  CONSTRAINT `recover_password_email_codes_ibfk_1` FOREIGN KEY (`email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#14.region_categories
+CREATE TABLE `region_categories` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `region` varchar(10) NOT NULL,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `region` (`region`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#15.reservation_status
+CREATE TABLE `reservation_status` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `schedule_index` int(10) unsigned NOT NULL,
+  `screen_index` int(10) unsigned NOT NULL,
+  `seat_name` varchar(30) NOT NULL,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `schedule_index` (`schedule_index`,`seat_name`),
+  KEY `schedule_index_2` (`schedule_index`,`screen_index`),
+  KEY `screen_index` (`screen_index`,`seat_name`),
+  CONSTRAINT `reservation_status_ibfk_1` FOREIGN KEY (`schedule_index`, `screen_index`) REFERENCES `screen_schedules` (`index`, `screen_index`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `reservation_status_ibfk_2` FOREIGN KEY (`screen_index`, `seat_name`) REFERENCES `seats` (`screen_index`, `seat_name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#16.reservations
+CREATE TABLE `reservations` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_email` varchar(50) NOT NULL,
+  `ticket_number` varchar(17) NOT NULL,
+  `screen_schedule_index` int(10) unsigned NOT NULL,
+  `ticket_total` int(10) unsigned NOT NULL,
+  `reserved_seat_name` varchar(30) NOT NULL,
+  `expired_flag` tinyint(1) NOT NULL DEFAULT 0,
+  `payment_amount` int(10) unsigned NOT NULL,
+  `canceled_at` datetime DEFAULT NULL,
+  `type_name` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `ticket_number` (`ticket_number`),
+  KEY `user_email` (`user_email`),
+  KEY `screen_schedule_index` (`screen_schedule_index`),
+  CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`screen_schedule_index`) REFERENCES `screen_schedules` (`index`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#17.screen_schedules
+CREATE TABLE `screen_schedules` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `movie_index` int(10) unsigned NOT NULL,
+  `theater_index` int(10) unsigned NOT NULL,
+  `screen_index` int(10) unsigned NOT NULL,
+  `time_start` datetime NOT NULL,
+  `time_end` datetime NOT NULL,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `index` (`index`,`screen_index`),
+  UNIQUE KEY `screen_index` (`screen_index`,`time_start`),
+  KEY `movie_index` (`movie_index`),
+  KEY `theater_index` (`theater_index`,`screen_index`),
+  CONSTRAINT `screen_schedules_ibfk_1` FOREIGN KEY (`movie_index`) REFERENCES `movies` (`index`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `screen_schedules_ibfk_2` FOREIGN KEY (`theater_index`, `screen_index`) REFERENCES `screens` (`theater_index`, `index`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `CONSTRAINT_1` CHECK (`time_start` < `time_end`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#18.screens
+CREATE TABLE `screens` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `theater_index` int(10) unsigned NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `seat_total` int(10) unsigned NOT NULL,
+  `seats_map` longblob NOT NULL,
+  `map_type` varchar(100) NOT NULL,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `index` (`index`,`theater_index`,`name`,`seat_total`),
+  KEY `theater_index` (`theater_index`),
+  CONSTRAINT `screens_ibfk_1` FOREIGN KEY (`theater_index`) REFERENCES `theaters` (`index`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#19.seats
+CREATE TABLE `seats` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `screen_index` int(10) unsigned NOT NULL,
+  `seat_name` varchar(30) NOT NULL,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `screen_index` (`screen_index`,`seat_name`),
+  CONSTRAINT `seats_ibfk_1` FOREIGN KEY (`screen_index`) REFERENCES `screens` (`index`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#20.theaters
+CREATE TABLE `theaters` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `region_category` varchar(10) NOT NULL,
+  `address_primary` varchar(50) NOT NULL,
+  `address_secondary` varchar(50) NOT NULL,
+  `latitude` double unsigned NOT NULL,
+  `longitude` double unsigned NOT NULL,
+  `contact` varchar(12) NOT NULL,
+  `image` longblob NOT NULL,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `name` (`name`),
+  KEY `region_category` (`region_category`),
+  CONSTRAINT `theaters_ibfk_1` FOREIGN KEY (`region_category`) REFERENCES `region_categories` (`region`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+#21.users
+CREATE TABLE `users` (
+  `email` varchar(50) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `birthday` date NOT NULL,
+  `contact` varchar(12) NOT NULL,
+  `kakao_email` varchar(50) DEFAULT NULL,
+  `kakao_linked_flag` tinyint(1) NOT NULL DEFAULT 0,
+  `status` varchar(20) NOT NULL,
+  `admin_flag` tinyint(1) NOT NULL DEFAULT 0,
+  `registered_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`email`),
+  UNIQUE KEY `contact` (`contact`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`contact`) REFERENCES `contact_codes` (`contact`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `CONSTRAINT_1` CHECK (`status` in ('DELETED','OKAY','SUSPENDED'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+
+
+
+
+
+
+
+

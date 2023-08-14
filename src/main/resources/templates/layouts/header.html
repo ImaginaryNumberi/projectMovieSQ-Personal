@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header id="header" th:fragment="header-fragment">
+    <div id="headerBox">
+        <div class="logo-container">
+            <a class="logo" th:href="@{/}">
+                <img alt="Moviesq" class="image" th:src="@{/resources/images/logo.png}">
+            </a>
+        </div>
+        <div class="content">
+            <ul class="loginMenu">
+                <li class="item" th:if="${session.user == null}">
+                    <a th:href="@{/login}" class="listLogin link">
+                        <img class="image" th:src="@{/resources/images/login.png}" alt="">로그인</a>
+                </li>
+                <li class="item userName " th:if="${session.user != null}">
+                    <img class="image" th:src="@{/resources/images/user.png}" alt="">
+                    <span th:text="${session.user.getName()+' 님'}"></span>
+                </li>
+                <li class="item " th:if="${session.user == null}">
+                    <a th:href="@{/register}" class="listRegister link">
+                        <img class="image" th:src="@{/resources/images/register.png}" alt="">회원가입</a>
+                </li>
+                <li class="item link" th:if="${session.user != null}">
+                    <a th:href="@{/logout}" class="logout link">
+                        <img class="image" th:src="@{/resources/images/logout.png}" alt="">로그아웃</a>
+                </li>
+            </ul>
+            <ul class="mainMenu">
+                <li class="menu" th:classappend="${#request.getRequestURI().equals('/reserve') ? 'active' : ''}">
+                    <a class="link" th:href="@{/reserve}">예매</a></li>
+                <li class="menu" th:classappend="${#request.getRequestURI().equals('/movie') ? 'active' : ''}">
+                    <a class="link" th:href="@{/movie}">영화</a></li>
+                <li class="menu" th:classappend="${#request.getRequestURI().equals('/theater') ? 'active' : ''}">
+                    <a class="link" th:href="@{/theater}">극장</a></li>
+                <li class="menu"
+                    th:classappend="${#request.getRequestURI().equals('/support') ||
+                    #request.getRequestURI().equals('/support/faq')||
+                    #request.getRequestURI().equals('/support/news')
+                    ? 'active' : ''}">
+                    <a class="link" th:href="@{/support}">고객지원</a></li>
+                <li class="menu"
+                    th:classappend="${#request.getRequestURI().contains('/mypage') ? 'active' : ''}">
+                    <a class="link" th:href="@{/mypage/ticket}">마이페이지</a>
+                </li>
+                <li class="menu" th:classappend="${#request.getRequestURI().contains('/admin')? 'active' : ''}"
+                    th:if="${session.user != null && session.user.isAdmin == true}">
+                    <a class="link" th:href="@{/admin/registerCommercial}">관리자 모드</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<div class="submenu-container" th:fragment="movie-submenu-fragment">
+    <ul class="submenu">
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().contains('/movie') ? 'active' : ''}">
+            <a class="link">영화</a>
+        </li>
+    </ul>
+</div>
+
+<div class="submenu-container" th:fragment="theater-submenu-fragment">
+    <ul class="submenu">
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().contains('/theater') ? 'active' : ''}">
+            <a class="link">극장</a>
+        </li>
+    </ul>
+</div>
+
+<div class="submenu-container" th:fragment="support-submenu-fragment">
+    <ul class="submenu">
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().equals('/support') ||
+             #request.getRequestURI().contains('/support/detail') ? 'active' : ''}">
+            <a th:href="@{/support}" class="link">공지사항</a>
+        </li>
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().equals('/support/faq') ? 'active' : ''}">
+            <a th:href="@{/support/faq}" class="link">FAQ</a>
+        </li>
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().contains('/support/news') ? 'active' : ''}">
+            <a th:href="@{/support/news}" class="link">영화소식</a>
+        </li>
+    </ul>
+</div>
+
+<div class="submenu-container" th:fragment="mypage-submenu-fragment">
+    <ul class="submenu">
+        <li class="sub label ticket"
+            th:classappend="${#request.getRequestURI().equals('/mypage/ticket') ? 'active' : ''}">
+            <a class="link" th:href="@{../mypage/ticket}">예매/취소내역</a>
+        </li>
+        <li class="sub label ticket"
+            th:classappend="${#request.getRequestURI().equals('/mypage/movieLog') ? 'active' : ''}">
+            <a class="link" th:href="@{../mypage/movieLog}">관람 내역</a>
+        </li>
+        <li class="sub label update"
+            th:classappend="${#request.getRequestURI().equals('/mypage/userCheck') ||
+             #request.getRequestURI().equals('/mypage/update')? 'active' : ''}">
+            <a class="link" th:href="@{../mypage/userCheck}">회원정보수정</a>
+        </li>
+    </ul>
+</div>
+
+<div class="submenu-container" th:fragment="admin-submenu-fragment">
+    <ul class="submenu">
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().equals('/admin/registerCommercial') ? 'active' : ''}">
+            <a class="link" th:href="@{/admin/registerCommercial}">광고 등록</a>
+        </li>
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().equals('/admin/manageCommercial') ? 'active' : ''}">
+            <a class="link" th:href="@{/admin/manageCommercial}">광고 목록</a>
+        </li>
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().equals('/admin/movie') ? 'active' : ''}">
+            <a class="link" th:href="@{/admin/movie}">영화 목록 편집</a>
+        </li>
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().equals('/admin/manageSchedule') ? 'active' : ''}">
+            <a class="link" th:href="@{/admin/manageSchedule}">상영 스케쥴 등록</a>
+        </li>
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().equals('/admin/support') ? 'active' : ''}">
+            <a class="link" th:href="@{/admin/support}">공지사항 목록 편집</a></li>
+        </li>
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().equals('/admin/registerNotice') ? 'active' : ''}">
+            <a class="link" th:href="@{/admin/registerNotice}">공지사항/FAQ 등록</a></li>
+        </li>
+        <li class="sub item"
+            th:classappend="${#request.getRequestURI().equals('/admin/registerNews') ? 'active' : ''}">
+            <a class="link" th:href="@{/admin/registerNews}">영화소식 등록</a></li>
+        </li>
+    </ul>
+</div>

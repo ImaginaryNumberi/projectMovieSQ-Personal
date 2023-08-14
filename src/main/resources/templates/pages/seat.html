@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+
+    <!--BDH work-->
+    <!--폰트 어썸-->
+    <script src="https://kit.fontawesome.com/e4287538e7.js" crossorigin="anonymous"></script>
+    <!-- 일반 CSS -->
+    <link rel="stylesheet" th:href="@{../resources/stylesheets/seat.css}">
+    <!-- 일반 JS -->
+    <script defer th:src="@{../resources/scripts/seat.js}"></script>
+</head>
+
+<body>
+<th:block layout:fragment="customContents">
+
+    <!--BDH//-->
+    <div id="selectSeatContainer">
+
+
+        <div class="seating-head">
+            <h4 class="seating-h4">좌석선택</h4>
+            <div class="btnRefresh">
+                <i class="fa-solid fa-rotate-right" style="color: #ffffff;"></i>
+                예매 다시하기
+            </div>
+        </div>
+
+
+        <div class="seating-body">
+            <form id="sendPayment">
+                <div class="leftBody">
+
+                    <div class="cover">
+                        <div>관람하실 인원을 선택해 주세요</div>
+                        <i class="fa-solid fa-arrow-right fa-lg" style="color: #ffffff;"></i>
+                    </div>
+
+                    <div class="seatBox">
+                        <div class="seatBoxTitle">좌석선택</div>
+                        <!-- 기존CSS로 할 경우 배경이미지 적용이 불가능, 직접 넣어줘야 th 사용이 가능하다 -->
+                        <div class="seatBoxScreen" th:style=" 'background: url(../resources/images/bg_reser.png) no-repeat 50% 0;' ">SCREEN</div>
+                        <div id="seats1" class="seats1 scrollCustom">
+                        <!--
+                                                    <div class="row">
+                                                        <div class="position">A</div>
+                                                        <input class="soldOut seat" style="background: #2d2d2d url(../resources/images/seat/soldOutX.png) no-repeat 50% 50%;" type="button" value="A1">
+                                                        <input class="soldOut seat" style="background: #2d2d2d url(../resources/images/seat/soldOutX.png) no-repeat 50% 50%;" type="button" value="A2">
+                                                        <input class="soldOut seat" style="background: #2d2d2d url(../resources/images/seat/soldOutX.png) no-repeat 50% 50%;" type="button" value="A3">
+                                                        <input class="seat" type="button" value="A4">
+                                                        <input class="seat" type="button" value="A5">
+                                                        <input class="seat" type="button" value="A6">
+                                                        <input class="seat" type="button" value="A7">
+                                                        <input class="seat" type="button" value="A8">
+                                                        <input class="seat" type="button" value="A9">
+                                                        <input class="seat" type="button" value="A10">
+                                                    </div>
+
+                        -->
+                        </div>
+                        <div id="seatStatus">
+                            <span><span class="onSale"></span>판매중</span>
+                            <span><span class="soldOut"></span>판매완료</span>
+                            <span><span class="nowSelecting"></span>현재선택</span>
+                        </div>
+                    </div>
+
+                    <div class="choice">
+                        <strong>선택 좌석</strong>
+                        <ul id="choiceList">
+                            <li class="">-</li>
+                            <li class="">-</li>
+                            <li class="">-</li>
+                            <li class="">-</li>
+                            <li class="">-</li>
+                            <li class="">-</li>
+                            <li class="">-</li>
+                            <li class="">-</li>
+                        </ul>
+                    </div>
+                    <div class="bottom">
+                        <strong th:title="${info}" th:text="${info}" class="info"></strong>
+                        <strong class="sum">총 0원</strong>
+                    </div>
+
+
+                </div>
+
+                <div class="rightBody">
+
+
+                    <div class="minimap-head">
+                        <h5>좌석 배치도</h5>
+                    </div>
+
+                    <div class="minimap-box">
+
+                        <div class="non-minimap" th:if="${minimap == 0}">
+                            <img th:src="@{../resources/images/no_minimap.png}">
+                            <div>미니맵이 존재하지 않습니다.</div>
+                        </div>
+
+                        <img th:if="${minimap == 1}" class="minimap" th:src="@{'../seat/minimap'(index=${index})}"><!--Thymeleaf 문법 숙지 권장 -->
+
+                    </div>
+
+                    <div class="headCount-box">
+                        <div class="headCount-head">
+                            <h5 class="first">인원선택</h5>
+                            <h5 class="second">최대 8까지 선택 가능</h5>
+                        </div>
+                        <div id="headCountList" class="headCount-list">
+
+                            <div class="major">일반</div>
+                            <div class="list">
+                                <label>
+                                    <input type="radio" class="radio" name="adult" value="0" checked onclick="return(false);">
+                                    <span>0</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="adult" value="1" onclick="return(false);">
+                                    <span>1</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="adult" value="2" onclick="return(false);">
+                                    <span>2</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="adult" value="3" onclick="return(false);">
+                                    <span>3</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="adult" value="4" onclick="return(false);">
+                                    <span>4</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="adult" value="5" onclick="return(false);">
+                                    <span>5</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="adult" value="6" onclick="return(false);">
+                                    <span>6</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="adult" value="7" onclick="return(false);">
+                                    <span>7</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="adult" value="8" onclick="return(false);">
+                                    <span>8</span>
+                                </label>
+                            </div>
+
+                            <div th:if="${rating != '18' && rating != 'Restricted'}" class="minor">청소년</div>
+                            <div th:if="${rating != '18' && rating != 'Restricted'}" class="list">
+                                <label>
+                                    <input type="radio" class="radio" name="kid" value="0" checked onclick="return(false);">
+                                    <span>0</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="kid" value="1" onclick="return(false);">
+                                    <span>1</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="kid" value="2" onclick="return(false);">
+                                    <span>2</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="kid" value="3" onclick="return(false);">
+                                    <span>3</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="kid" value="4" onclick="return(false);">
+                                    <span>4</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="kid" value="5" onclick="return(false);">
+                                    <span>5</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="kid" value="6" onclick="return(false);">
+                                    <span>6</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="kid" value="7" onclick="return(false);">
+                                    <span>7</span>
+                                </label>
+                                <label>
+                                    <input type="radio" class="radio" name="kid" value="8" onclick="return(false);">
+                                    <span>8</span>
+                                </label>
+                            </div>
+
+
+                        </div>
+                        <input type="submit" class="headCount-payment" value="결제하기">
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+
+</th:block>
+</body>
+</html>

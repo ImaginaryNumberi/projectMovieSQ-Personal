@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ixtx.projectmoviesq.mappers.AdminMapper">
+    <insert id="insertCommercial"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ixtx.projectmoviesq.entities.CommercialEntity">
+        INSERT INTO `movie_sq`.`commercials`(`movie_index`, `commercial_name`, `image_name`, `image_data`, `image_size`,
+                                             `created_at`, `started_at`, `finished_at`, `hidden_flag`, `deleted_flag`)
+            VALUE (#{movieIndex},
+                   #{commercialName},
+                   #{imageName},
+                   #{imageData},
+                   #{imageSize},
+                   #{createdAt},
+                   #{startedAt},
+                   #{finishedAt},
+                   #{isHidden},
+                   #{isDeleted})
+    </insert>
+    <select id="selectCommercialByIndex"
+            resultType="com.ixtx.projectmoviesq.entities.CommercialEntity">
+        SELECT `index`           AS `index`,
+               `movie_index`     AS `movieIndex`,
+               `commercial_name` AS `commercialName`,
+               `image_name`      AS `imageName`,
+               `image_data`      AS `imageData`,
+               `image_size`      AS `imageSize`,
+               `created_at`      AS `createdAt`,
+               `started_at`      AS `startedAt`,
+               `finished_at`     AS `finishedAt`,
+               `hidden_flag`     AS `isHidden`,
+               `deleted_flag`    AS `isDeleted`
+        FROM `movie_sq`.`commercials`
+        WHERE `index` = #{index}
+        ORDER BY `index` DESC
+    </select>
+    <select id="selectAllCommercial"
+            resultType="com.ixtx.projectmoviesq.entities.CommercialEntity">
+        SELECT `index`           AS `index`,
+               `movie_index`     AS `movieIndex`,
+               `commercial_name` AS `commercialName`,
+               `image_name`      AS `imageName`,
+               `image_data`      AS `imageData`,
+               `image_size`      AS `imageSize`,
+               `created_at`      AS `createdAt`,
+               `started_at`      AS `startedAt`,
+               `finished_at`     AS `finishedAt`,
+               `hidden_flag`     AS `isHidden`,
+               `deleted_flag`    AS `isDeleted`
+        FROM `movie_sq`.`commercials`
+        WHERE `deleted_flag` = false
+        ORDER BY `index` DESC
+    </select>
+    <select id="selectCommercialNotDeleted"
+            resultType="com.ixtx.projectmoviesq.entities.CommercialEntity">
+        SELECT `index`           AS `index`,
+               `movie_index`     AS `movieIndex`,
+               `commercial_name` AS `commercialName`,
+               `image_name`      AS `imageName`,
+               `image_size`      AS `imageSize`,
+               `created_at`      AS `createdAt`,
+               `started_at`      AS `startedAt`,
+               `finished_at`     AS `finishedAt`,
+               `hidden_flag`     AS `isHidden`,
+               `deleted_flag`    AS `isDeleted`
+        FROM `movie_sq`.`commercials`
+        WHERE `deleted_flag` = false
+          AND `hidden_flag` = false
+        ORDER BY `index` DESC
+    </select>
+    <select id="selectCommercialImageByIndex"
+            resultType="com.ixtx.projectmoviesq.entities.CommercialEntity">
+        SELECT `index`           AS `index`,
+               `movie_index`     AS `movieIndex`,
+               `commercial_name` AS `commercialName`,
+               `image_name`      AS `imageName`,
+               `image_data`      AS `imageData`,
+               `image_size`      AS `imageSize`,
+               `created_at`      AS `createdAt`,
+               `started_at`      AS `startedAt`,
+               `finished_at`     AS `finishedAt`,
+               `hidden_flag`     AS `isHidden`,
+               `deleted_flag`    AS `isDeleted`
+        FROM `movie_sq`.commercials
+        WHERE `index` = #{index}
+    </select>
+    <delete id="deleteCommercialByIndex">
+        DELETE
+        FROM `movie_sq`.`commercials`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </delete>
+    <update id="updateCommercialByIndex"
+            parameterType="com.ixtx.projectmoviesq.entities.CommercialEntity">
+        UPDATE `movie_sq`.`commercials`
+        SET `movie_index`     = #{movieIndex},
+            `commercial_name` =#{commercialName},
+            `image_name`      = #{imageName},
+            `image_size`      = #{imageSize},
+            `created_at`      = #{createdAt},
+            `started_at`      = #{startedAt},
+            `finished_at`     = #{finishedAt},
+            `hidden_flag`     = #{isHidden},
+            `deleted_flag`    = #{isDeleted}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+    <update id="updateCommercialInformationByIndex">
+        UPDATE `movie_sq`.`commercials`
+        SET `movie_index`     = #{movieIndex},
+            `commercial_name` =#{commercialName},
+            `image_name`      = #{imageName},
+            `image_data`      = #{imageData},
+            `image_size`      = #{imageSize},
+            `created_at`      = #{createdAt},
+            `started_at`      = #{startedAt},
+            `finished_at`     = #{finishedAt},
+            `hidden_flag`     = #{isHidden},
+            `deleted_flag`    = #{isDeleted}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
+    <insert id="insertMovie"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ixtx.projectmoviesq.entities.MovieEntity">
+        INSERT INTO `movie_sq`.`movies` (`title_ko`, `title_en`, `rating`, `release_date`, `genre`, `running_time`,
+                                         `synopsis`, `director`, `cast`, `agency`, `trailer_url`, `status`,
+                                         `created_at`)
+            VALUE (#{titleKo},
+                   #{titleEn},
+                   #{rating},
+                   #{releaseDate},
+                   #{genre},
+                   #{runningTime},
+                   #{synopsis},
+                   #{director},
+                   #{cast},
+                   #{agency},
+                   #{trailerUrl},
+                   #{status},
+                   IFNULL(#{createdAt}, DEFAULT(`created_at`)))
+    </insert>
+    <select id="selectMovies"
+            resultType="com.ixtx.projectmoviesq.entities.MovieEntity">
+        SELECT `index`        AS `index`,
+               `title_ko`     AS `titleKo`,
+               `title_en`     AS `titleEn`,
+               `rating`       AS `rating`,
+               `release_date` AS `releaseDate`,
+               `genre`        AS `genre`,
+               `running_time` AS `runningTime`,
+               `synopsis`     AS `synopsis`,
+               `director`     AS `director`,
+               `cast`         AS `cast`,
+               `agency`       AS `agency`,
+               `trailer_url`  AS `trailerUrl`,
+               `status`       AS `status`,
+               `created_at`   AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`movies`
+        WHERE `deleted_flag` = FALSE
+        ORDER BY `created_at` DESC
+    </select>
+    <select id="selectMoviesByStatus"
+            resultType="com.ixtx.projectmoviesq.entities.MovieEntity">
+        SELECT `index`        AS `index`,
+               `title_ko`     AS `titleKo`,
+               `title_en`     AS `titleEn`,
+               `rating`       AS `rating`,
+               `release_date` AS `releaseDate`,
+               `genre`        AS `genre`,
+               `running_time` AS `runningTime`,
+               `synopsis`     AS `synopsis`,
+               `director`     AS `director`,
+               `cast`         AS `cast`,
+               `agency`       AS `agency`,
+               `trailer_url`  AS `trailerUrl`,
+               `status`       AS `status`,
+               `created_at`   AS `createdAt`
+        FROM `movie_sq`.`movies`
+        WHERE `status` = 'COMING_SOON'
+           OR `status` = 'NOW_PLAYING'
+    </select>
+    <update id="updateMovie"
+            parameterType="com.ixtx.projectmoviesq.entities.MovieEntity">
+        UPDATE `movie_sq`.`movies`
+        SET `title_ko`     = #{titleKo},
+            `title_en`     = #{titleEn},
+            `rating`       = #{rating},
+            `release_date` = #{releaseDate},
+            `genre`        = #{genre},
+            `running_time` = #{runningTime},
+            `synopsis`     = #{synopsis},
+            `director`     = #{director},
+            `cast`         = #{cast},
+            `agency`       = #{agency},
+            `trailer_url`  = #{trailerUrl},
+            `status`       = #{status},
+            `created_at`   = #{createdAt}
+        WHERE `index` = #{index}
+        LIMIT 1;
+    </update>
+
+    <insert id="insertMovieImage"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ixtx.projectmoviesq.entities.MovieImageEntity">
+        INSERT INTO `movie_sq`.`movie_images` (`movie_index`, `image_name`, `image_size`, `image_type`, `image_data`,
+                                               `category`, `created_at`, `deleted_flag`)
+            VALUE (#{movieIndex},
+                   #{imageName},
+                   #{imageSize},
+                   #{imageType},
+                   #{imageData},
+                   #{category},
+                   IFNULL(#{createdAt}, DEFAULT(`created_at`)),
+                   #{isDeleted})
+    </insert>
+    <select id="selectMovieImageByIndex"
+            resultType="com.ixtx.projectmoviesq.entities.MovieImageEntity">
+        SELECT `index`        AS `index`,
+               `movie_index`  AS `movieIndex`,
+               `image_name`   AS `imageName`,
+               `image_size`   AS `imageSize`,
+               `image_type`   AS `imageType`,
+               `image_data`   AS `imageData`,
+               `category`     AS `category`,
+               `created_at`   AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`movie_images`
+        WHERE `index` = #{index}
+          AND `deleted_flag` = false
+        LIMIT 1;
+    </select>
+    <update id="updateMovieImage"
+            parameterType="com.ixtx.projectmoviesq.entities.MovieImageEntity">
+        UPDATE `movie_sq`.`movie_images`
+        SET `movie_index`  = #{movieIndex},
+            `image_name`   = #{imageName},
+            `image_size`   = #{imageSize},
+            `image_type`   = #{imageType},
+            `image_data`   = #{imageData},
+            `category`     = #{category},
+            `created_at`   = #{createdAt},
+            `deleted_flag` = #{isDeleted}
+        WHERE `index` = #{index}
+        LIMIT 1;
+    </update>
+
+    <insert id="insertNotice"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ixtx.projectmoviesq.entities.NoticeEntity">
+        INSERT INTO `movie_sq`.`notices` (`title`, `content`, `view`, `writer_email`, `client_ip`,
+                                          `created_at`, `deleted_flag`)
+            VALUE (#{title},
+                   #{content},
+                   #{view},
+                   #{writerEmail},
+                   #{clientIp},
+                   IFNULL(#{createdAt}, DEFAULT(`created_at`)),
+                   #{isDeleted})
+    </insert>
+    <delete id="deleteNoticeByIndex">
+        DELETE
+        FROM `movie_sq`.`notices`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </delete>
+    <insert id="insertFaq"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ixtx.projectmoviesq.entities.NoticeEntity">
+        INSERT INTO `movie_sq`.`faqs` (`title`, `content`, `view`, `writer_email`, `client_ip`,
+                                       `created_at`, `deleted_flag`)
+            VALUE (#{title},
+                   #{content},
+                   #{view},
+                   #{writerEmail},
+                   #{clientIp},
+                   IFNULL(#{createdAt}, DEFAULT(`created_at`)),
+                   #{isDeleted})
+    </insert>
+
+    <insert id="insertMovieNews"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ixtx.projectmoviesq.entities.NewsEntity">
+        INSERT INTO `movie_sq`.`news` (`title`, `content`, `image_name`, `image_size`, `image_type`, `image_data`,
+                                       `category`, `date_start`, `date_end`, `view`,
+                                       `writer_email`, `client_ip`, `created_at`, `deleted_flag`)
+            VALUE (#{title},
+                   #{content},
+                   #{imageName},
+                   #{imageSize},
+                   #{imageType},
+                   #{imageData},
+                   #{category},
+                   #{dateStart},
+                   #{dateEnd},
+                   #{view},
+                   #{writerEmail},
+                   #{clientIp},
+                   IFNULL(#{createdAt}, DEFAULT(`created_at`)),
+                   #{isDeleted})
+    </insert>
+</mapper>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ixtx.projectmoviesq.mappers.UserMapper">
+    <insert id="insertRegisterContactCode"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ixtx.projectmoviesq.entities.ContactCodeEntity">
+        INSERT INTO `movie_sq`.`contact_codes`(`contact`,
+                                               `code`,
+                                               `salt`,
+                                               `created_at`,
+                                               `expires_at`,
+                                               `expired_flag`)
+        VALUES (#{contact},
+                #{code},
+                #{salt},
+                IFNULL(#{createdAt}, DEFAULT(`created_at`)),
+                #{expiresAt},
+                IFNULL(#{isExpired}, DEFAULT(`expired_flag`)))
+    </insert>
+    <insert id="insertUser">
+        INSERT INTO `movie_sq`.`users`(`email`,
+                                       `password`,
+                                       `name`,
+                                       `birthday`,
+                                       `contact`,
+                                       `kakao_email`,
+                                       `kakao_linked_flag`,
+                                       `status`,
+                                       `admin_flag`,
+                                       `registered_at`)
+        VALUES (#{email},
+                #{password},
+                #{name},
+                #{birthday},
+                #{contact},
+                #{kakaoEmail},
+                IFNULL(#{isKakaoLinked}, DEFAULT(`kakao_linked_flag`)),
+                #{status},
+                #{isAdmin},
+                IFNULL(#{registeredAt}, DEFAULT(`admin_flag`)))
+    </insert>
+    <insert id="insertRecoverContactCode"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index"
+            parameterType="com.ixtx.projectmoviesq.entities.RecoverCodeEntity">
+        INSERT INTO `movie_sq`.`recover_account_contact_codes`(`contact`,
+                                                               `code`,
+                                                               `salt`,
+                                                               `created_at`,
+                                                               `expires_at`,
+                                                               `expired_flag`)
+        VALUES (#{contact},
+                #{code},
+                #{salt},
+                IFNULL(#{createdAt}, DEFAULT(`created_at`)),
+                #{expiresAt},
+                IFNULL(#{isExpired}, DEFAULT(`expired_flag`)))
+    </insert>
+    <insert id="insertRecoverPwdCode"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index"
+            parameterType="com.ixtx.projectmoviesq.entities.RecoverPasswordCodeEntity">
+        INSERT INTO `movie_sq`.`recover_password_email_codes`(`email`,
+                                                              `code`,
+                                                              `salt`,
+                                                              `created_at`,
+                                                              `expires_at`,
+                                                              `expired_flag`)
+        VALUES (#{email},
+                #{code},
+                #{salt},
+                IFNULL(#{createdAt}, DEFAULT(`created_at`)),
+                #{expiresAt},
+                IFNULL(#{isExpired}, DEFAULT(`expired_flag`)))
+    </insert>
+    <select id="selectUserByEmail" resultType="com.ixtx.projectmoviesq.entities.UserEntity">
+        SELECT `email`         AS `email`,
+               `password`      AS `password`,
+               `name`          AS `name`,
+               `birthday`      AS `birthday`,
+               `contact`       AS `contact`,
+               `kakao_email`   AS `kakaoEmail`,
+               `kakao_linked_flag` AS `isKakaoLinked`,
+               `status`        AS `status`,
+               `admin_flag`    AS `isAdmin`,
+               `registered_at` AS `registeredAt`
+        FROM `movie_sq`.`users`
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </select>
+    <select id="selectUserByKakaoEmail"
+            parameterType="com.ixtx.projectmoviesq.entities.UserEntity"
+            resultType="com.ixtx.projectmoviesq.entities.UserEntity">
+        SELECT `email`             AS `email`,
+               `password`          AS `password`,
+               `name`              AS `name`,
+               `birthday`          AS `birthday`,
+               `contact`           AS `contact`,
+               `kakao_email`       AS `kakaoEmail`,
+               `kakao_linked_flag` AS `isKakaoLinked`,
+               `status`            AS `status`,
+               `admin_flag`        AS `isAdmin`,
+               `registered_at`     AS `registeredAt`
+        FROM `movie_sq`.`users`
+        WHERE BINARY `kakao_email` = #{kakaoEmail}
+        LIMIT 1
+
+    </select>
+    <select id="selectUserByContact"
+            resultType="com.ixtx.projectmoviesq.entities.UserEntity">
+        SELECT `email`             AS `email`,
+               `password`          AS `password`,
+               `name`              AS `name`,
+               `birthday`          AS `birthday`,
+               `contact`           AS `contact`,
+               `kakao_email`       AS `kakaoEmail`,
+               `kakao_linked_flag` AS `isKakaoLinked`,
+               `status`            AS `status`,
+               `admin_flag`        AS `isAdmin`,
+               `registered_at`     AS `registeredAt`
+        FROM `movie_sq`.`users`
+        WHERE BINARY `contact` = #{contact}
+        LIMIT 1
+    </select>
+    <select id="selectUserByNameContact"
+            resultType="com.ixtx.projectmoviesq.entities.UserEntity">
+        SELECT `email`             AS `email`,
+               `password`          AS `password`,
+               `name`              AS `name`,
+               `birthday`          AS `birthday`,
+               `contact`           AS `contact`,
+               `kakao_email`       AS `kakaoEmail`,
+               `kakao_linked_flag` AS `isKakaoLinked`,
+               `status`            AS `status`,
+               `admin_flag`        AS `isAdmin`,
+               `registered_at`     AS `registeredAt`
+        FROM `movie_sq`.`users`
+        WHERE BINARY `name` = #{name}
+          AND `contact` = #{contact}
+        LIMIT 1
+    </select>
+    <select id="selectCodeByContactCodeSalt"
+            resultType="com.ixtx.projectmoviesq.entities.ContactCodeEntity"
+            parameterType="com.ixtx.projectmoviesq.entities.ContactCodeEntity">
+        SELECT `index`        AS `index`,
+               `contact`      AS `contact`,
+               `code`         AS `code`,
+               `salt`         AS `salt`,
+               `created_at`   AS `createdAt`,
+               `expires_at`   AS `expiresAt`,
+               `expired_flag` AS `isExpired`
+        FROM `movie_sq`.`contact_codes`
+        WHERE BINARY `contact` = #{contact}
+          AND BINARY `code` = #{code}
+          AND BINARY `salt` = #{salt}
+        LIMIT 1
+    </select>
+    <select id="selectRegisterByContact"
+            resultType="com.ixtx.projectmoviesq.entities.ContactCodeEntity"
+            parameterType="com.ixtx.projectmoviesq.entities.ContactCodeEntity">
+        SELECT `index`        AS `index`,
+               `contact`      AS `contact`,
+               `code`         AS `code`,
+               `salt`         AS `salt`,
+               `created_at`   AS `createdAt`,
+               `expires_at`   AS `expiresAt`,
+               `expired_flag` AS `isExpired`
+        FROM `movie_sq`.`contact_codes`
+        WHERE BINARY `contact` = #{contact}
+        ORDER BY `index` DESC
+        LIMIT 1
+    </select>
+    <select id="selectRecoverIdByContactCodeSalt"
+            resultType="com.ixtx.projectmoviesq.entities.RecoverCodeEntity"
+            parameterType="com.ixtx.projectmoviesq.entities.RecoverCodeEntity">
+        SELECT `index`        AS `index`,
+               `contact`      AS `contact`,
+               `code`         AS `code`,
+               `salt`         AS `salt`,
+               `created_at`   AS `createdAt`,
+               `expires_at`   AS `expiresAt`,
+               `expired_flag` AS `isExpired`
+        FROM `movie_sq`.`recover_account_contact_codes`
+        WHERE `contact` = #{contact}
+          AND BINARY `code` = #{code}
+          AND BINARY `salt` = #{salt}
+        LIMIT 1
+    </select>
+    <select id="selectRecoverIdByContact"
+            resultType="com.ixtx.projectmoviesq.entities.RecoverCodeEntity"
+            parameterType="com.ixtx.projectmoviesq.entities.RecoverCodeEntity">
+        SELECT `index`        AS `index`,
+               `contact`      AS `contact`,
+               `code`         AS `code`,
+               `salt`         AS `salt`,
+               `created_at`   AS `createdAt`,
+               `expires_at`   AS `expiresAt`,
+               `expired_flag` AS `isExpired`
+        FROM `movie_sq`.`recover_account_contact_codes`
+        WHERE BINARY `contact` = #{contact}
+        LIMIT 1
+    </select>
+    <select id="selectUserByEmailName"
+            resultType="com.ixtx.projectmoviesq.entities.UserEntity">
+        SELECT `email`         AS `email`,
+               `password`      AS `password`,
+               `name`          AS `name`,
+               `birthday`      AS `birthday`,
+               `contact`       AS `contact`,
+               `kakao_email`   AS `kakaoEmail`,
+               `kakao_linked_flag` AS `isKakaoLinked`,
+               `status`        AS `status`,
+               `admin_flag`    AS `isAdmin`,
+               `registered_at` AS `registeredAt`
+        FROM `movie_sq`.`users`
+        WHERE BINARY `email` = #{email}
+          AND BINARY `name` = #{name}
+        LIMIT 1
+    </select>
+    <select id="selectRecoverPwdCodeByEmailCodeSalt"
+            parameterType="com.ixtx.projectmoviesq.entities.RecoverPasswordCodeEntity"
+            resultType="com.ixtx.projectmoviesq.entities.RecoverPasswordCodeEntity">
+        SELECT `index`        AS `index`,
+               `email`        AS `email`,
+               `code`         AS `code`,
+               `salt`         AS `salt`,
+               `created_at`   AS `createdAt`,
+               `expires_at`   AS `expiresAt`,
+               `expired_flag` AS `isExpired`
+        FROM `movie_sq`.`recover_password_email_codes`
+        WHERE BINARY `email` = #{email}
+          AND BINARY `code` = #{code}
+          AND BINARY `salt` = #{salt}
+    </select>
+    <update id="updateCodeExpired" parameterType="com.ixtx.projectmoviesq.entities.ContactCodeEntity">
+        UPDATE `movie_sq`.`contact_codes`
+        SET `contact`= #{contact},
+            `code` = #{code},
+            `salt` = #{salt},
+            `created_at` = #{createdAt},
+            `expires_at` = #{expiresAt},
+            `expired_flag` = #{isExpired}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+    <update id="updateRecoverExpired" parameterType="com.ixtx.projectmoviesq.entities.RecoverCodeEntity">
+        UPDATE `movie_sq`.`recover_account_contact_codes`
+        SET `contact`      = #{contact},
+            `code`         = #{code},
+            `salt`         = #{salt},
+            `created_at`= #{createdAt},
+            `expires_at`   = #{expiresAt},
+            `expired_flag` = #{isExpired}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+    <update id="updateRecoverPwdCode"
+            parameterType="com.ixtx.projectmoviesq.entities.RecoverPasswordCodeEntity">
+        UPDATE `movie_sq`.`recover_password_email_codes`
+        SET `email`        = #{email},
+            `code`         = #{code},
+            `salt`         = #{salt},
+            `created_at`   = #{createdAt},
+            `expires_at`   = #{expiresAt},
+            `expired_flag` = #{isExpired}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+    <update id="updateUserPassword"
+            parameterType="com.ixtx.projectmoviesq.entities.UserEntity">
+        UPDATE `movie_sq`.`users`
+        SET `email`             = #{email},
+            `password`          = #{password},
+            `name`              = #{name},
+            `birthday`          = #{birthday},
+            `contact`           = #{contact},
+            `kakao_email`       = #{kakaoEmail},
+            `kakao_linked_flag` = #{isKakaoLinked},
+            `status`            = #{status},
+            `admin_flag`= #{isAdmin},
+            `registered_at`     = #{registeredAt}
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
+    <update id="updatekakaoLinkedState"
+            parameterType="com.ixtx.projectmoviesq.entities.UserEntity">
+        UPDATE `movie_sq`.`users`
+        SET `email`             = #{email},
+            `password`          = #{password},
+            `name`              = #{name},
+            `birthday`          = #{birthday},
+            `contact`           = #{contact},
+            `kakao_email`       = #{kakaoEmail},
+            `kakao_linked_flag` = #{isKakaoLinked},
+            `status`            = #{status},
+            `admin_flag`= #{isAdmin},
+            `registered_at`     = #{registeredAt}
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
+    <delete id="deleteRecoverPasswordCode">
+        DELETE
+        FROM `movie_sq`.`recover_password_email_codes`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </delete>
+</mapper>

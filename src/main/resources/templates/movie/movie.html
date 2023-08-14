@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/movie.css}">
+    <script defer th:src="@{/resources/scripts/movie.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: movie-submenu-fragment"></th:block>
+    <div id="movieContainer">
+        <div id="sortContainer">
+            <h1 class="title _page_title">영화</h1>
+            <div class="blank"></div>
+            <select class="select" id="sortSelect" name="sort" onchange="changeSortSelect()" required>
+                <option th:selected="${sort == 'rate'}" value="rate">예매율순</option>
+                <option th:selected="${sort == 'abc'}" value="abc">가나다순</option>
+                <option th:selected="${sort == 'date'}" value="date">개봉일순</option>
+            </select>
+        </div>
+        <ul class="grid" id="movieList">
+            <li class="item" th:each="movie : ${movies}">
+                <div class="thumbnailContainer">
+                    <div class="ratingAll" th:if="${movie.getRating() == 'ALL'}"></div>
+                    <div class="rating12" th:if="${movie.getRating() == '12'}"></div>
+                    <div class="rating15" th:if="${movie.getRating() == '15'}"></div>
+                    <div class="rating18" th:if="${movie.getRating() == '18'}"></div>
+                    <!--
+                    <img class="image" th:src="'/movie/image?index=' + ${movie.getIndex()}">
+                    -->
+                    <a class="detail"
+                       th:href="@{'./movie/detail' (index = ${movie.getIndex()})}"
+                       th:data-index="${movie.getIndex()}">
+                        <img class="image" th:src="'/movie/image?index=' + ${movie.getIndex()}">
+                    </a>
+                </div>
+                <span class="title" th:text="${movie.getTitleKo()}">titleKo</span>
+                <div class="sales">
+                    <a class="title" th:href="@{/reserve}">예매율</a>
+                    <a class="percentage" th:href="@{/reserve}" th:text="${#numbers.formatDecimal(movie.getReservationRate(),1,1) +'%'}">99%</a>
+                </div>
+                <div class="link">
+                    <a class="info" th:href="@{'/movie/detail?index=' + ${movie.getIndex()}}">영화정보</a>
+                    <a class="ticket" th:href="@{/reserve}">예매하기</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</th:block>
+</body>
+</html>

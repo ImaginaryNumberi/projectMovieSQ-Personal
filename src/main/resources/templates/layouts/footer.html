@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<footer id="footer" th:fragment="footerFragment">
+    <div id="footContainer">
+        <div class="upperContent">
+            <div class="teamName">IxTx</div>
+            <div class="termsPrivacy">
+                <a class="item" th:href="@{/terms}">이용약관</a>
+                <a class="item" th:href="@{/privacyPolicy}">개인정보처리방침</a>
+            </div>
+        </div>
+        <div class="downerContent">
+            <ul class="memberList">
+                <li class="item">김혜리</li>
+                <li class="item">박도현</li>
+                <li class="item">오경아</li>
+                <li class="item">이상민</li>
+            </ul>
+        </div>
+    </div>
+</footer>

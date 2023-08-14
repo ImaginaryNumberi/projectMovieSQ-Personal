@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/reservePayment.css}">
+    <script defer th:src="@{/resources/scripts/reservePayment.js}"></script>
+
+</head>
+<body>
+<th:block layout:fragment="customContents">
+
+
+
+
+    <div th:if="${result == 'success'}" id="paymentContainer">
+        <form id="payForm">
+            <div class="head">
+                <span class="title">영화예매</span>
+            </div>
+            <div class="group reservation-container">
+                <div class="title">예매 정보</div>
+                <div class="subGroup information">
+                    <img class="movieImage" th:src="@{'../movie/image?index='+${movieIndex}}" alt="">
+                    <div class="text movieTitle">
+                        <div class="image child" rel="ratingImage"></div>
+                        <b class="movieName" th:text="${titleKo}"></b>
+                    </div>
+                    <div class="box">
+                        <span class="subtitle">극장</span>
+                        <span class="theater" th:text="${theaterName}"></span>
+                    </div>
+                    <div class="box">
+                        <span class="subtitle">날짜</span>
+                        <span class="date" th:text="${date}"></span>
+                    </div>
+                </div>
+                <div class="subGroup detail-information">
+                    <div class="box theater">
+                        <span class="subtitle">상영관</span>
+                        <span class="screen" th:text="${screenName}"></span>
+                    </div>
+                    <div class="box">
+                        <span class="subtitle">시간</span>
+                        <span class="time" th:text="${time}"></span>
+                    </div>
+                    <div class="box">
+                        <span class="subtitle">인원</span>
+                        <span class="person" th:text="${type}"></span>
+                    </div>
+                    <div class="box">
+                        <span class="subtitle">좌석</span>
+                        <span class="text seat" th:text="${seatNames}">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="group payWay-container">
+                <div class="title">결제수단 선택</div>
+                <div class="payWay">
+                    <label class="label way">
+                        <input name="pay" type="radio" value="credit_card" class="choice credit_card" onclick="radioChange()">신용카드
+                    </label>
+                    <label class="label  way">
+                        <input name="pay" type="radio" value="account" class="choice account" onclick="radioChange()">가상계좌
+                    </label>
+                    <label class="label way">
+                        <input name="pay" type="radio" value="speed" class="choice speedPay" onclick="radioChange()">간편결제
+                    </label>
+                    <div class="speed-container">
+                        <label class="label">
+                            <input name="speed" class="naver" type="radio" value="네이버페이">
+                            <img class="image" th:src="@{/resources/images/naver-pay.png}" alt="">
+                        </label>
+                        <label class="label">
+                            <input name="speed" class="kakao" type="radio" value="카카오페이">
+                            <img class="image" th:src="@{/resources/images/kakao-pay.png}" alt="">
+                        </label>
+                        <label class="label">
+                            <input name="speed" class="toss" type="radio" value="토스">
+                            <img class="image" th:src="@{/resources/images/toss-pay.png}" alt="">
+                        </label>
+                        <label class="label">
+                            <input name="speed" class="payco" type="radio" value="페이코">
+                            <img class="image" th:src="@{/resources/images/payco-pay.png}" alt="">
+                        </label>
+                    </div>
+                    <label class="label  way">
+                        <input name="pay" type="radio" value="phone" class="choice phone" onclick="radioChange()">휴대폰결제
+                    </label>
+                </div>
+                <div class="button-container">
+                    <input class="link _object-button" rel="reset" type="button" value="예매 다시하기">
+                </div>
+            </div>
+            <div class="group price-container">
+                <div class="title">결제금액</div>
+                <div class="information">
+                    <span class="subtitle">티켓금액 <span>(매)</span></span>
+                    <div class="box">
+                        <span class="adult subtitle">일반</span>
+                        <span class="text">10000 * <span th:text="${adultCount}"></span><span>명</span></span>
+                        <span class="price text" th:text="10000*${adultCount}"></span>
+                    </div>
+                    <div class="box">
+                        <span class="fifteen subtitle">청소년</span>
+                        <span class="text">5000 * <span th:text="${kidCount}"></span><span>명</span></span>
+                        <span class="price text" th:text="5000*${kidCount}"></span>
+                    </div>
+                </div>
+                <div class="totalPrice">
+                    <span class="subtitle">총 결제 금액</span>
+                    <span class="price total" th:text="10000*${adultCount} + 5000*${kidCount} + 원"></span>
+                </div>
+                <div class="button-container">
+                    <input type="button" class="_object-button _blue" value="이전" rel="before">
+                    <input type="submit" class="_object-button _orange" value="결제하기">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div th:if="${result == 'success'}" id="cardContainer">
+        <div class="card">
+            <div class="imageBox">
+                <img class="image chip" src="/resources/images/chip.png" alt="">
+                <img class="image logo" src="/resources/images/logo.png" alt="">
+            </div>
+            <div class="card-number-box">
+                <span class="number">####</span><span class="number">####</span><span
+                    class="number">####</span><span class="number">####</span>
+            </div>
+            <div class="box-container">
+                <span class="title">MONTH/YEAR</span>
+                <div class="subtitle">
+                    <span class="month">MM</span>
+                    <span>/</span>
+                    <span class="year">YY</span>
+                </div>
+            </div>
+        </div>
+        <form id="cardInputForm">
+            <span class="title">신용카드 결제</span>
+            <label class="label">
+                <span class="subtitle">카드선택</span>
+                <select name="cardCompany" id="cardCompany">
+                    <option value="choice">선택</option>
+                    <option value="신한카드">신한카드</option>
+                    <option value="삼성카드">삼성카드</option>
+                    <option value="KB국민카드">KB국민카드</option>
+                    <option value="BC카드">BC카드</option>
+                    <option value="NH농협카드">NH농협카드</option>
+                    <option value="롯데카드">롯데카드</option>
+                    <option value="하나카드">하나카드</option>
+                    <option value="현대카드">현대카드</option>
+                    <option value="우리카드">우리카드</option>
+                </select>
+            </label>
+            <label class="label">
+                <span class="subtitle">카드번호</span>
+                <div class="number">
+                    <input autofocus placeholder="0000" type="text" maxlength="4" class="number-input input"
+                           name="cNumber-1">
+                    <input placeholder="0000" type="text" maxlength="4" class="number-input input"
+                           name="cNumber-2">
+                    <input placeholder="0000" type="text" maxlength="4" class="number-input input"
+                           name="cNumber-3">
+                    <input placeholder="0000" type="text" maxlength="4" class="number-input input"
+                           name="cNumber-4">
+                </div>
+            </label>
+            <label class="label">
+                <span class="subtitle">비밀번호</span>
+                <span class="pwd">
+                <input autofocus placeholder="00" type="text" class="pwd-input input" name="cPassword" maxlength="2">
+                <span>**</span>
+                </span>
+            </label>
+            <label class="label">
+                <span class="subtitle">유효기간</span>
+                <span class="expire">
+                <input placeholder="MM" maxlength="2" type="text" class="expire-input input" name="cMonth"><span>월</span>
+                <input placeholder="YYYY" maxlength="4" type="text" class="expire-input input year" name="cYear"><span>년</span>
+                </span>
+            </label>
+            <label class="label">
+                <span class="subtitle">법정생년월일(6자리)</span>
+                <input maxlength="6" placeholder="101010" type="text" class="birth-input input" name="cBirth">
+            </label>
+            <span class="warning" rel="payWarning"></span>
+            <div class="button-container">
+                <a class="_object-button button cancel" href="#" rel="cancel">취소</a>
+                <input class="_object-button _color-concept button next" type="submit" value="확인">
+            </div>
+        </form>
+    </div>
+    <div th:if="${result == 'success'}" id="finishContainer">
+        <div class="title">예매 완료</div>
+        <div class="information">
+            <img class="image" src="/resources/images/movie-poster.jpg" alt="" rel="movieImage">
+            <div class="detail">
+                <div class="box subtitleBox">
+                    <span class="subtitle">예매 번호</span>
+                    <span class="subtitle">제목</span>
+                    <span class="subtitle">극장</span>
+                    <span class="subtitle">날짜</span>
+                    <span class="subtitle">상영관</span>
+                    <span class="subtitle">시간</span>
+                    <span class="subtitle">인원</span>
+                    <span class="subtitle">좌석</span>
+                </div>
+                <div class="box choiceBox">
+                    <span class="text number" rel="ticketNumber">012345</span>
+                    <span class="text" rel="movieName">범죄도시3</span>
+                    <span class="text" rel="theater">대구 상인점</span>
+                    <span class="text" rel="date">2023-06-01</span>
+                    <span class="text" rel="screen">1관</span>
+                    <span class="text" rel="time">10:00~12:10</span>
+                    <span class="text" rel="ticketTotal"></span>
+                    <span class="text seat" rel="seatName">A1,A2</span>
+                </div>
+            </div>
+        </div>
+        <div class="text warning">
+            <span rel="cancelTime"></span>까지 취소 가능합니다.
+        </div>
+        <div class="text">예매가 완료되었습니다.</div>
+        <div class="text">결제 및 예매완료 문자가 전송되었습니다.</div>
+        <div class="button-container">
+            <a class="_object-button button cancel" th:href="@{./}">메인</a>
+            <a class="_object-button _color-concept button next" th:href="@{./mypage/ticket}">예약확인</a>
+        </div>
+    </div>
+
+
+
+    <script th:if="${result == 'invalidIndex'}">
+        alert('유효기간이 만료된 상영정보입니다.');
+        location.replace('/reserve');
+    </script>
+    <script th:if="${result == 'wrongCount' || result == 'notEqualCount' || result == 'wrongType' || result == 'nonexistentSeatName'}">
+        alert('유효하지 않은 좌석, 인원입니다.');
+        location.replace('/login');
+    </script>
+
+
+
+
+</th:block>
+
+<script>
+</script>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/support.css}">
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: support-submenu-fragment"></th:block>
+    <div id="noticeDetailContainer" th:fragment="supportDetailFragment">
+        <div class="head">
+            <div class="titleContainer">
+                <span class="title" name="title" th:text="${title}">제목</span>
+            </div>
+            <span class="info" name="info" th:text="'조회수 ' + ${view} + ' · 작성일 ' + ${createdOn}">조회수 작성일</span>
+        </div>
+        <div class="content" name="content" th:utext="${content}">
+            내용
+        </div>
+        <div class="foot">
+            <a class="back" th:href="@{/support}">목록</a>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

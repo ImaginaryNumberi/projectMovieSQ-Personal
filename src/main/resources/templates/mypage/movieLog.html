@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/mypage.css}">
+    <script defer th:src="@{/resources/scripts/mypage/movieLog.js}"></script>
+    <script th:if="${session.user == null}">
+        alert('로그인 후 이용해주시기 바랍니다.');
+        location.href = '../login';
+    </script>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: mypage-submenu-fragment"></th:block>
+    <div id="movieLog-container" class="_object-form">
+        <span class="title">관람내역</span>
+        <span class="text" th:text="${session.user.getName()}+'님의 관람 내역이 ' + ${total}+'건 있습니다.'"></span>
+        <div class="empty" th:if="${total == 0}">
+            <img class="image" th:src="@{/resources/images/empty-image.png}" alt="">
+            <span class="text">관람 내역이 없습니다</span>
+        </div>
+        <div id="ticketContainer" th:if="${total != 0}">
+            <div class="item" th:each="reservedTicket : ${reservedTickets}">
+                <div class="part left">
+                    <img id="poster" class="image"
+                         th:src="'/movie/image?index=' + ${reservedTicket.getMovieIndex()}">
+                </div>
+                <div class="part right">
+                    <div class="title" th:text="${reservedTicket.getTitleKo()}" rel="movieName">title
+                    </div>
+                    <div class="content time"
+                         th:text="${#dates.format(reservedTicket.getTimeStart(),'yyyy-MM-dd HH:mm')}">**:**~**:**
+                    </div>
+                    <div class="content screen"
+                         th:text="${reservedTicket.getTheaterName()}">** 시네마
+                    </div>
+                    <div class="content screen"
+                         th:text="${reservedTicket.getScreenName()}">**관
+                    </div>
+                    <div class="content seat"
+                         th:text="${reservedTicket.getTicketTotal()} +'명 / ' + ${reservedTicket.getReservedSeatName()}">
+                        성인1명
+                    </div>
+                    <div class="button _object-button" th:data-index="${reservedTicket.getTicketNumber()}"
+                         rel="receiptButton">카드영수증 출력
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="receipt-container" class="">
+        <div id="receipt">
+            <div class="head">
+                <span class="title">온라인 매출전표</span>
+                <div id="receiptClose" class="close"></div>
+            </div>
+            <div class="content part1">
+                <div class="title">카드종류</div>
+                <div class="content" name="name">00카드</div>
+                <div class="title">거래일자</div>
+                <div class="content" name="date">YYYY-MM-DD HH:MM:SS</div>
+                <div class="title">카드번호</div>
+                <div class="content" name="number">9999-9999-9999-9999</div>
+                <div class="title">승인번호</div>
+                <div class="content" name="confirm">999999999</div>
+            </div>
+            <div class="content part2">
+                <div class="title">할부</div>
+                <div class="content left" name="plan">일시불</div>
+                <div class="title">거래유형</div>
+                <div class="content right" name="type">신용</div>
+                <div class="title">금액</div>
+                <div class="content left" name="amount">*,***원</div>
+                <div class="title ">공급가</div>
+                <div class="content right" name="supply">*,***원</div>
+                <div class="title">부가세</div>
+                <div class="content left" name="tax">***원</div>
+            </div>
+            <div class="content part3">
+                <div class="title">대표자명</div>
+                <div class="content left">김가나</div>
+                <div class="title right">사업자등록번호</div>
+                <div class="content right">123-12-12345</div>
+                <div class="title">전화번호</div>
+                <div class="content left">053-1234-1234</div>
+                <div class="title right">가맹점명</div>
+                <div class="content right">무비에스큐</div>
+                <div class="title">주소</div>
+                <div class="content address">대구광역시 중구 중앙대로 366 9층, 10층</div>
+            </div>
+            <div class="content part4">
+                위의 거래내역을 확인합니다.
+            </div>
+            <div class="content part5">
+                <div class="button _object-button" id="closeButton">닫기</div>
+                <!-- TODO : 출력 연결 -->
+                <!--
+                <div class="button _object-button _lightblue" id="printButton">출력</div>
+                -->
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

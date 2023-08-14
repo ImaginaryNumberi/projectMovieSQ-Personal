@@ -1,0 +1,597 @@
+body {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+
+/*region slide*/
+#carouselExampleInterval {
+    margin-top: -1.9rem;
+}
+
+.carousel {
+    position: relative;
+    margin-top: -1.5rem;
+    box-sizing: border-box;
+}
+
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.w-100 {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.carousel-indicators {
+    bottom: 0;
+    display: flex;
+    padding: 0;
+    margin: unset;
+    list-style: none;
+    box-sizing: border-box;
+    width: 100%;
+    z-index: unset;
+}
+
+.carousel-indicators [data-bs-target] {
+    box-sizing: content-box;
+    flex: 0 1 auto;
+    width: 2rem;
+    height: 0.3rem;
+    padding: 0;
+    margin-right: 0.5rem;
+    margin-left: 3px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: var(--color-header-loginmenu-font);
+    background-clip: padding-box;
+    border: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    opacity: .3;
+    transition: opacity .6s ease;
+}
+
+.carousel-indicators .active {
+    opacity: 1;
+}
+
+
+.carousel-control-next, .carousel-control-prev {
+    width: 10%;
+}
+
+/*endregion*/
+
+/*region chart*/
+#chart {
+    left: 50%;
+    width: 100%;
+    max-width: 80rem;
+    position: relative;
+    transform: translateX(-50%);
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+#chart > .title {
+    font-size: 1.75rem;
+    border-bottom: 0.25rem solid var(--concept-color-lightblue);
+    font-weight: 600;
+    margin-bottom: 1.125rem
+}
+
+#chart > .more {
+    position: absolute;
+    top: 1rem;
+    left: 7.5rem;
+    text-decoration: none;
+    color: black;
+}
+
+
+#chart > .chartList {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#chart > .chartList > .topTen {
+    display: grid;
+    gap: 4% 3%;
+    grid-template-columns: repeat(5, 1fr);
+
+    list-style-type: none;
+    margin-block: unset;
+    margin-inline: unset;
+    padding-inline: unset;
+}
+
+
+#chart > .chartList > .topTen > .movie {
+    min-width: 4rem;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+
+#chart > .chartList > .topTen > .movie > .numberList {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 0.25rem;
+}
+
+#chart > .chartList > .topTen > .movie > .numberList > .number {
+    box-sizing: content-box;
+    font-size: 3rem;
+    color: white;
+    font-weight: 900;
+    z-index: 1;
+    text-shadow: 0 0 5px black;
+}
+
+#chart > .chartList > .topTen > .movie > .imageBox {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    position: relative;
+}
+
+#chart > .chartList > .topTen > .movie > .imageBox > .image {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    object-position: center;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.5rem #00000066;
+}
+
+#chart > .chartList > .topTen > .movie > .imageBox:hover > .cover {
+    width: 100%;
+    height: 100%;
+    background: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.7;
+    border-radius: 0.5rem;
+    display: block;
+}
+
+#chart > .chartList > .topTen > .movie > .info {
+    width: 100%;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#chart > .chartList > .topTen > .movie > .info > .title {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+
+    font-size: 1.2rem;
+    font-weight: 500;
+
+    margin-top: 1rem;
+}
+
+#chart > .chartList > .topTen > .movie > .info > .percentage {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 0.3rem;
+}
+
+#chart > .chartList > .topTen > .movie > .info > .percentage > .text + .text {
+    color: var(--concept-color-mint);
+    font-size: 0.875rem;
+}
+
+#chart > .chartList > .topTen > .movie > .info > .link {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#chart > .chartList > .topTen > .movie > .info > .link:hover {
+    text-decoration: none;
+}
+
+#chart > .chartList > .topTen > .movie > .imageBox > .cover {
+    width: 100%;
+    height: 100%;
+    background: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0.5rem;
+    display: none;
+    z-index: 2;
+}
+
+#chart > .chartList > .topTen > .movie > .imageBox > .button-container {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 1rem;
+    display: none;
+
+    text-decoration: none;
+    z-index: 2;
+
+}
+
+#chart > .chartList > .topTen > .movie > .imageBox:hover > .button-container {
+    display: flex;
+
+}
+
+#chart > .chartList > .topTen > .movie > .imageBox:hover > .button-container > ._object-button {
+    width: 8rem;
+    text-align: center;
+}
+
+
+#chart > .chartList > .topTen > .movie > .imageBox:hover > .button-container > a:link:hover {
+    text-decoration: none;
+}
+
+#chart > .chartList > .topTen > .movie > .imageBox:hover > .button-container > ._orange {
+    color: white;
+}
+
+/*endregion*/
+
+/*region supportClient*/
+#supportClient {
+    left: 50%;
+    width: 100%;
+    max-width: 80rem;
+    position: relative;
+    transform: translateX(-50%);
+
+    margin: 2.5rem 0 2rem 0;
+
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#supportClient > .part > .title {
+    font-size: 1.75rem;
+    border-bottom: 0.25rem solid var(--concept-color-lightblue);
+    font-weight: 600;
+}
+
+#supportClient > .part > .more {
+    margin-left: 1rem;
+    font-size: 0.875rem;
+    vertical-align: bottom;
+}
+
+.list {
+    max-width: 50rem;
+    margin-top: 1.25rem;
+    width: 100%;
+    box-sizing: border-box;
+
+}
+
+.list > table {
+    border-collapse: collapse;
+    width: 100%;
+
+}
+
+.list > table > thead {
+    width: 100%;
+}
+
+
+.list > table > thead > tr > th {
+    background-color: #d5d8dc55;
+    border-top: 0.0625rem solid #d5d8dc;
+    border-bottom: 0.0625rem solid #d5d8dc;
+    font-size: 0.9rem;
+    padding: 0.65rem;
+    white-space: nowrap;
+}
+
+.list > table > thead > tr > .title {
+    text-align: center;
+}
+
+
+.list > table > tbody > tr > * {
+    border-top: 0.0625rem solid #d5d8dc;
+    border-bottom: 0.0625rem solid #d5d8dc;
+    font-size: 0.85rem;
+    padding: 0.6rem;
+    white-space: nowrap;
+}
+
+.list > table > tbody > tr > .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.list > table > tbody > tr:hover {
+    background-color: var(--concept-color-gray);
+    cursor: pointer;
+}
+
+.list > .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.list > .grid > .item > .link > .image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0.5rem;
+}
+
+.list > .grid > .item > .title {
+    font-weight: 500;
+    display: block;
+    text-align: center;
+}
+
+/*endregion*/
+
+
+#wrapper {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+
+    pointer-events: unset;
+    background-color: #2b2d36;
+    opacity: 0.7;
+    display: none;
+    top: 0;
+    left: 0;
+    z-index: 9;
+
+}
+
+#wrapper.visible {
+    display: block;
+    pointer-events: all;
+
+}
+
+
+.urlPopup {
+    background-color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 50rem;
+    height: 35rem;
+    transform: translate(-50%, -50%);
+    border-radius: 0.5rem;
+    z-index: 10;
+    display: none;
+    pointer-events: unset;
+
+}
+
+.urlPopup.visible {
+    display: flex;
+    pointer-events: all;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.urlPopup > .title {
+    font-size: 1.5rem;
+    background: var(--concept-color-mint);
+    font-weight: 600;
+    text-align: center;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.urlPopup > .close {
+    width: 1.5rem;
+    justify-content: center;
+    position: absolute;
+    right: 0.5rem;
+    align-self: center;
+    margin: 0.33rem 0;
+}
+
+.urlPopup > .close:hover {
+    cursor: pointer;
+}
+
+
+.urlPopup > .link {
+    padding: 0.2rem;
+    box-sizing: border-box;
+    height: 100%;
+
+}
+
+.urlPopup > .link > iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/* 해상도 1024px */
+@media screen and (max-width: 64rem) {
+    #supportClient {
+        max-width: unset;
+
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #supportClient > .part {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    #supportClient > .part > .title {
+        font-size: 1.25rem;
+        border-bottom: 0.125rem solid var(--concept-color-lightblue);
+        font-weight: 600;
+    }
+
+    #supportClient > .part > .more {
+        margin-left: 0.5rem;
+        font-size: 0.75rem;
+        vertical-align: bottom;
+    }
+
+    #chart > .chartList > .topTen > .movie > .imageBox:hover > .button-container > ._object-button {
+        width: 75%;
+        padding: 0.5rem 0.25rem;
+        font-size: 0.875rem;
+    }
+
+    .urlPopup {
+        height: 90%;
+        width: 90%;
+    }
+
+}
+
+/* 해상도 640px */
+@media screen and (max-width: 40rem) {
+    #chart {
+        width: 100%;
+    }
+
+    #chart > .title {
+        font-size: 1.25rem;
+        border-bottom: 0.125rem solid var(--concept-color-lightblue);
+        font-weight: 600;
+    }
+
+    #chart > .chartList {
+        width: 100%;
+    }
+
+    #chart > .chartList > .topTen {
+        width: 100%;
+
+        display: grid;
+        gap: 2rem 2.5%;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    #chart > .chartList > .topTen > .movie {
+        width: 100%;
+        min-width: 4rem;
+
+        align-items: flex-start;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    #chart > .chartList > .topTen > .movie > .numberList {
+        height: 1.75rem;
+    }
+
+    #chart > .chartList > .topTen > .movie > .numberList > .number {
+        box-sizing: content-box;
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 900;
+        z-index: 1;
+        text-shadow: 0 0 5px black;
+    }
+
+    #chart > .chartList > .topTen > .movie > .imageBox {
+        width: 40%;
+        min-width: 6rem;
+        height: unset;
+        object-fit: cover;
+
+        position: relative;
+    }
+
+    #chart > .chartList > .topTen > .movie > .info {
+        width: 60%;
+        margin: 0 0 0 1rem;
+
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    #chart > .chartList > .topTen > .movie > .info > .title {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre-wrap;
+        word-break: break-all;
+
+        font-size: 1rem;
+        font-weight: 500;
+
+        margin-top: 1rem;
+    }
+
+    #chart > .chartList > .topTen > .movie > .info > .percentage {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 0.3rem;
+    }
+
+    #chart > .chartList > .topTen > .movie > .info > .percentage > .text + .text {
+        font-size: 0.875rem;
+        margin-left: 0.5rem;
+    }
+
+    #supportClient {
+        max-width: unset;
+
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

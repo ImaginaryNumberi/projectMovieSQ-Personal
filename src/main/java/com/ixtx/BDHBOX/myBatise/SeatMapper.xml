@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ixtx.projectmoviesq.mappers.SeatMapper">
+
+
+
+
+    <!-- 상세정보 -->
+    <select id="selectInformation" resultType="Map"><![CDATA[
+        SELECT
+            CONCAT(`B`.`name`, ' ', `C`.`name`, ' ', `D`.`title_ko`, ' ', DATE_FORMAT(`A`.`time_start`, '%Y-%m-%d'), ' ', DATE_FORMAT(`A`.`time_start`, '%H:%i'), '~', DATE_FORMAT(`A`.`time_end`, '%H:%i')) AS `information`,
+            `D`.`rating` AS `rating`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`theaters` AS `B` ON `A`.`theater_index` = `B`.`index`
+                 LEFT JOIN `movie_sq`.`screens` AS `C` ON `A`.`screen_index` = `C`.`index`
+                 LEFT JOIN `movie_sq`.`movies` AS `D` ON `A`.`movie_index` = `D`.`index`
+        WHERE `A`.`index` = #{index} &&
+              `A`.`time_start` > NOW()
+        LIMIT 1;
+        ]]></select>
+    <!-- 미니맵 불러오기 -->
+    <select id="selectScreenImage" resultType="com.ixtx.projectmoviesq.dtos.MinimapDto">
+        SELECT
+            `B`.`seats_map` AS `seatsMap`,
+            `B`.`map_type` AS `mapType`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`screens` AS `B` ON `A`.`screen_index` = `B`.`index`
+        WHERE `A`.`index` = #{index}
+        LIMIT 1;
+    </select>
+
+
+
+    <!-- 좌석 및 예약좌석 정보 불러오기 -->
+    <select id="selectAllSeatAndReservedSeat" resultType="com.ixtx.projectmoviesq.dtos.SeatDto"><![CDATA[
+        SELECT
+            #`C`.`index`,
+            `C`.`seat_name` AS `seatName`,
+            IFNULL(`D`.`seat_name`, 'onSale') AS `reservedSeatName`
+        #`D`.`seat_name` AS `예약된좌석이름`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`screens` AS `B` ON `A`.`screen_index` = `B`.`index`
+                 LEFT JOIN `movie_sq`.`seats` AS `C` ON `B`.`index` = `C`.`screen_index`
+                 LEFT JOIN `movie_sq`.`reservation_status` AS `D` ON `D`.`schedule_index` = `A`.`index` && `D`.`seat_name` = `C`.`seat_name`
+        WHERE `A`.`index` = #{index} &&
+              `A`.`time_start` > NOW()
+        ORDER BY `C`.`index`;
+        ]]></select>
+
+
+    <!--존재하지 않는 좌석값인지 아닌지 확인 -->
+    <select id="selectExitSeat" resultType="int"><![CDATA[
+        SELECT
+            IF(COUNT(`B`.`seat_name`) = 1, 1, 0) AS `exitSeat`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`seats` AS `B` ON `A`.`screen_index` = `B`.`screen_index`
+        WHERE `A`.`index` = #{sessionIndex} &&
+              `B`.`seat_name` = #{seatName};
+        ]]></select>
+
+
+    <!-- 좌석 버튼 클릭시, 예약이 되어있는지 또 한번 조회 -->
+    <select id="selectStatusSeat" resultType="int"><![CDATA[
+        SELECT
+            IF(COUNT(`A`.`seat_name`) = 1, 1, 0) AS `reservedSeat`
+        FROM `movie_sq`.`reservation_status` AS `A`
+        WHERE `A`.`schedule_index` = #{sessionIndex} &&
+              `A`.`seat_name` = #{seatName};
+        ]]></select>
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ixtx.projectmoviesq.mappers.ReserveMapper">
+
+
+    <!--
+   <select id="selectAllMovieNames"
+           resultType="string">
+       SELECT DISTINCT `B`.`title_ko` AS `movieName`
+       FROM `moviesq`.`bdh_screen_scheduless` AS `A`
+       LEFT JOIN `moviesq`.`movies` AS `B` ON `A`.`movie_index` = `B`.`index`
+       WHERE `A`.time_start > NOW();
+   </select>
+
+   <select id="selectAllTheaterNames"
+           resultType="string">
+       SELECT DISTINCT `B`.`name` AS `영화관이름`
+       FROM `moviesq`.`bdh_screen_scheduless` AS `A`
+       LEFT JOIN `moviesq`.`theaters` AS `B` ON `A`.theater_index = `B`.`index`
+       WHERE `A`.time_start > NOW();
+   </select>
+
+   <select id="selectTest" resultType="Map">
+       SELECT DISTINCT `B`.`title_ko` AS `movieName`
+       FROM `moviesq`.`bdh_screen_scheduless` AS `A`
+       LEFT JOIN `moviesq`.`movies` AS `B` ON `A`.`movie_index` = `B`.`index`
+       WHERE `A`.time_start > NOW();
+   </select>
+
+   <select id="theaterMovieDay" resultType="Map">
+       SELECT `T`.`name` AS `영화관`, `M`.`title_ko` AS `영화`, DATE_FORMAT(`A`.`time_start`, '%Y년%m월%d일') AS `날짜`
+       FROM `moviesq`.`bdh_screen_scheduless` AS `A`
+       LEFT JOIN `moviesq`.`theaters` AS `T` ON `A`.`theater_index` = `T`.`index`
+       LEFT JOIN `moviesq`.`movies` AS `M` ON `A`.`movie_index` = `M`.`index`
+       WHERE `A`.`time_start` > NOW();
+   </select>
+   -->
+
+
+
+    <!-- 지역 및 영화관 조회 -->
+    <select id="selectTheaters" resultType="Map">
+        SELECT
+            `T`.`region_category` AS `region`, `T`.`name` AS `theater`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`theaters` AS `T` ON `A`.`theater_index` = `T`.`index`
+        WHERE `A`.`time_start` > NOW()
+        GROUP BY `theater`
+        ORDER BY `theater` ASC;
+    </select>
+    <!-- 영화 조회 -->
+    <select id="selectMovies" resultType="Map">
+        SELECT
+            `M`.`index` AS `image`,
+            `M`.`title_ko` AS `movie`,
+            `R`.`title` AS `rating`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`movies` AS `M` ON `A`.`movie_index` = `M`.`index`
+                 LEFT JOIN `movie_sq`.`rating_notices` AS `R` ON `M`.`rating` = `R`.`rating`
+        WHERE `A`.`time_start` > NOW()
+        GROUP BY `movie`
+        ORDER BY `movie` ASC;
+    </select>
+    <!-- 요일 조회 -->
+    <select id="selectTimes" resultType="Map">
+        SELECT `A`.`ymd` AS originTime,
+               CONCAT(CASE
+                          WHEN DAYNAME(`A`.`ymd`) = 'Monday' THEN '월'
+                          WHEN DAYNAME(`A`.`ymd`) = 'Tuesday' THEN '화'
+                          WHEN DAYNAME(`A`.`ymd`) = 'Wednesday' THEN '수'
+                          WHEN DAYNAME(`A`.`ymd`) = 'Thursday' THEN '목'
+                          WHEN DAYNAME(`A`.`ymd`) = 'Friday' THEN '금'
+                          WHEN DAYNAME(`A`.`ymd`) = 'Saturday' THEN '토'
+                          WHEN DAYNAME(`A`.`ymd`) = 'Sunday' THEN '일'
+                          END,
+                      ' ',
+                      DATE_FORMAT(`A`.`ymd`, '%d')
+                   )                              AS `day`
+
+        FROM (SELECT DISTINCT DATE_FORMAT(`S`.`time_start`, '%Y-%m-%d') AS `ymd`
+              FROM `movie_sq`.`screen_schedules` AS `S`
+              WHERE `S`.`time_start` > NOW()
+              ORDER BY `ymd` ASC) AS `A`;
+    </select>
+
+
+    <!-- 영화관 공통값(영화, 요일) 조회 -->
+    <select id="selectIntersectionTheater" resultType="Map"><![CDATA[
+        SELECT DISTINCT `B`.`name` AS `intersectionTheater`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`theaters` AS `B` ON `A`.theater_index = `B`.`index`
+                 LEFT JOIN `movie_sq`.`movies` AS `C` ON `A`.movie_index = `C`.`index`
+        WHERE IF(#{movieName} != '', `C`.`title_ko` = #{movieName}, TRUE) &&
+              IF(#{timeName} != '', DATE_FORMAT(`A`.`time_start`, '%Y-%m-%d') = #{timeName}, TRUE) &&
+              `A`.`time_start` > NOW();
+        ]]></select>
+    <!-- 영화 공통값(영화관, 요일) 조회 -->
+    <select id="selectIntersectionMovie" resultType="Map"><![CDATA[
+        SELECT DISTINCT `B`.`title_ko` AS `intersectionMovie`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`movies` AS `B` ON `A`.movie_index = `B`.`index`
+                 LEFT JOIN `movie_sq`.`theaters` AS `C` ON `A`.theater_index = `C`.`index`
+        WHERE IF(#{theaterName} != '', `C`.`name` = #{theaterName}, TRUE) &&
+              IF(#{timeName} != '', DATE_FORMAT(`A`.`time_start`, '%Y-%m-%d') = #{timeName}, TRUE) &&
+              `A`.`time_start` > NOW();
+        ]]></select>
+    <!-- 요일 공통값(영화관, 영화) 조회 -->
+    <select id="selectIntersectionTime" resultType="Map"><![CDATA[
+        SELECT DISTINCT DATE_FORMAT(`A`.`time_start`, '%Y-%m-%d') AS `intersectionTime`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`theaters` AS `B` ON `A`.`theater_index` = `B`.`index`
+                 LEFT JOIN `movie_sq`.`movies` AS `C` ON `A`.`movie_index` = `C`.`index`
+        WHERE IF(#{theaterName} != '', `B`.`name` = #{theaterName}, TRUE) &&
+              IF(#{movieName} != '', `C`.`title_ko` = #{movieName}, TRUE) &&
+              `A`.`time_start` > NOW();
+        ]]></select>
+
+
+
+    <!-- 상영시간 조회 -->
+    <select id="selectScreens" resultType="Map"><![CDATA[
+        SELECT `A`.`index`                                                                               AS `scheduleIndex`,
+               CONCAT(DATE_FORMAT(`A`.`time_start`, '%H:%i'), '~', DATE_FORMAT(`A`.`time_end`, '%H:%i')) AS 'runningTime',
+               `B`.`name`                                                                                AS `screenName`,
+               `B`.`seat_total`                                                                          AS `seatTotal`,
+               COUNT(`E`.`schedule_index`) AS `occupiedSeatTotal`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`screens` AS `B` ON `A`.`screen_index` = `B`.`index`
+                 LEFT JOIN `movie_sq`.`movies` AS `C` ON `A`.`movie_index` = `C`.`index`
+                 LEFT JOIN `movie_sq`.`theaters` AS `D` ON `A`.`theater_index` = `D`.`index`
+                 LEFT JOIN `movie_sq`.`reservation_status` AS `E` ON `A`.`index` = `E`.`schedule_index`
+        WHERE `D`.`name` = #{theaterName} &&
+              `C`.`title_ko` = #{movieName} &&
+              DATE_FORMAT(`A`.`time_start`, '%Y-%m-%d') = #{timeName} &&
+              `A`.`time_start` > NOW()
+        GROUP BY `E`.`schedule_index`;
+        ]]></select>
+
+
+    <!--인덱스 유효성 검사-->
+    <!-- 잘못된 스케쥴 인덱스 입력 또는 이미 시간 지난 스케쥴 인덱스 조회를 걸러줌 -->
+    <select id="selectSchedulessIndex" resultType="int"><![CDATA[
+        SELECT
+            COUNT(`A`.`index`) AS `Value`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+        WHERE `A`.`time_start` > NOW() &&
+              `A`.`index` = #{index}
+        LIMIT 1;
+        ]]></select>
+
+    <!-- 전좌석 매진 여부 -->
+    <select id="selectCountOfSeat" resultType="int">
+        SELECT
+            IF(COUNT(`A`.`schedule_index`) = `B`.`seat_total`, 1, 0) AS `countValue`
+        FROM `movie_sq`.`reservation_status` AS `A`
+                 LEFT JOIN `movie_sq`.`screens` AS `B` ON `A`.`screen_index` = `B`.`index`
+        WHERE `A`.`schedule_index` = #{index};
+    </select>
+</mapper>

@@ -1,0 +1,163 @@
+@charset "UTF-8";
+
+/* region common display */
+#adminContainer,
+#manageMovieContainer,
+#registerMvForm,
+#manageSupportContainer,
+#registerNoticeContainer,
+#noticeViewer {
+    left: 50%;
+    width: 100%;
+    max-width: 64rem;
+    position: relative;
+    transform: translateX(-50%);
+
+    flex: 1 1 auto;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* endregion common display */
+
+/* region common form */
+._object-form {
+    left: 50%;
+    top: 50%;
+    width: 40rem;
+    max-width: 64rem;
+    position: relative;
+    transform: translateX(-50%);
+
+    align-items: flex-start;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+._object-form > .mode {
+    margin: 0.5rem 0 1rem -5rem;
+    font-size: 1.5rem;
+    border-bottom: 0.25rem solid var(--concept-color-lightblue);
+}
+
+._object-form > .title,
+._object-form > .top > .title {
+    font-size: 1.3rem;
+    border-bottom: 0.25rem solid var(--concept-color-orangred);
+    min-width: 6rem;
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+._object-form > .subtitle {
+    font-size: 0.9rem;
+    margin: 2rem 0 0.5rem 2rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+._object-form > .label {
+    width: 80%;
+    box-sizing: border-box;
+    align-self: center;
+}
+
+._object-form > .select {
+    align-self: center;
+    width: 80%;
+    border: 0.025rem solid;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+._object-form > .label > .textarea {
+    align-self: center;
+    width: 97%;
+    border: 0.025rem solid;
+    padding: 0.5rem;
+    margin: 0.5rem 1rem 0 0;
+}
+
+._object-form > .label > .input {
+    border-bottom: 0.0125rem solid #727272;
+    padding: 0.5rem;
+    background: none;
+
+    width: 95%;
+}
+
+._object-form > .label > .image {
+    max-width: 10rem;
+}
+
+._object-form > .label > .input.file {
+    border: unset;
+}
+
+._object-form > .button-container {
+    width: 60%;
+    margin: 2rem 0;
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+}
+
+._object-form > .button-container > * {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+._object-form > .button-container > ._object-button._color-concept {
+    color: white;
+}
+
+._object-form > .button-container > ._object-button.cancel {
+    text-align: center;
+}
+
+@media screen and (max-width: 64rem) {
+
+    #commercialForm{
+        width: 100%;
+    }
+    #commercialForm > .button-container{
+        width: 100%;
+    }
+
+    .submenu-container{
+        height: auto;
+    }
+
+    .submenu-container > .submenu {
+        width: 90%;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        font-size: 0.9rem;
+    }
+
+    #commercial{
+        width: 100%;
+    }
+
+    #commercial>.subtitle {
+        width: 90%;
+    }
+
+
+}
+
+
+@media screen and (max-width: 40rem) {
+    #commercial > .imageBox{
+        margin:unset;
+    }
+}
+
+/* endregion common form */

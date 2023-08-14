@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/index.css}">
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: admin-submenu-fragment"></th:block>
+    <div id="registerMovieContainer">
+        <form class="_object-form" id="registerMovieForm" method="post" enctype="multipart/form-data">
+            <!--            <div class="mode">관리자 모드</div>-->
+            <h2 class="title">영화 등록</h2>
+            <span class="subtitle">영화제목</span>
+            <label class="label">
+                <input autofocus class="_object-input input" maxlength="50" name="titleKo" placeholder="영화 제목" required
+                       type="text">
+            </label>
+            <span class="subtitle">영화제목(영어)</span>
+            <label class="label">
+                <input class="_object-input input" maxlength="500" name="titleEn" placeholder="영화제목(영어)" required
+                       type="text">
+            </label>
+            <span class="subtitle">등급</span>
+            <select class="select" name="rating" required>
+                <option disabled selected>선택</option>
+                <option value="ALL">전체 관람가</option>
+                <option value="12">12세이상 관람가</option>
+                <option value="15">15세이상 관람가</option>
+                <option value="18">청소년 관람불가</option>
+                <option value="RESTRICTED">제한 상영가</option>
+                <option value="NOT_RATED">등급 미정</option>
+            </select>
+            <span class="subtitle">개봉일</span>
+            <label class="label">
+                <input class="_object-input input date" name="releaseDate" type="date" required>
+            </label>
+            <span class="subtitle">장르</span>
+            <label class="label">
+                <input class="_object-input input" maxlength="300" name="genre" placeholder="장르"
+                       required type="text">
+            </label>
+            <span class="subtitle">러닝타임</span>
+            <label class="label">
+                <input class="_object-input input" maxlength="5" name="runningTime" placeholder="러닝타임"
+                       required type="text">
+            </label>
+            <span class="subtitle">시놉시스</span>
+            <label class="label">
+                <input class="_object-input input" maxlength="1000" name="synopsis" placeholder="시놉시스"
+                       required type="text">
+            </label>
+            
+            <span class="subtitle">감독</span>
+            <label class="label">
+                <input class="_object-input input" maxlength="30" name="director" placeholder="감독"
+                       required type="text">
+            </label>
+            <span class="subtitle">배우</span>
+            <label class="label">
+                <input class="_object-input input" maxlength="100" name="cast" placeholder="배우"
+                       required type="text">
+            </label>
+            <span class="subtitle">배급사</span>
+            <label class="label">
+                <input class="_object-input input" maxlength="30" name="agency" placeholder="배급사"
+                       required type="text">
+            </label>
+            <span class="subtitle">예고편 링크 (Youtube > 공유 > 퍼가기 > src 부분 주소 넣어주세요)</span>
+            <label class="label">
+                <input class="_object-input input" maxlength="500" name="trailerUrl" placeholder="예고편 링크"
+                       required type="text">
+            </label>
+            <span class="subtitle">상태</span>
+            <select class="select" name="status" required>
+                <option disabled selected>선택</option>
+                <option value="COMING_SOON">상영예정</option>
+                <option value="NOW_PLAYING">상영중</option>
+                <option value="NOT_PLAYING">비상영중</option>
+            </select>
+            <span class="subtitle">포스터/이미지</span>
+            <label class="label">
+                <input class="_object-input input file" id="inputFile" name="file" onchange="fileCheck(this)"
+                       accept="image/gif, image/jpeg,image/png" type="file" required>
+            </label>
+            <span class="subtitle">첨부 이미지 분류(본 페이지에서는 포스터만 등록 가능)</span>
+            <select class="select" name="category" required>
+                <option disabled selected>선택</option>
+                <!-- 영화 등록 페이지에서는 포스터만 등록 가능 -->
+                <option value="POSTER">포스터</option>
+                <!--<option value="PICTURE">일반 이미지</option>-->
+            </select>
+            <div class="button-container">
+                <input class="_object-button" type="reset" value="초기화">
+                <input class="_object-button _color-concept" type="submit" value="등록">
+            </div>
+        </form>
+        <span th:if="${result != null}" th:text="${result}"></span>
+    </div>
+</th:block>
+</body>
+</html>

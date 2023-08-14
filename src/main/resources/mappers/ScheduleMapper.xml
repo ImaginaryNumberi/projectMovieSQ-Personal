@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ixtx.projectmoviesq.mappers.ScheduleMapper">
+
+
+    <insert id="insertSchedule"
+            parameterType="com.ixtx.projectmoviesq.entities.ScheduleEntity">
+        INSERT INTO `movie_sq`.`screen_schedules` (movie_index, theater_index, screen_index, time_start, time_end)
+        VALUES (#{movieIndex}, #{theaterIndex}, #{screenIndex}, #{timeStart}, #{timeEnd})
+    </insert>
+
+    <select id="getSchedule"
+            resultType="com.ixtx.projectmoviesq.entities.ScheduleEntity">
+        SELECT *
+        FROM movie_sq.screen_schedules
+        WHERE `index` = #{index}
+    </select>
+
+    <select id="selectScreenSchedule"
+            resultType="com.ixtx.projectmoviesq.entities.ScheduleEntity">
+        SELECT `index`,
+               movie_index,
+               theater_index,
+               screen_index,
+               time_start,
+               time_end
+        FROM movie_sq.screen_schedules
+        WHERE `index` = #{index}
+    </select>
+
+    <select id="selectAllSchedules"
+            resultType="com.ixtx.projectmoviesq.entities.ScheduleEntity">
+        SELECT `index`, movie_index, theater_index, screen_index, time_start, time_end
+        FROM movie_sq.screen_schedules
+    </select>
+
+    <select id="getScheduleList"
+            resultType="com.ixtx.projectmoviesq.entities.ScheduleEntity">
+        SELECT *
+        FROM movie_sq.screen_schedules
+    </select>
+
+    <delete id="deleteSchedule">
+        DELETE
+        FROM movie_sq.screen_schedules
+        WHERE `index` = #{index}
+        LIMIT 1
+    </delete>
+    <update id="updateSchedule">
+        UPDATE movie_sq.screen_schedules
+        SET movie_index   = #{movieIndex},
+            theater_index = #{theaterIndex},
+            screen_index  = #{screenIndex},
+            time_start    = #{timeStart},
+            time_end      = #{timeEnd}
+        WHERE `index` = #{index}
+    </update>
+
+</mapper>

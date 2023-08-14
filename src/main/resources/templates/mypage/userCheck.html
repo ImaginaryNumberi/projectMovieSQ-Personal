@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/mypage.css}">
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/core.min.js}"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.js}"></script>
+    <script defer th:src="@{/resources/scripts/mypage/userCheck.js}"></script>
+
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: mypage-submenu-fragment"></th:block>
+    <form id="userCheckForm" class="_object-form">
+        <span class="title">본인 확인</span>
+        <span class="text">* 개인정보보호를 위해 아이디,비밀번호를 한번 더 입력해 주세요. *</span>
+        <label class="label">
+            <span class="subtitle">아이디</span>
+            <input readonly type="email" class="_object-input input" maxlength="50" name="email"
+                   th:value="${user.getEmail()}">
+        </label>
+        <label class="label">
+            <span class="subtitle">비밀번호</span>
+            <input autofocus type="password" class="_object-input input password" maxlength="20" name="password"
+                   placeholder="비밀번호를 입력해 주세요.">
+        </label>
+        <div class="button-container">
+            <a class="_object-button button cancel" href="#">취소</a>
+            <input class="_object-button _color-concept button next" type="submit" value="확인">
+        </div>
+        <span class="warning" rel="checkWarning"></span>
+    </form>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,468 @@
+@charset "UTF-8";
+
+#header,
+#footer {
+    flex: 0 0 auto;
+}
+
+#summary-container,
+#payment-container,
+#movieContainer,
+#movieDetailContainer,
+#theaterContainer,
+#noticeContainer,
+#newsDetailContainer,
+#faqContainer,
+#noticeDetailContainer,
+#registerMovieImageContainer,
+#registerNoticeContainer {
+    /* 브라우저의 중간에 위치 하도록 */
+    left: 50%;
+    width: 100%;
+    max-width: 64rem;
+    position: relative;
+    transform: translateX(-50%);
+
+    /* 컨텐츠의 길이가 짧더라도 기본 길이는 유지하도록 */
+    flex: 1 1 auto;
+
+    /* default display */
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* region header */
+#header {
+    border-bottom: 0.0625rem solid #e2e2e2;
+    margin-bottom: 2rem;
+    height: 100%;
+}
+
+#headerBox {
+    left: 50%;
+    max-width: 64rem;
+    width: 100%;
+    top: 0;
+    transform: translateX(-50%);
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 0.5fr 8fr;
+
+    gap: 2rem;
+}
+
+#headerBox > .logo-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+#headerBox > .logo-container > .logo {
+    height: 100%;
+}
+
+#headerBox > .logo-container > .logo > .image {
+    height: 100%;
+}
+
+
+#headerBox > .content {
+    display: flex;
+    flex-direction: column;
+}
+
+
+#headerBox > .content > .loginMenu {
+    flex-direction: row;
+    display: flex;
+    justify-content: flex-end;
+
+    height: 1.5rem;
+    font-size: 0.88rem;
+
+    margin-top: 1rem;
+    padding-right: 2.5rem;
+}
+
+#headerBox > .content > .loginMenu > .item {
+    padding: 0 0.5rem;
+    white-space: normal;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#headerBox > .content > .loginMenu > .item > .link {
+    display: flex;
+    align-items: center;
+}
+
+#headerBox > .content > .loginMenu > .item > .image {
+    height: 1rem;
+    margin-right: 0.5rem;
+    object-fit: contain;
+    object-position: center;
+}
+
+#headerBox > .content > .loginMenu > .item > .link > .image {
+    height: 1rem;
+    margin-right: 0.5rem;
+    object-fit: contain;
+    object-position: center;
+}
+
+#headerBox > .content > .loginMenu > .item + .item {
+    border-left: 0.0625rem solid #999999;
+}
+
+#headerBox a:hover {
+    text-decoration: none;
+}
+
+
+#headerBox > .content > .mainMenu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 4rem;
+    align-items: center;
+
+    position: relative;
+}
+
+#headerBox > .content > .mainMenu > .menu {
+    border-bottom: 0.25rem solid #ffffff00;
+    font-size: 1.15rem;
+    white-space: normal;
+    cursor: pointer;
+    width: calc(100% / 6);
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#headerBox > .content > .mainMenu > .menu.active {
+    border-bottom: 0.25rem solid #74ccd4;
+    font-weight: 600;
+}
+
+#headerBox > .content > .mainMenu > .menu:hover > .link {
+    text-decoration: none;
+    color: #74ccd4;
+    cursor: pointer;
+}
+
+#headerBox > .content > .mainMenu > .menu > .link {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+#headerBox > .content > .mainMenu > .menu > .submenu {
+    position: absolute;
+    top: 4rem;
+    left: -18rem;
+    border-bottom: 0.025rem solid black;
+    width: 100%;
+    /* margin-bottom: 2rem; */
+    /* display: flex; */
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* endregion */
+
+/* region footer */
+#footer {
+    background-color: #fafafa;
+    border-top: 0.0625rem solid #e2e2e2;
+    bottom: 0;
+    margin-top: 2rem;
+    padding: 1rem 0;
+    width: 100%;
+
+    color: var(--color-header-loginmenu-font);
+    font-size: 0.9rem;
+    font-weight: 300;
+    position: relative;
+}
+
+#footContainer a:hover {
+    text-decoration: none;
+}
+
+#footContainer {
+    left: 50%;
+    width: 100%;
+    max-width: 64rem;
+    position: relative;
+    transform: translateX(-50%);
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#footContainer > .upperContent {
+    width: 100%;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#footContainer > .upperContent > .teamName {
+    font-size: 1.25rem;
+}
+
+#footContainer > .upperContent > .termsPrivacy {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#footContainer > .upperContent > .termsPrivacy > .item {
+    color: var(--color-header-loginmenu-font);
+    padding: 0 0.5rem;
+}
+
+/* 이용약관, 개인정보처리방침 사이 선*/
+/* 방법 1 */
+#footContainer > .upperContent > .termsPrivacy > .item + .item {
+    border-left: 0.0625rem solid var(--color-header-loginmenu-font);
+}
+
+/* 방법 2 */
+/*
+#footContainer > .upperContent > .termsPrivacy > .item + .item::before {
+    display: block;
+    position: absolute;
+    background-color: var(--color-header-loginmenu-font);
+    width: 0.0625rem;
+    height: 1rem;
+    right: 7rem;
+    top: 0.5rem;
+    content: '';
+}
+*/
+
+#footContainer > .downerContent {
+    width: 100%;
+    margin-top: 0.625rem;
+}
+
+#footContainer > .downerContent > .memberList {
+    color: dimgray;
+    margin: 0;
+    padding: 0;
+
+    font-size: 0.75rem;
+    list-style-type: none;
+}
+
+/* endregion */
+
+/* region popUp cover*/
+#cover {
+    width: 100vw;
+    height: 100vh;
+    filter: blur(80%);
+    background-color: black;
+    position: fixed;
+    z-index: 8;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+#cover.visible {
+    opacity: 70%;
+    pointer-events: all;
+}
+
+
+#popUp {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 20rem;
+    background-color: white;
+    position: fixed;
+    z-index: 11;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+#popUp {
+    min-height: 10rem;
+}
+
+
+#popUp.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#popUp > .title {
+    width: 100%;
+    background: var(--concept-color-orangred);
+    align-self: flex-start;
+    /*height: 1.5rem;*/
+    text-align: center;
+    color: white;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    padding: 0.6rem 0;
+    font-size: 1.2rem;
+}
+
+#popUp > .content {
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#popUp > .content > .text {
+    font-size: 1rem;
+    text-align: center;
+}
+
+#popUp > .content > .text.subtitle {
+    font-weight: 500;
+}
+
+#popUp > .content > .text + .text {
+    margin-top: 0.625rem;
+}
+
+#popUp > .button-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: unset;
+
+    position: relative;
+    bottom: 0;
+}
+
+#popUp > .button-container > ._object-button {
+    margin: unset;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-top-left-radius: unset;
+    border-top-right-radius: unset;
+}
+
+#popUp > .button-container > ._object-button._color-concept {
+    color: white;
+    border-bottom-left-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+}
+
+#popUp > .button-container > ._object-button.hidden {
+    display: none;
+}
+
+/*endregion*/
+
+/* 브라우저 크기가 줄어들었을 때 스크롤 만들고 컨텐츠는 모두 나올 수 있도록 */
+@media screen and (max-width: 64rem) {
+    body {
+        overflow: scroll;
+    }
+
+    #summary-container,
+    #payment-container,
+    #movieContainer,
+    #movieDetailContainer,
+    #noticeContainer,
+    #newsDetailContainer,
+    #faqContainer,
+    #noticeDetailContainer,
+    #registerMovieImageContainer,
+    #registerNoticeContainer {
+        width: 90%;
+    }
+
+    #headerBox {
+        width: 90%;
+
+        gap: 0.5rem;
+    }
+
+    #headerBox > .logo-container {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+    }
+
+    #headerBox > .logo-container > .logo {
+        width: 100%;
+        height: unset;
+    }
+
+    #headerBox > .logo-container > .logo > .image {
+        height: unset;
+    }
+
+    #headerBox > .content > .loginMenu {
+        padding-right: 0.5rem;
+    }
+
+    #headerBox > .content > .loginMenu > .item {
+        width: unset;
+        min-width: fit-content;
+    }
+
+    #headerBox > .content > .mainMenu {
+        width: 100%;
+    }
+
+    #headerBox > .content > .mainMenu > .menu {
+        width: unset;
+    }
+
+    #headerBox > .content > .mainMenu > .menu > .link {
+        font-size: 1rem;
+    }
+
+    #footContainer {
+        width: 90%;
+    }
+
+
+    #popUp {
+        width: 90%;
+    }
+}

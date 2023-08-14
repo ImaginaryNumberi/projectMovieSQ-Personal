@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+/* region manageMovie */
+#movieListContainer {
+    width: 100%;
+}
+
+#movieListContainer > .title {
+    font-size: 1.3rem;
+    border-bottom: 0.25rem solid var(--concept-color-orangred);
+    display: inline-block;
+    text-align: left;
+    padding: 0.5rem 0;
+}
+
+#movieListContainer > .menu {
+    margin-top: 1rem;
+    width: 100%;
+
+    align-items: self-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#movieListContainer > .menu > .blank {
+    flex: 1 1 auto;
+}
+
+#movieListContainer ._object-button {
+    margin: 0 0.25rem 0 0;
+    background-color: var(--concept-color-mint);
+}
+
+#movieListContainer ._object-button.button {
+    border-radius: 0.25rem;
+    color: white;
+    cursor: pointer;
+    margin: 0;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+#movieListContainer ._object-button.button.delete {
+    background-color: var(--concept-color-orangred);
+}
+
+#movieListContainer ._object-button.button.modify {
+    background-color: var(--concept-color-lightblue);
+}
+
+#movieListContainer ._object-button > a {
+    color: black;
+}
+
+#movieList > table > tbody > tr > td {
+    text-align: center;
+}
+
+/* endregion manageMovie */

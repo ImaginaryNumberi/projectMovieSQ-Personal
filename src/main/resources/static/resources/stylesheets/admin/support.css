@@ -1,0 +1,112 @@
+@charset "UTF-8";
+
+/* region manageSupport */
+
+#supportListContainer {
+    width: 100%;
+    /*display: block;*/
+}
+
+#supportListContainer > .title {
+    font-size: 1.3rem;
+    border-bottom: 0.25rem solid var(--concept-color-orangred);
+    display: inline-block;
+    text-align: left;
+    padding: 0.5rem 0;
+}
+
+#supportListContainer > .menu {
+    margin-top: 1rem;
+    width: 100%;
+
+    align-items: self-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#supportListContainer > .menu > .blank {
+    flex: 1 1 auto;
+}
+
+/* 공지사항 목록의 삭제 버튼*/
+#supportListContainer ._object-button {
+    margin: 0 0.25rem 0 0;
+    width: max-content;
+    background-color: var(--concept-color-mint);
+}
+
+#supportListContainer ._object-button.button {
+    width: max-content;
+    background-color: var(--concept-color-mint);
+    border-radius: 0.25rem;
+    color: white;
+    cursor: pointer;
+    margin: 0;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+#supportListContainer ._object-button.button.delete {
+    background-color: var(--concept-color-orangred);
+    color: black;
+}
+
+#supportListContainer ._object-button.button.modify {
+    background-color: var(--concept-color-lightblue);
+}
+
+/* region noticeViewer */
+#noticeViewer {
+    display: none;
+
+    top: 50%;
+    max-height: 40rem;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    overflow: scroll;
+
+    background-color: white;
+    padding: 2rem;
+
+    z-index: 9;
+}
+
+#noticeViewer.visible {
+    display: block;
+}
+
+#noticeViewer > .head {
+    border-bottom: 0.0625rem solid #e2e2e2;
+    padding: 2rem 0 0.5rem 0;
+
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#noticeViewer > .head > .title {
+    width: 100%; /* 슬라이드 컨테이너의 너비 조정 */
+    overflow: hidden; /* 컨테이너를 넘어가는 내용 숨김 */
+    flex: 1 1 auto;
+    font-size: 1.5rem;
+}
+
+#noticeViewer > .head > .info {
+    flex: 0 0 auto;
+    font-size: 0.75rem;
+    margin: 0 0 0 1rem;
+}
+
+#noticeViewer > .content {
+    min-height: 30rem;
+    margin: 1rem 0;
+    padding: 0 0 1rem 0;
+
+    border-bottom: 0.0625rem solid #e2e2e2;
+}
+
+/* endregion noticeViewer */
+/* endregion manageSupport */

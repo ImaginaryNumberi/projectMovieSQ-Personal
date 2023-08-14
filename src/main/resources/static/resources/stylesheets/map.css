@@ -1,0 +1,10 @@
+@charset "UTF-8";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
+
+#map {
+    width: 80%;
+    height: 700px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}

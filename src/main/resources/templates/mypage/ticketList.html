@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/mypage.css}">
+    <script defer th:src="@{/resources/scripts/mypage/ticketList.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: mypage-submenu-fragment"></th:block>
+    <form id="ticketListForm" class="_object-form">
+        <span class="title">My 예매내역 </span>
+        <span class="text" th:text="${session.user.getName()}+'님의 관람가능한 예매내역은 ' + ${total}+'건 입니다.'"></span>
+        <div class="noTicket " th:if="${total} == 0">
+            <img class="image" th:src="@{/resources/images/empty-image.png}" alt="">
+            <span class="text">관람가능한 예매내역이 없습니다.</span>
+        </div>
+        <div class="ticketList" th:if="${total} != 0">
+            <div class="ticket" th:each="reservedTicket :${reservedTickets}">
+                <div class="imageBox">
+                    <a class="link" th:href="'../movie/detail?index='+${reservedTicket.getMovieIndex()}">
+                        <img class="image" th:src="'/movie/image?index='+${reservedTicket.getMovieIndex()}">
+                    </a>
+                </div>
+                <div class="content">
+                    <div class="subtitle">
+                        <span class="text">예매번호</span>
+                        <span class="text">영화제목</span>
+                        <span class="text">관람극장</span>
+                        <span class="text">상영관</span>
+                        
+                        <span class="text date">관람일시</span>
+                        <span class="text">관람인원</span>
+                        <span class="text">관람좌석</span>
+                        <span class="text payment">결제금액</span>
+                    </div>
+                    <div class="data">
+                        <span id="ticketIndex" class="text number"
+                              th:text="${reservedTicket.getTicketNumber().replaceAll('(.{4})','$1-').substring(0,reservedTicket.getTicketNumber().length()+3)}"></span>
+                        <span class="text" th:text="${reservedTicket.getTitleKo()}" rel="movieName"></span>
+                        <span class="text" th:text="${reservedTicket.getTheaterName()}"></span>
+                        <span class="text" th:text="${reservedTicket.getScreenName()}"></span>
+                        <span class="text date" rel="date"
+                              th:text="${#dates.format(reservedTicket.getTimeStart(),'yyyy-MM-dd HH:mm')} +'~' +${#dates.format(reservedTicket.getTimeEnd(),'HH:mm')}"></span>
+                        <span class="text" th:text="${reservedTicket.getTicketTotal()} +'명'"></span>
+                        <span class="text" th:text="${reservedTicket.getReservedSeatName()}" rel="seat"></span>
+                        <span class="text payment"
+                              th:text="${#numbers.formatInteger(reservedTicket.getPaymentAmount(),3,'COMMA')+'원'}"></span>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <input type="button" class="_object-button" value="예매정보출력" rel="reservedInformation"
+                           th:data-index="${reservedTicket.getIndex()}">
+                    <input type="button" class="_object-button _orange" th:data-index="${reservedTicket.getIndex()}"
+                           value="예매취소" rel="cancelTicket">
+                </div>
+            </div>
+        </div>
+        <span class="title">My 취소내역</span>
+        <span class="text" th:text="${session.user.getName()}+'님의 최근 1개월 이내 취소내역은 ' + ${totalCancel}+'건 입니다.'"></span>
+        <div class="noTicket ticketList" th:if="${totalCancel} == 0">
+            <img class="image" th:src="@{/resources/images/empty-image.png}" alt="">
+            <span class="text">최근 1개월 이내 취소내역이 없습니다.</span>
+        </div>
+        <div class="ticketList" th:if="${total} != 0">
+            <div class="ticket cancel" th:each="canceledTicket :${canceledTickets}">
+                <div class="imageBox">
+                    <a class="link" th:href="'../movie/detail?index='+${canceledTicket.getMovieIndex()}">
+                        <img class="image" th:src="'/movie/image?index='+${canceledTicket.getMovieIndex()}">
+                    </a>
+                </div>
+                <div class="content">
+                    <div class="subtitle">
+                        <span class="text">영화제목</span>
+                        <span class="text">관람극장</span>
+                        <span class="text">상영관</span>
+                        <span class="text date">관람일시</span>
+                        <span class="text">관람인원</span>
+                        <span class="text">관람좌석</span>
+                        <span class="text payment">결제금액</span>
+                        <span class="text cancelDate">예매취소일</span>
+                    </div>
+                    <div class="data">
+                        <span class="text" th:text="${canceledTicket.getTitleKo()}"></span>
+                        <span class="text" th:text="${canceledTicket.getTheaterName()}"></span>
+                        <span class="text" th:text="${canceledTicket.getScreenName()}"></span>
+                        <span class="text date"
+                              th:text="${#dates.format(canceledTicket.getTimeStart(),'yyyy-MM-dd HH:mm')} +'~' +${#dates.format(canceledTicket.getTimeEnd(),'HH:mm')}"></span>
+                        <span class="text" th:text="${canceledTicket.getTicketTotal()} +'명'"></span>
+                        <span class="text" th:text="${canceledTicket.getReservedSeatName()}"></span>
+                        <span class="text payment"
+                              th:text="${#numbers.formatInteger(canceledTicket.getPaymentAmount(),3,'COMMA')+'원'}"></span>
+                        <span class="text cancelDate"
+                              th:text="${#dates.format(canceledTicket.getCanceledAt(),'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="information">
+        <div class="top">
+            <div class="title">예매정보 출력</div>
+            <img rel="close" class="close"
+                 th:src="@{/resources/images/white-close.png}">
+        </div>
+        <div class="main">
+            <div class="guide">
+                <b class="text">본 화면으로는 <b class="red">입장이 불가</b>합니다.</b>
+                <b class="text">극장 매표소 혹은 티켓판매기에서 아래 티켓번호로 영화티켓을 발급받으신 후 입장하시기 바랍니다.</b>
+            </div>
+            <div class="number">
+                <span class="subtitle">티켓번호</span>
+                <span class="ticketNumber">0000-0000-0000-0000</span>
+            </div>
+            <div class="content">
+                <div class="subtitle">
+                    <span class="text">영화제목</span>
+                    <span class="text date">관람일시</span>
+                    <span class="text">극장/상영관</span>
+                    <span class="text">인원</span>
+                    <span class="text">좌석</span>
+                </div>
+                <div class="data">
+                    <span class="movieName">영화제목</span>
+                    <span class="movieDate">관람일시</span>
+                    <span class="theater">관람극장 + 상영관</span>
+                    <span class="person">관람인원</span>
+                    <span class="seat">관람좌석</span>
+                </div>
+            </div>
+            <div class="bottom">
+                <span class="text">입장 지연에 따른 불편감을 최소화하기 위해 </span>
+                <span class="text">본 영화는 <b>10분 후</b> 상영이 시작됩니다.</span>
+            </div>
+            <div class="button-container">
+                <input class="_object-button" type="button" rel="close" value="닫기">
+                <input class="_object-button _color-concept" type="button" value="인쇄">
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

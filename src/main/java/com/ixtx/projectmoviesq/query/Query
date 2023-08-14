@@ -1,0 +1,451 @@
+CREATE SCHEMA `movie_sq`;
+
+# 20230801 김혜리 테이블 이름 변경 register_codes -> contact_codes
+CREATE TABLE `movie_sq`.`contact_codes`
+(
+    `index`        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `contact`      VARCHAR(12)  NOT NULL,
+    `code`         VARCHAR(6)   NOT NULL,
+    `salt`         VARCHAR(128) NOT NULL,
+    `created_at`   DATETIME     NOT NULL DEFAULT NOW(),
+    `expires_at`   DATETIME     NOT NULL,
+    `expired_flag` BOOLEAN      NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE (`contact`, `code`, `salt`)
+);
+/*
+CREATE TABLE `moviesq`.`register_codes`
+(
+    `index`        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `contact`      VARCHAR(12)  NOT NULL,
+    `code`         VARCHAR(6)   NOT NULL,
+    `salt`         VARCHAR(128) NOT NULL,
+    `created_at`   DATETIME     NOT NULL DEFAULT NOW(),
+    `expires_at`   DATETIME     NOT NULL,
+    `expired_flag` BOOLEAN      NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE (`contact`, `code`, `salt`)
+);
+
+ */
+
+# 20230801 김혜리 컬럼 추가 `kakao_email`   VARCHAR(50)  NOT NULL,
+# 김혜리 수정
+# CONSTRAINT FOREIGN KEY (`contact`) REFERENCES `movie_sq`.`register_codes` (`contact`)
+CREATE TABLE `movie_sq`.`users`
+(
+    `email`         VARCHAR(50)  NOT NULL,
+    `password`      VARCHAR(128) NOT NULL,
+    `name`          VARCHAR(30)  NOT NULL,
+    `birthday`      DATE         NOT NULL,
+    `contact`       VARCHAR(12)  NOT NULL,
+    `kakao_email`   VARCHAR(50)  NULL,
+    `status`        VARCHAR(20)  NOT NULL,
+    `admin_flag`    BOOLEAN      NOT NULL DEFAULT FALSE,
+    `registered_at` DATETIME     NOT NULL DEFAULT NOW(),
+    CONSTRAINT PRIMARY KEY (`email`),
+    CONSTRAINT UNIQUE (`contact`),
+    CONSTRAINT FOREIGN KEY (`contact`) REFERENCES `movie_sq`.`contact_codes` (`contact`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT CHECK (`status` IN ('DELETED', 'OKAY', 'SUSPENDED'))
+);
+
+# 20230801 김혜리 수정
+CREATE TABLE `movie_sq`.`recover_account_contact_codes`
+(
+    `index`        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `contact`      VARCHAR(12)  NOT NULL,
+    `code`         VARCHAR(6)   NOT NULL,
+    `salt`         VARCHAR(128) NOT NULL,
+    `created_at`   DATETIME     NOT NULL DEFAULT NOW(),
+    `expires_at`   DATETIME     NOT NULL,
+    `expired_flag` BOOLEAN      NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE (`contact`, `code`, `salt`),
+    CONSTRAINT FOREIGN KEY (`contact`) REFERENCES `movie_sq`.`users` (`contact`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+# 20230801 김혜리 수정??
+CREATE TABLE `movie_sq`.`recover_password_email_codes`
+(
+    `index`        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `email`        VARCHAR(50)  NOT NULL,
+    `code`         VARCHAR(6)   NOT NULL,
+    `salt`         VARCHAR(128) NOT NULL,
+    `created_at`   DATETIME     NOT NULL DEFAULT NOW(),
+    `expires_at`   DATETIME     NOT NULL,
+    `expired_flag` BOOLEAN      NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE (`email`, `code`, `salt`),
+    CONSTRAINT FOREIGN KEY (`email`) REFERENCES `movie_sq`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+# 20230801 오경아 수정 `content` VARCHAR(1000) NOT NULL,
+# 수정 `title`   VARCHAR(100)   NOT NULL,
+CREATE TABLE `movie_sq`.`rating_notices`
+(
+    `rating`  VARCHAR(15)   NOT NULL,
+    `title`   VARCHAR(100)  NOT NULL,
+    `content` VARCHAR(1000) NOT NULL,
+    CONSTRAINT PRIMARY KEY (`rating`),
+    CONSTRAINT CHECK (`rating` IN ('ALL', '12', '15', '18', 'RESTRICTED', 'NOT_RATED'))
+);
+
+# 20230801 오경아 수정 `title_ko`     VARCHAR(50), NOT NULL 조건 삭제
+# writer_email 추가 할까???
+CREATE TABLE `movie_sq`.`movies`
+(
+    `index`        INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    `title_ko`     VARCHAR(50)   NOT NULL,
+    `title_en`     VARCHAR(100)  NULL,
+    `rating`       VARCHAR(15)   NOT NULL,
+    `release_date` DATE          NOT NULL,
+    `genre`        VARCHAR(20)   NOT NULL,
+    `running_time` VARCHAR(5)    NOT NULL,
+    `synopsis`     VARCHAR(1000) NOT NULL,
+    `director`     VARCHAR(30)   NOT NULL,
+    `cast`         VARCHAR(100)  NOT NULL,
+    `agency`       VARCHAR(30)   NOT NULL,
+    `trailer_url`  VARCHAR(500)  NULL,
+    `status`       VARCHAR(15)   NOT NULL,
+    `created_at`   DATETIME      NOT NULL DEFAULT NOW(),
+    `deleted_flag` BOOLEAN       NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT FOREIGN KEY (`rating`) REFERENCES `movie_sq`.`rating_notices` (`rating`),
+    CONSTRAINT CHECK (`status` IN ('COMING_SOON', 'NOW_PLAYING', 'NOT_PLAYING'))
+);
+
+ALTER TABLE `movie_sq`.`movies`
+    MODIFY COLUMN `title_ko` VARCHAR(50) NOT NULL;
+ALTER TABLE `movie_sq`.`movies`
+    MODIFY COLUMN `title_en` VARCHAR(100) NULL;
+ALTER TABLE `movie_sq`.`movies`
+    MODIFY COLUMN `trailer_url` VARCHAR(500) NULL;
+
+# 20230801
+# 오경아 추가 `created_at`   DATETIME     NOT NULL DEFAULT NOW(),
+# 오경아 추가 `deleted_flag` BOOLEAN      NOT NULL DEFAULT FALSE,
+# 오경아 수정 CONSTRAINT CHECK (`category` IN ('POSTER', 'PICTURE', 'ETC'))
+CREATE TABLE `movie_sq`.`movie_images`
+(
+    `index`        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `movie_index`  INT UNSIGNED NOT NULL,
+    `image_name`   VARCHAR(500) NOT NULL,
+    `image_size`   INT UNSIGNED NOT NULL,
+    `image_type`   VARCHAR(100) NOT NULL,
+    `image_data`   LONGBLOB     NOT NULL,
+    `category`     VARCHAR(10)  NOT NULL,
+    `created_at`   DATETIME     NOT NULL DEFAULT NOW(),
+    `deleted_flag` BOOLEAN      NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT FOREIGN KEY (`movie_index`) REFERENCES `movie_sq`.`movies` (`index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT CHECK (`category` IN ('POSTER', 'PICTURE', 'ETC'))
+);
+
+CREATE TABLE `movie_sq`.`region_categories`
+(
+    `index`  INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `region` VARCHAR(10)  NOT NULL,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE (`region`)
+);
+
+# 20230801
+# 이상민 수정`image`   LONGBLOB     NOT NULL, 추가
+# 오경아 수정 `seats_info_table_name` VARCHAR(50)     NOT NULL, 삭제
+CREATE TABLE `movie_sq`.`theaters`
+(
+    `index`             INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `name`              VARCHAR(30)     NOT NULL,
+    `region_category`   VARCHAR(10)     NOT NULL,
+    `address_primary`   VARCHAR(50)     NOT NULL,
+    `address_secondary` VARCHAR(50)     NOT NULL,
+    `latitude`          DOUBLE UNSIGNED NOT NULL,
+    `longitude`         DOUBLE UNSIGNED NOT NULL,
+    `contact`           VARCHAR(12)     NOT NULL,
+    `image`             LONGBLOB        NOT NULL,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE (`name`),
+    CONSTRAINT FOREIGN KEY (`region_category`) REFERENCES `movie_sq`.`region_categories` (`region`)
+);
+
+# 20230801
+# 박도현 수정 삭제 `row`           VARCHAR(2)   NOT NULL,
+# 박도현 수정 삭제 `column`        VARCHAR(2)   NOT NULL,
+CREATE TABLE `movie_sq`.`screens`
+(
+    `index`         INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `theater_index` INT(10) UNSIGNED NOT NULL,
+    `name`          VARCHAR(30)      NOT NULL,
+    `seat_total`    INT(10) UNSIGNED NOT NULL,
+    `seats_map`     LONGBLOB         NOT NULL,
+    PRIMARY KEY (`index`),
+    UNIQUE KEY (`index`, `theater_index`, `name`, `seat_total`),
+    CONSTRAINT FOREIGN KEY (`theater_index`) REFERENCES `movie_sq`.`theaters` (`index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+# 20230801
+# 오경아 테이블 이름 변경
+# 박도현 테이블 수정
+CREATE TABLE `movie_sq`.`screen_schedules`
+(
+    `index`         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `movie_index`   INT UNSIGNED NOT NULL,
+    `theater_index` INT UNSIGNED NOT NULL,
+    `screen_index`  INT UNSIGNED NOT NULL,
+    `time_start`    DATETIME     NOT NULL,
+    `time_end`      DATETIME     NOT NULL,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE KEY (`index`, `screen_index`),
+    CONSTRAINT UNIQUE KEY (`screen_index`, `time_start`),
+    CONSTRAINT FOREIGN KEY (`movie_index`) REFERENCES `movie_sq`.`movies` (`index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`theater_index`, `screen_index`) REFERENCES `movie_sq`.`screens` (`theater_index`, `index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT CHECK (`time_start` < `time_end`)
+);
+
+# 20230801 삭제 `moviesq`.`seats_seoul`
+/*
+CREATE TABLE `moviesq`.`seats_seoul`
+(
+    `index`                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `screen_schedule_index` INT UNSIGNED NOT NULL,
+    `movie_index`           INT UNSIGNED NOT NULL,
+    `seat_number`           INT UNSIGNED NOT NULL,
+    `seat_name`             VARCHAR(5)   NOT NULL,
+    `seat_status`           INT UNSIGNED NOT NULL,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT FOREIGN KEY (`screen_schedule_index`) REFERENCES `moviesq`.`screen_scheduless` (`index`),
+    CONSTRAINT FOREIGN KEY (`movie_index`) REFERENCES `moviesq`.`movies` (`index`),
+    CONSTRAINT CHECK (`seat_status` IN ('AVAILABLE', 'OCCUPIED'))
+);
+*/
+
+# 20230801 삭제 `moviesq`.`seats_daegu`
+/*
+CREATE TABLE `moviesq`.`seats_daegu`
+(
+    `index`                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `screen_schedule_index` INT UNSIGNED NOT NULL,
+    `movie_index`           INT UNSIGNED NOT NULL,
+    `seat_number`           INT UNSIGNED NOT NULL,
+    `seat_name`             VARCHAR(5)   NOT NULL,
+    `seat_status`           INT UNSIGNED NOT NULL,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT FOREIGN KEY (`screen_schedule_index`) REFERENCES `moviesq`.`screen_scheduless` (`index`),
+    CONSTRAINT FOREIGN KEY (`movie_index`) REFERENCES `moviesq`.`movies` (`index`),
+    CONSTRAINT CHECK (`seat_status` IN ('AVAILABLE', 'OCCUPIED'))
+);
+*/
+
+# 20230801 박도현 테이블 생성
+CREATE TABLE IF NOT EXISTS `movie_sq`.`seats`
+(
+    `index`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `screen_index` INT(10) UNSIGNED NOT NULL,
+    `seat_name`    VARCHAR(30)      NOT NULL,
+    PRIMARY KEY (`index`),
+    UNIQUE KEY (`screen_index`, `seat_name`),
+    CONSTRAINT FOREIGN KEY (`screen_index`) REFERENCES `movie_sq`.`screens` (`index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+# 20230801 수정
+CREATE TABLE `movie_sq`.`reservations`
+(
+    `index`                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_email`            VARCHAR(50)  NOT NULL,
+    `ticket_number`         VARCHAR(17)  NOT NULL,
+    `screen_schedule_index` INT UNSIGNED NOT NULL,
+    `ticket_total`          INT UNSIGNED NOT NULL,
+    `reserved_seat_name`    VARCHAR(20)  NOT NULL,
+    `expired_flag`          BOOLEAN      NOT NULL DEFAULT FALSE,
+    `payment_amount`        INT UNSIGNED NOT NULL,
+    `canceled_at`           DATETIME     NULL,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE (`ticket_number`),
+    CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES `movie_sq`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`screen_schedule_index`) REFERENCES `movie_sq`.`screen_schedules` (`index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+ALTER TABLE `movie_sq`.`reservations` RENAME COLUMN `expired_at` TO `canceled_at`;
+
+# 20230801
+# 박도현 테이블 추가
+CREATE TABLE `movie_sq`.`reservation_status`
+(
+    `index`          INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `schedule_index` INT(10) UNSIGNED NOT NULL,
+    `screen_index`   INT UNSIGNED     NOT NULL,
+    `seat_name`      VARCHAR(30)      NOT NULL,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE KEY (`schedule_index`, `seat_name`),
+    CONSTRAINT FOREIGN KEY (`schedule_index`, `screen_index`) REFERENCES `movie_sq`.`screen_schedules` (`index`, `screen_index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`screen_index`, `seat_name`) REFERENCES `movie_sq`.`seats` (`screen_index`, `seat_name`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+# 20230801
+# 오경아 수정 승인번호 컬럼 추가 `auth_code`        VARCHAR(12)  NOT NULL,
+# 오경아 수정 `bi_number`        VARCHAR(6)   NOT NULL,
+# Bank Identification Number 앞 6자리
+CREATE TABLE `movie_sq`.`payments`
+(
+    `index`            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_email`       VARCHAR(50)  NOT NULL,
+    `ticket_number`    VARCHAR(16)  NOT NULL,
+    `category`         VARCHAR(15)  NOT NULL,
+    `payment_company`  VARCHAR(10)  NOT NULL,
+    `bi_number`        VARCHAR(6)   NULL,
+    `card_number`      VARCHAR(128) NULL,
+    `payment_password` VARCHAR(128) NULL,
+    `payment_amount`   INT UNSIGNED NOT NULL DEFAULT 0,
+    `auth_code`        VARCHAR(12)  NOT NULL,
+    `paid_at`          DATETIME     NOT NULL DEFAULT NOW(),
+    `refunded_flag`    BOOLEAN      NOT NULL DEFAULT FALSE,
+    `refunded_at`      DATETIME,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE KEY (`bi_number`, `card_number`),
+    CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES `movie_sq`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`ticket_number`) REFERENCES `movie_sq`.`reservations` (`ticket_number`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT CHECK (`category` IN ('CREDIT_CARD', 'ACCOUNT', 'SIMPLE_PAYMENT', 'MOBILE_PAYMENT'))
+);
+
+ALTER TABLE `movie_sq`.`payments` MODIFY COLUMN `category`         VARCHAR(15)  NOT NULL;
+
+ALTER TABLE `movie_sq`.`payments`
+    MODIFY COLUMN `bi_number` VARCHAR(6) NULL;
+ALTER TABLE `movie_sq`.`payments`
+    MODIFY COLUMN `card_number` VARCHAR(128) NULL;
+ALTER TABLE `movie_sq`.`payments`
+    MODIFY COLUMN `payment_password` VARCHAR(128) NULL;
+
+# 20230801 오경아 추가
+CREATE TABLE `movie_sq`.`credit_card_bins`
+(
+    `bi_number` VARCHAR(8)  NOT NULL,
+    `company`   VARCHAR(10) NOT NULL,
+    `label`     VARCHAR(20) NOT NULL,
+    `category`  VARCHAR(5)  NOT NULL,
+    `brand`     VARCHAR(10) NOT NULL,
+    `type`      VARCHAR(10) NOT NULL,
+    CONSTRAINT CHECK (`category` IN ('개인', '법인'))
+);
+
+# 20230801
+# 오경아 수정 컬럼 삭제 `faq_flag`     BOOLEAN      NOT NULL DEFAULT FALSE,
+# 삭제 `client_ua`    VARCHAR(500)  NOT NULL,
+CREATE TABLE `movie_sq`.`notices`
+(
+    `index`        INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    `title`        VARCHAR(300)  NOT NULL,
+    `content`      VARCHAR(5000) NOT NULL,
+    `view`         INT UNSIGNED  NOT NULL DEFAULT 0,
+    `writer_email` VARCHAR(30)   NOT NULL,
+    `client_ip`    VARCHAR(50)   NOT NULL,
+    `created_at`   DATETIME      NOT NULL DEFAULT NOW(),
+    `deleted_flag` BOOLEAN       NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT FOREIGN KEY (`writer_email`) REFERENCES `movie_sq`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+# 20230627 / 20230801 테이블 생성
+# 20230801 수정 삭제 `client_ua`    VARCHAR(500)  NOT NULL,
+CREATE TABLE `movie_sq`.`faqs`
+(
+    `index`        INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    `title`        VARCHAR(300)  NOT NULL,
+    `content`      VARCHAR(5000) NOT NULL,
+    `view`         INT UNSIGNED  NOT NULL DEFAULT 0,
+    `writer_email` VARCHAR(30)   NOT NULL,
+    `client_ip`    VARCHAR(50)   NOT NULL,
+    `created_at`   DATETIME      NOT NULL DEFAULT NOW(),
+    `deleted_flag` BOOLEAN       NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT FOREIGN KEY (`writer_email`) REFERENCES `movie_sq`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+# 20230710 / 20230801 테이블 생성
+CREATE TABLE `movie_sq`.`news`
+(
+    `index`        INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    `title`        VARCHAR(300)  NOT NULL,
+    `content`      VARCHAR(5000) NOT NULL,
+    `image_name`   VARCHAR(500)  NOT NULL,
+    `image_size`   INT UNSIGNED  NOT NULL,
+    `image_type`   VARCHAR(100)  NOT NULL,
+    `image_data`   LONGBLOB      NOT NULL,
+    `category`     VARCHAR(10)   NOT NULL,
+    `date_start`   DATE          NOT NULL,
+    `date_end`     DATE          NOT NULL,
+    `view`         INT UNSIGNED  NOT NULL DEFAULT 0,
+    `writer_email` VARCHAR(30)   NOT NULL,
+    `client_ip`    VARCHAR(50)   NOT NULL,
+    `created_at`   DATETIME      NOT NULL DEFAULT NOW(),
+    `deleted_flag` BOOLEAN       NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT CHECK (`category` IN ('NEWS', 'EVENT', 'ETC'))
+);
+
+CREATE TABLE `movie_sq`.`notice_attachments`
+(
+    `index`             INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `notice_index`      INT UNSIGNED NOT NULL,
+    `file_name`         VARCHAR(500) NOT NULL,
+    `file_size`         INT UNSIGNED NOT NULL,
+    `file_content_type` VARCHAR(100) NOT NULL,
+    `file_data`         LONGBLOB     NOT NULL,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT FOREIGN KEY (`notice_index`) REFERENCES `movie_sq`.`notices` (`index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+# 20230621 / 20230801 테이블 생성
+CREATE TABLE `movie_sq`.`commercials`
+(
+    `index`           INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `movie_index`     INT UNSIGNED NOT NULL,
+    `commercial_name` VARCHAR(50)  NOT NULL,
+    `image_name`      VARCHAR(500) NOT NULL,
+    `image_data`      LONGBLOB     NOT NULL,
+    `image_size`      INT UNSIGNED NOT NULL,
+    `created_at`      DATETIME     NOT NULL DEFAULT NOW(),
+    `started_at`      DATETIME     NOT NULL,
+    `finished_at`     DATETIME     NOT NULL,
+    `hidden_flag`     BOOLEAN      NOT NULL DEFAULT TRUE,
+    `deleted_flag`    BOOLEAN      NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT UNIQUE (`image_name`),
+    CONSTRAINT FOREIGN KEY (`movie_index`) REFERENCES `movie_sq`.`movies` (`index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);

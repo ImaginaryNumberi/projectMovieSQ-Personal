@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ixtx.projectmoviesq.mappers.TheaterMapper">
+    <select id="selectRegionTheater"
+            resultType="com.ixtx.projectmoviesq.entities.TheaterEntity">
+        SELECT `index`             AS `index`,
+               `name`              AS `name`,
+               `region_category`   AS `regionCategory`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `latitude`          AS `latitude`,
+               `longitude`         AS `longitude`,
+               `contact`           AS `contact`,
+               `image`             as `image`
+        FROM `movie_sq`.`theaters`
+        GROUP BY region_category
+    </select>
+    <select id="selectTheaters"
+            resultType="com.ixtx.projectmoviesq.entities.TheaterEntity">
+        SELECT `index`             AS `index`,
+               `name`              AS `name`,
+               `region_category`   AS `regionCategory`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `latitude`          AS `latitude`,
+               `longitude`         AS `longitude`,
+               `contact`           AS `contact`,
+               `image`             as `image`
+        FROM `movie_sq`.`theaters`
+    </select>
+    <select id="selectImageByTheaterName"
+            parameterType="string"
+            resultType="string">
+        SELECT `image`
+        FROM `movie_sq`.`theaters`
+        WHERE `name` = #{theaterName}
+    </select>
+</mapper>

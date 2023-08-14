@@ -1,0 +1,335 @@
+@charset "utf-8";
+
+
+html, body, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, big, cite, code, del, dfn, em, font, img, ins, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, ul, ol, dl, dt, dd, table, caption, tbody, tfoot, thead, tr, th, td, fieldset, label, legend, input, button, textarea, select {
+    margin: 0;
+    padding: 0
+}
+
+header, footer, section, article, aside, nav, hgroup, details, menu, figure, figcaption {
+    display: block;
+    margin: 0;
+    padding: 0
+}
+
+legend {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    font-size: 1px;
+    line-height: 0;
+    text-indent: -999em;
+    white-space: nowrap;
+}
+
+fieldset, img, table, caption, tbody, tfoot, thead, tr, th, td, button, hr {
+    border: 0 none
+}
+
+img {
+    vertical-align: middle;
+}
+
+body {
+    *vertical-align: top
+}
+
+ul, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+table {
+    border-collapse: collapse
+}
+
+caption {
+    visibility: hidden;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+}
+
+button {
+    overflow: visible;
+    border: 0 none;
+    cursor: pointer
+}
+
+button::-moz-focus-inner, input[type="button"]::-moz-focus-inner, input[type="submit"]::-moz-focus-inner, input[type="reset"]::-moz-focus-inner {
+    padding: 0;
+    border: 0 none
+}
+
+
+address,
+em {
+    font-style: normal
+}
+
+
+textarea, .inp, select {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    resize: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+    font-weight: normal;
+}
+
+
+body {
+    -webkit-text-size-adjust: none;
+    background: none;
+}
+
+form {
+    padding: 0;
+    margin: 0;
+}
+
+::-ms-clear {
+    display: none;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+
+/*p, div {*/
+/*    word-break: break-all;*/
+/*}*/
+
+strong {
+    font-weight: 600;
+}
+
+b {
+    font-weight: 700;
+}
+
+p, div {
+    word-break: break-all;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#area  > ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+#areaList li{
+    display: inline-block;
+    justify-content: space-between;
+}
+
+.title {
+    border-bottom: #5ca8d8 solid 0.25rem;
+    font-size: 1.75rem;
+    font-weight: 500;
+    flex: 0 0 auto;
+    margin-right: auto;
+}
+
+.theater-find {
+    padding: 70px 0;
+    min-height: calc(100vh - 80px);
+    margin-bottom: -65px;
+}
+
+.theater-find .body {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.03);
+}
+
+.theater-find .body .list {
+    position: relative;
+}
+
+.theater-find .body .list ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+
+.theater-find .body .list ul li a {
+    display: block;
+    font-size: 16px;
+    color: #454545;
+    line-height: 39px;
+    padding-left: 30px;
+}
+
+
+.inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.theater-find .body .area {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.theater-find .body .area  a {
+    display: block;
+    padding: 0 15px;
+    font-size: 18px;
+    color: #909090;
+    line-height: 65px;
+}
+
+.theater-find .body a:hover{
+    font-weight: 700;
+}
+
+.theater-find .body .area a:active,
+.theater-find .body .area a:hover{
+    font-weight: 700;
+    color: #40dfd0;
+}
+
+.theater-find .body {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.03);
+}
+
+.selected-region {
+    color: #40dfd0;
+}
+
+.theater-find .searchBox .searchTheater {
+    height: 58px;
+    border: 0;
+    border-bottom: 2px solid #e4e9f2;
+    background: none;
+    font-size: 20px;
+    color: #222;
+    width: 100%;
+    transition: all 0.5s ease;
+    margin-bottom: 3rem;
+}
+
+.theater-find .searchBox .searchTheater:focus {
+    border-color: #40dfd0;
+}
+
+
+
+@media all and (max-width: 1024px) {
+    #areaList li{
+        display: block;
+    }
+    .title{
+        display: none;
+    }
+
+    .theater-find {
+        margin-top: 0;
+        padding: 0;
+        background: #fff;
+        position: fixed;
+        left: 0;
+        top: 130px;
+        bottom: 0;
+        right: 0;
+        z-index: 1000;
+        min-height: inherit;
+    }
+    .selected-region {
+        color: #40dfd0;
+        background-color: #fafafa;
+    }
+
+    .theater-find .body {
+        position: fixed;
+        left: 0;
+        top: 170px;
+        right: 0;
+        bottom: 0;
+    }
+
+    .theater-find .body .area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 45%;
+        bottom: 0;
+        overflow: hidden;
+        display: block;
+        padding: 0;
+        border: 0;
+    }
+
+    .theater-find .body .area a {
+        display: block;
+        font-size: 14px;
+        color: #000;
+        line-height: 50px;
+        padding-left: 20px;
+    }
+
+    .theater-find .body .list {
+        position: absolute;
+        left: 45%;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        overflow: auto;
+        background: #fafafa;
+    }
+
+    .theater-find .body .list ul {
+        display: block;
+        padding: 0;
+    }
+
+    .theater-find .body .list ul li {
+        width: auto;
+    }
+
+    .theater-find .body .list ul li a {
+        display: block;
+        font-size: 14px;
+        color: #000;
+        line-height: 50px;
+    }
+
+    .theater-find .searchBox .searchTheater {
+        height: 30px;
+        border: 0;
+        border-bottom: 2px solid #e4e9f2;
+        background: none;
+        font-size: 20px;
+        color: #222;
+        width: 100%;
+        transition: all 0.5s ease;
+    }
+
+    .theater-find .searchBox .searchTheater:focus {
+        border-color: #40dfd0;
+    }
+
+
+}

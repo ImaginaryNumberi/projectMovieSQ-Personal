@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[Moviesq] 이메일 인증</title>
+</head>
+<body>
+<form id="pwdCheckForm" style="display: flex;flex-direction : column; justify-content : flex-start;">
+    <div style="width: auto;  height: 4.5rem;   background-color: #74ccd4;    box-sizing: border-box;    font-size: 1.25rem;
+    padding: 2rem;  font-weight: 600;    display: flex;    align-items: center;">
+        <span>    [Moviesq] 비밀번호 재설정 : <span style="font-size:1rem; font-weight: 400">이메일 인증</span> </span>
+    </div>
+    
+    <div style=" padding: 1rem 2rem;  margin-top: 0.5rem; ">
+        <p style="margin-bottom:0.5rem">안녕하세요 Moviesq 입니다. </p>
+        <p style="margin-bottom:0.5rem">해당 이메일은 요청하신 비밀빈호 재설정위해 발송된 본인 인증 이메일 입니다.</p>
+        <p style="margin-bottom:2rem">아래 버튼을 누르면 비밀번호 재설정을 위한 창이 열립니다.</p>
+        <p style="margin-bottom:2rem">해당 이메일은 <b>10분</b>만 유효함을 유의해 주시기 바랍니다.</p>
+        <p style="margin-bottom:0.5rem">만약 비밀번호 재설정을 요청하지 않으셨다면 고객센터로 문의해주세요.</p>
+        <p style="margin-bottom:0.5rem">Moviesq는 회원님의 개인정보를 소중하게 관리할 것을 약속드리며 좋은 서비스로 보답하겠습니다.</p>
+        <p style="margin-bottom:0.5rem">감사합니다.</p>
+    </div>
+    <a th:href="${url}"
+       style="border: unset;    cursor: pointer;    align-self: center;   font: inherit;    outline: none;   padding: 0.5rem 1rem;    font-size: 0.9rem;    font-weight: 600;
+    color: white;  text-decoration: none;  background-color: #462d82;    margin-top: 1rem;   width: 7rem;   height: 1.5rem;   display: flex;  justify-content: center;
+    align-items: center">비밀번호
+        재설정</a>
+    <p style=" margin: unset; padding: 1rem; text-align: justify">위 버튼이 작동하지 않는다면, 아래 링크를 복사하여 주소창에 붙여넣어
+        주세요</p>
+    <code style=" background-color: #eeeeee; color: #616161; display: block; font-size: 13px; padding: 1rem 2rem;"
+          th:text="${url}">http://herrykim.com/login</code>
+    <div style="background-color: #d5d8dc; font-size: 0.9rem; box-sizing: border-box; padding: 1rem; margin-top: 2rem">
+        <div style="border-bottom: 0.025rem solid #eeeeee">
+            <p style="margin: 1rem 0">본 메일은 메일 수신동의 여부와 관계없이 발송되는 메일입니다.
+            <p style="margin: 1rem 0">본 메일은 발신 전용으로 회신되지 않으므로 문의사항은 <b>[고객센터]</b>를 이용하여주시기 바랍니다.</p>
+        </div>
+        <div style="">
+            <p style="margin: 1rem 0">Copyright(c) Moviesq all rights reserved. http://www.moviesq.co.kr</p>
+        </div>
+    </div>
+</form>
+</body>
+</html>

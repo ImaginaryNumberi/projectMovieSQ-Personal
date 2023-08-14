@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/support.css}">
+    <script defer th:src="@{/resources/scripts/admin/manageSupport.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: admin-submenu-fragment"></th:block>
+    <div id="manageSupportContainer">
+        <div id="supportListContainer" class="visible">
+            <h2 class="title">공지사항 목록 편집</h2>
+            <div class="menu">
+                <div class="_object-button">
+                    <a th:href="@{/admin/registerNotice}">공지사항 등록</a></div>
+                <div class="blank"></div>
+                <div class="total"><span th:text="'총 등록된 갯수 : ' + ${total}">총 개수</span></div>
+            </div>
+            <div class="_object-table-container visible" id="adminNoticeList">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th class="title">제목</th>
+                        <th>일시</th>
+                        <th>작성자</th>
+                        <th>조회수</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="notice : ${notices}">
+                        <th th:text="${notice.getIndex()}"></th>
+                        <th class="title" href="#" rel="notice"
+                            th:data-title="${notice.getTitle()}"
+                            th:data-info="${notice.getWriterName()}"
+                            th:data-content="${notice.getContent()}"
+                            th:text="${notice.getTitle()}">
+                        </th>
+                        <td th:text="${notice.getCreatedOn()}"></td>
+                        <td th:text="${notice.getWriterName()}"></td>
+                        <td th:text="${notice.getView()}"></td>
+                        <td>
+                            <a class="_object-button button delete" href="#" rel="delete"
+                               th:data-index="${notice.getIndex()}">삭제</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ul class="_object_page" id="pageContainer">
+                <li class="page" th:if="${pagingModel.requestPage > 1}">
+                    <a class="link"
+                       th:href="@{'./support' (p = ${1}, c = ${searchCriterion}, q = ${searchQuery})}">처음</a>
+                </li>
+                <li class="page" th:if="${pagingModel.requestPage > 1}">
+                    <a class="link"
+                       th:href="@{'./support' (p = ${pagingModel.requestPage - 1}, c = ${searchCriterion}, q = ${searchQuery})}">이전</a>
+                </li>
+                <li class="page"
+                    th:each="page : ${#numbers.sequence(pagingModel.displayStartPage, pagingModel.displayEndPage)}"
+                    th:classappend="${pagingModel.requestPage == page} ? 'selected' : '' ">
+                    <a class="link" th:href="@{'./support' (p = ${page}, c = ${searchCriterion}, q = ${searchQuery})}"
+                       th:text="${page}"></a>
+                </li>
+                <li class="page" th:if="${pagingModel.requestPage < pagingModel.maxPage}">
+                    <a class="link"
+                       th:href="@{'./support' (p = ${pagingModel.requestPage + 1}, c = ${searchCriterion}, q = ${searchQuery})}">다음</a>
+                </li>
+                <li class="page" th:if="${pagingModel.requestPage < pagingModel.maxPage}">
+                    <a class="link"
+                       th:href="@{'./support' (p = ${pagingModel.maxPage}, c = ${searchCriterion}, q = ${searchQuery})}">마지막</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="cover"></div>
+    <form id="noticeViewer" class="">
+        <div class="head">
+            <span class="title" name="title" rel="subject">제목</span>
+            <span class="info" name="info" rel="info">조회수 작성일</span>
+        </div>
+        <div class="content" name="content" rel="content">
+            내용
+        </div>
+    </form>
+</th:block>
+</body>
+</html>

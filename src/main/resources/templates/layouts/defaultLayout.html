@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/defaultLayout.css}">
+    <script defer th:src="@{/resources/scripts/common.js}"></script>
+    <link rel="icon" th:href="@{/resources/images/favicon.png}">
+</head>
+<body>
+<th:block th:replace="layouts/header :: header"></th:block>
+<th:block th:replace="layouts/popUp :: popUp"></th:block>
+<th:block layout:fragment="customContents"></th:block>
+<th:block th:replace="layouts/footer :: footer"></th:block>
+</body>
+</html>

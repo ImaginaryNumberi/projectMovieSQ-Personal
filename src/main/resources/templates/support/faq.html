@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/support.css}">
+    <script defer th:src="@{/resources/scripts/faq.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: support-submenu-fragment"></th:block>
+    <div id="faqContainer">
+        <div id="faqList">
+            <div class="item" th:each="faq : ${faqs}" rel="faq" th:data-index="${faq.getIndex()}">
+                <div class="title">
+                    <span>Q. </span>
+                    <span class="title"
+                          href="#"
+                          th:text="${faq.getTitle()}"></span>
+                </div>
+                <div class="content" name="content" th:utext="${faq.getContent()}">
+                </div>
+            </div>
+        </div>
+        <ul class="_object_page" id="faqPageContainer">
+            <li class="page" th:if="${faqPagingModel.requestPage > 1}">
+                <a class="link"
+                   th:href="@{'/support/faq' (p = ${1}, c = ${faqSearchCriterion}, q = ${faqSearchQuery})}">처음</a>
+            </li>
+            <li class="page" th:if="${faqPagingModel.requestPage > 1}">
+                <a class="link"
+                   th:href="@{'/support/faq' (p = ${faqPagingModel.requestPage - 1}, c = ${faqSearchCriterion}, q = ${faqSearchQuery})}">이전</a>
+            </li>
+            <li class="page"
+                th:each="page : ${#numbers.sequence(faqPagingModel.displayStartPage, faqPagingModel.displayEndPage)}"
+                th:classappend="${faqPagingModel.requestPage == page} ? 'selected' : '' ">
+                <a class="link"
+                   th:href="@{'/support/faq' (p = ${page}, c = ${faqSearchCriterion}, q = ${faqSearchQuery})}"
+                   th:text="${page}"></a>
+            </li>
+            <li class="page" th:if="${faqPagingModel.requestPage < faqPagingModel.maxPage}">
+                <a class="link"
+                   th:href="@{'/support/faq' (p = ${faqPagingModel.requestPage + 1}, c = ${faqSearchCriterion}, q = ${faqSearchQuery})}">다음</a>
+            </li>
+            <li class="page" th:if="${faqPagingModel.requestPage < faqPagingModel.maxPage}">
+                <a class="link"
+                   th:href="@{'/support/faq' (p = ${faqPagingModel.maxPage}, c = ${faqSearchCriterion}, q = ${faqSearchQuery})}">마지막</a>
+            </li>
+        </ul>
+    </div>
+</th:block>
+</body>
+</html>

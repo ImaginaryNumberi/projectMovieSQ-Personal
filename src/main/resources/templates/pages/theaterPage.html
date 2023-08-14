@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=		e120559a3605aef7295f6f2c7062568f&libraries=services,clusterer,drawing"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script defer th:src="@{/resources/scripts/theaterPage.js}"></script>
+    <script defer th:src="@{/resources/scripts/map.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/theaterPage.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/overlay.css}">
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <h1><img src="https://img.cgv.co.kr/R2014/images/title/h3_theater.gif" alt="THEATER"></h1>
+    <h2><span id="theaterName"></span></h2>
+    <div id="container">
+        <img id="theaterImage" src="" alt="">
+        <section id="map"></section>
+    </div>
+    <div class="find-load">
+        <a href="#">길찾기</a>
+    </div>
+</th:block>
+
+</body>
+</html>

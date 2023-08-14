@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/support.css}">
+    <script defer th:src="@{/resources/scripts/notice.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: support-submenu-fragment"></th:block>
+    <div id="noticeContainer">
+        <div class="_object-table-container" id="noticeList">
+            <table>
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th class="title">제목</th>
+                    <th class="date">일시</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="notice : ${notices}">
+                    <th th:text="${notice.getIndex()}"></th>
+                    <th class="title"
+                        rel="notice"
+                        th:data-index="${notice.getIndex()}"
+                        th:text="${notice.getTitle()}">
+                    </th>
+                    <td class="date" th:text="${notice.getCreatedOn()}"></td>
+                    <td th:text="${notice.getWriterName()}"></td>
+                    <td th:text="${notice.getView()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <ul class="_object_page" id="noticePageContainer">
+            <li class="page" th:if="${pagingModel.requestPage > 1}">
+                <a class="link"
+                   th:href="@{'/support' (p = ${1}, c = ${searchCriterion}, q = ${searchQuery})}">처음</a>
+            </li>
+            <li class="page" th:if="${pagingModel.requestPage > 1}">
+                <a class="link"
+                   th:href="@{'/support' (p = ${pagingModel.requestPage - 1}, c = ${searchCriterion}, q = ${searchQuery})}">이전</a>
+            </li>
+            <li class="page"
+                th:each="page : ${#numbers.sequence(pagingModel.displayStartPage, pagingModel.displayEndPage)}"
+                th:classappend="${pagingModel.requestPage == page} ? 'selected' : '' ">
+                <a class="link" th:href="@{'/support' (p = ${page}, c = ${searchCriterion}, q = ${searchQuery})}"
+                   th:text="${page}"></a>
+            </li>
+            <li class="page" th:if="${pagingModel.requestPage < pagingModel.maxPage}">
+                <a class="link"
+                   th:href="@{'/support' (p = ${pagingModel.requestPage + 1}, c = ${searchCriterion}, q = ${searchQuery})}">다음</a>
+            </li>
+            <li class="page" th:if="${pagingModel.requestPage < pagingModel.maxPage}">
+                <a class="link"
+                   th:href="@{'/support' (p = ${pagingModel.maxPage}, c = ${searchCriterion}, q = ${searchQuery})}">마지막</a>
+            </li>
+        </ul>
+    </div>
+</th:block>
+</body>
+</html>

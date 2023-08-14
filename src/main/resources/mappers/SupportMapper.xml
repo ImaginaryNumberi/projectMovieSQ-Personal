@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ixtx.projectmoviesq.mappers.SupportMapper">
+    <select id="selectNoticeCount"
+            resultType="int">
+        SELECT COUNT(0) AS `count`
+        FROM `movie_sq`.`notices`
+        <if test='searchCriterion.equals("content")'>
+            WHERE `content` LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+        <if test='searchCriterion.equals("writer_email")'>
+            WHERE BINARY `writer_email` = #{searchQuery}
+        </if>
+    </select>
+    <select id="selectNoticeByPage"
+            resultType="com.ixtx.projectmoviesq.entities.NoticeEntity">
+        SELECT `index`        AS `index`,
+               `title`        AS `title`,
+               `content`      AS `content`,
+               `view`         AS `view`,
+               `writer_email` AS `writerEmail`,
+               `client_ip`    AS `clientIp`,
+               `created_at`   AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`notices`
+        <if test='searchCriterion.equals("content")'>
+            WHERE `content` LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+        <if test='searchCriterion.equals("writer_email")'>
+            WHERE BINARY `writer_email` = #{searchQuery}
+        </if>
+        ORDER BY `index` DESC
+        LIMIT #{pagingModel.pageCount} OFFSET #{pagingModel.offset}
+    </select>
+    <select id="selectByIndex"
+            resultType="com.ixtx.projectmoviesq.entities.NoticeEntity">
+        SELECT `index`        AS `index`,
+               `title`        AS `title`,
+               `content`      AS `content`,
+               `view`         AS `view`,
+               `writer_email` AS `writerEmail`,
+               `client_ip`    AS `clientIp`,
+               `created_at`   AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`notices`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+    <select id="selectByRecent"
+            resultType="com.ixtx.projectmoviesq.entities.NoticeEntity">
+        SELECT `index`        AS `index`,
+               `title`        AS `title`,
+               `content`      AS `content`,
+               `view`         AS `view`,
+               `writer_email` AS `writerEmail`,
+               `client_ip`    AS `clientIp`,
+               `created_at`   AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`notices`
+        ORDER BY `index` DESC
+        LIMIT 5
+    </select>
+    <update id="updateNotice"
+            parameterType="com.ixtx.projectmoviesq.entities.NoticeEntity">
+        UPDATE `movie_sq`.`notices`
+        SET `index`        = #{index},
+            `title`        = #{title},
+            `content`      = #{content},
+            `view`         = #{view},
+            `writer_email` = #{writerEmail},
+            `client_ip`    = #{clientIp},
+            `created_at`   = #{createdAt},
+            `deleted_flag` = #{isDeleted}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
+    <select id="selectFaqCount"
+            resultType="int">
+        SELECT COUNT(0) AS `count`
+        FROM `movie_sq`.`faqs`
+        <if test='searchCriterion.equals("content")'>
+            WHERE `content` LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+        <if test='searchCriterion.equals("writer_email")'>
+            WHERE BINARY `writer_email` = #{searchQuery}
+        </if>
+    </select>
+    <select id="selectFaqByPage"
+            resultType="com.ixtx.projectmoviesq.entities.NoticeEntity">
+        SELECT `index`        AS `index`,
+               `title`        AS `title`,
+               `content`      AS `content`,
+               `view`         AS `view`,
+               `writer_email` AS `writerEmail`,
+               `client_ip`    AS `clientIp`,
+               `created_at`   AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`faqs`
+        <if test='searchCriterion.equals("content")'>
+            WHERE `content` LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+        <if test='searchCriterion.equals("writer_email")'>
+            WHERE BINARY `writer_email` = #{searchQuery}
+        </if>
+        ORDER BY `index` DESC
+        LIMIT #{pagingModel.pageCount} OFFSET #{pagingModel.offset}
+    </select>
+
+    <select id="selectLatestNews"
+            resultType="com.ixtx.projectmoviesq.entities.NewsEntity">
+        SELECT `index`        AS `index`,
+               `title`        AS `title`,
+               `content`      AS `content`,
+               `image_name`   AS `imageName`,
+               `image_size`   AS `imageSize`,
+               `image_type`   AS `imageType`,
+               `image_data`   AS `imageData`,
+               `category`     AS `category`,
+               `date_start`   AS `dateStart`,
+               `date_end`     AS `dateEnd`,
+               `view`         AS `view`,
+               `writer_email` AS `writerEmail`,
+               `created_at`   AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`news`
+        ORDER BY `index` DESC
+        LIMIT 2
+    </select>
+    <select id="selectNewsCount"
+            resultType="int">
+        SELECT COUNT(0) AS `count`
+        FROM `movie_sq`.`news`
+    </select>
+    <select id="selectNewsByIndex"
+            resultType="com.ixtx.projectmoviesq.entities.NewsEntity">
+        SELECT `index`        AS `index`,
+               `title`        AS `title`,
+               `content`      AS `content`,
+               `image_name`   AS `imageName`,
+               `image_size`   AS `imageSize`,
+               `image_type`   AS `imageType`,
+               `image_data`   AS `imageData`,
+               `category`     AS `category`,
+               `date_start`   AS `dateStart`,
+               `date_end`     AS `dateEnd`,
+               `view`         AS `view`,
+               `writer_email` AS `writerEmail`,
+               `created_at`   AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`news`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+    <select id="selectNewsByPage"
+            resultType="com.ixtx.projectmoviesq.entities.NewsEntity">
+        SELECT `index`        AS `index`,
+               `title`        AS `title`,
+               `content`      AS `content`,
+               `image_name`   AS `imageName`,
+               `image_size`   AS `imageSize`,
+               `image_type`   AS `imageType`,
+               `image_data`   AS `imageData`,
+               `category`     AS `category`,
+               `date_start`   AS `dateStart`,
+               `date_end`     AS `dateEnd`,
+               `view`         AS `view`,
+               `writer_email` AS `writerEmail`,
+               `created_at`   AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`news`
+        ORDER BY `index` DESC
+        LIMIT #{pagingModel.pageCount} OFFSET #{pagingModel.offset}
+    </select>
+    <select id="selectNewsList"
+            resultType="com.ixtx.projectmoviesq.entities.NewsEntity">
+        SELECT `index`        AS `index`,
+               `title`        AS `title`,
+               `content`      AS `content`,
+               `image_name`   AS `imageName`,
+               `image_size`   AS `imageSize`,
+               `image_type`   AS `imageType`,
+               `image_data`   AS `imageData`,
+               `category`     AS `category`,
+               `date_start`   AS `dateStart`,
+               `date_end`     AS `dateEnd`,
+               `view`         AS `view`,
+               `writer_email` AS `writerEmail`,
+               `created_at`   AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`news`
+        ORDER BY `index` DESC
+    </select>
+</mapper>

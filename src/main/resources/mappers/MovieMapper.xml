@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ixtx.projectmoviesq.mappers.MovieMapper">
+    <select id="selectMovieByIndex"
+            resultType="com.ixtx.projectmoviesq.dtos.MovieDto">
+        SELECT `movies`.`index`                                                         AS `index`,
+               `movies`.`title_ko`                                                      AS `titleKo`,
+               `movies`.`title_en`                                                      AS `titleEn`,
+               `movies`.`rating`                                                        AS `rating`,
+               `rating_notices`.`title`                                                 AS `rating_title`,
+               `movies`.`release_date`                                                  AS `releaseDate`,
+               `movies`.`genre`                                                         AS `genre`,
+               `movies`.`running_time`                                                  AS `runningTime`,
+               `movies`.`synopsis`                                                      AS `synopsis`,
+               `movies`.`director`                                                      AS `director`,
+               `movies`.`cast`                                                          AS `cast`,
+               `movies`.`agency`                                                        AS `agency`,
+               `movies`.`trailer_url`                                                   AS `trailerUrl`,
+               `movies`.`status`                                                        AS `status`,
+               `movies`.`created_at`                                                    AS `createdAt`,
+               (SUM(`reservations`.`ticket_total`) / SUM(`screens`.`seat_total`)) * 100 AS `reservationRate`
+        FROM `movie_sq`.`movies` AS `movies`
+                 LEFT JOIN `movie_sq`.`rating_notices` AS `rating_notices`
+                           ON `movies`.`rating` = `rating_notices`.`rating`
+                 LEFT JOIN `movie_sq`.`screen_schedules` AS `screen_schedules`
+                           ON `movies`.`index` = `screen_schedules`.`movie_index`
+                 LEFT JOIN `movie_sq`.`screens` AS `screens`
+                           ON `screen_schedules`.`screen_index` = `screens`.`index`
+                 LEFT JOIN `movie_sq`.`reservations` AS `reservations`
+                           ON `screen_schedules`.`index` = `reservations`.`screen_schedule_index`
+        WHERE `movies`.`index` = #{index};
+    </select>
+    <select id="selectMovieImage"
+            resultType="com.ixtx.projectmoviesq.entities.MovieImageEntity">
+        SELECT `index`        AS `index`,
+               `movie_index`  AS `movieIndex`,
+               `image_name`   AS `imageName`,
+               `image_size`   AS `imageSize`,
+               `image_type`   AS `imageType`,
+               `image_data`   AS `imageData`,
+               `category`     AS `category`,
+               `created_at` AS `createdAt`,
+               `deleted_flag` AS `isDeleted`
+        FROM `movie_sq`.`movie_images`
+        WHERE BINARY `movie_index` = #{index}
+          AND `deleted_flag` != true
+        <if test='!isPoster'>
+          AND `category` = 'PICTURE'
+        </if>
+        LIMIT 1;
+    </select>
+    <select id="selectMovies"
+            parameterType="String"
+            resultType="com.ixtx.projectmoviesq.dtos.MovieDto">
+        SELECT `movies`.`index`                                                       AS `index`,
+               `movies`.`title_ko`                                                    AS `titleKo`,
+               `movies`.`title_en`                                                    AS `titleEn`,
+               `movies`.`rating`                                                      AS `rating`,
+               `movies`.`release_date`                                                AS `releaseDate`,
+               `movies`.`genre`                                                       AS `genre`,
+               `movies`.`running_time`                                                AS `runningTime`,
+               `movies`.`synopsis`                                                    AS `synopsis`,
+               `movies`.`director`                                                    AS `director`,
+               `movies`.`cast`                                                        AS `cast`,
+               `movies`.`agency`                                                      AS `agency`,
+               `movies`.`trailer_url`                                                 AS `trailerUrl`,
+               `movies`.`status`                                                      AS `status`,
+               `movies`.`created_at`                                                  AS `createdAt`,
+               (SUM(`reservation`.`ticket_total`) / SUM(`screen`.`seat_total`)) * 100 AS `reservationRate`
+        FROM `movie_sq`.`movies`
+                 LEFT JOIN `movie_sq`.`screen_schedules` AS `screen_schedules`
+                           ON `movies`.`index` = `screen_schedules`.`movie_index`
+                 LEFT JOIN `movie_sq`.`screens` AS `screen`
+                           ON `screen_schedules`.`screen_index` = `screen`.`index`
+                 LEFT JOIN `movie_sq`.`reservations` AS `reservation`
+                           ON `screen_schedules`.`index` = `reservation`.`screen_schedule_index`
+        WHERE `status` != 'NOT_PLAYING'
+        GROUP BY `title_ko`
+        <if test='sort == "abc"'>
+            ORDER BY `title_ko`
+        </if>
+        <if test='sort == "date"'>
+            ORDER BY `release_date` DESC
+        </if>
+        <if test='sort == "rate"'>
+            ORDER BY `reservationRate` DESC
+        </if>
+    </select>
+    <select id = "selectTopTenMovies"
+            resultType="com.ixtx.projectmoviesq.dtos.MovieDto">
+        SELECT (SUM(`reserve`.`ticket_total`) / SUM(`screen`.`seat_total`)) * 100 AS `reservationRate`,
+               `movie`.`index`                                                    AS `index`,
+               `movie`.`title_ko`                                                 AS `titleKo`,
+               `movie`.`title_en`                                                 AS `titleEn`,
+               `movie`.`rating`                                                   AS `rating`,
+               `movie`.`release_date`                                             AS `releaseDate`,
+               `movie`.`genre`                                                    AS `genre`,
+               `movie`.`running_time`                                             AS `runningTime`,
+               `movie`.`synopsis`                                                 AS `synopsis`,
+               `movie`.`director`                                                 AS `director`,
+               `movie`.`cast`                                                     AS `cast`,
+               `movie`.`agency`                                                   AS `agency`,
+               `movie`.`trailer_url`                                              AS `trailerUrl`,
+               `movie`.`status`                                                   AS `status`,
+               `movie`.`created_at`                                               AS `createdAt`
+        FROM `movie_sq`.`screen_schedules` AS `sch`
+                 INNER JOIN
+             `movie_sq`.`screens` AS `screen` ON `sch`.`screen_index` = `screen`.`index`
+                 LEFT JOIN
+             `movie_sq`.`reservations` AS `reserve` ON `sch`.`index` = `reserve`.`screen_schedule_index`
+                 LEFT JOIN
+             `movie_sq`.`movies` AS `movie` ON `sch`.`movie_index` = `movie`.`index`
+        GROUP BY `title_ko`
+        ORDER BY `reservationRate` DESC
+        LIMIT 10;
+    </select>
+</mapper>

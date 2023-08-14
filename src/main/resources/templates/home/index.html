@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 부트스트랩 js  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script defer th:src="@{/resources/scripts/index.js}"></script>
+    <!-- 부트스트랩 css  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/index.css}">
+    <title>Moviesq</title>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <div id="carouselExampleInterval" data-bs-touch="true" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div id="advertList">
+                <div th:each="commercial, data:${commercials}"
+                     th:attr="class=${data.index ==0? 'carousel-item advert active':'carousel-item advert'}"
+                     data-bs-interval="5000">
+                    <a class="showDetail" th:href="'./movie/detail?index='+${commercial.getMovieIndex()}">
+                        <img th:src="'/commercialImage?index='+${commercial.getIndex()}" class="d-block w-100">
+                    </a>
+                </div>
+            </div>
+            <div id="indicator" class="carousel-indicators">
+                <button th:each="commercial, data : ${commercials}" type="button"
+                        data-bs-target="#carouselExampleInterval"
+                        th:data-bs-slide-to="${data.index}"
+                        th:attr="aria-current=${data.index == 0 ? 'true' : 'false'}, class=${data.index == 0 ? 'active button' : 'button'}"
+                        th:aria-label="'Slide ' + ${data.count}"></button>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <!--    <div class="urlPopup" th:each="movie:${movies}">-->
+    <!--        <span class="title">예고편</span>-->
+    <!--        <img rel="close" class="close"-->
+    <!--             src="">-->
+    <!--        <div class="link">-->
+    <!--            <iframe th:src="${movie.getTrailerUrl()}"  id="url"-->
+    <!--                    title="YouTube video player" frameborder="0"-->
+    <!--                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"-->
+    <!--                    allowfullscreen></iframe>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="urlPopup">
+        <span class="title">예고편</span>
+        <img rel="close" class="close"
+             th:src="@{/resources/images/black-close.png}">
+        <div class="link">
+            <iframe id="url" src
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+    <div id="summary-container">
+        <div id="chart">
+            <div class="title">TOP 10</div>
+            <div class="chartList">
+                <ul class="topTen">
+                    <li class="movie" th:each="movie, data :${movies}">
+                        <div class="numberList">
+                            <div th:text="${data.count}" class="number"></div>
+                        </div>
+                        <div class="imageBox">
+                            <img class="image" th:src="'/movie/image?index='+${movie.getIndex()}">
+                            <div class="cover"></div>
+                            <div class="button-container">
+                                <a th:href="'./movie/detail?index='+${movie.getIndex()}"
+                                   class="link _object-button">영화정보</a>
+                                <a th:href="@{/reserve}" class="link _object-button _orange">예매하기</a>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <span class="title" th:text="${movie.getTitleKo()}"></span>
+                            <div class="percentage">
+                                <span class="text">예매율</span>
+                                <span class="text"
+                                      th:text="${#numbers.formatDecimal(movie.getReservationRate(),1,1) +'%'}">99%</span>
+                            </div>
+                            <a rel="open" class="link" th:data-index="${movie.getIndex()}">예고편 보기</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="supportClient">
+            <div class="notice part">
+                <span class="title">공지사항</span>
+                <a class="more" th:href="@{/support}">+더보기</a>
+                <div id="indexNoticeList" class="list">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th class="title">제목</th>
+                            <th>일시</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="notice : ${notices}">
+                            <th th:text="${notice.getIndex()}"></th>
+                            <th class="title" rel="notice"
+                                th:data-index="${notice.getIndex()}"
+                                th:text="${notice.getTitle()}">
+                            </th>
+                            <td th:text="${#dates.format(notice.getCreatedAt(),'yyyy-MM-dd')}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="faq part">
+                <span class="title">영화소식</span>
+                <a class="more" th:href="@{/support/news}">+더보기</a>
+                <div class="list">
+                    <ul class="grid" id="newsList">
+                        <li class="item" th:each="news : ${newsList}">
+                            <a class="link" th:href="@{'/support/news/detail?index=' + ${news.getIndex()}}">
+                                <img class="image" th:src="'/support/newsImage?index=' + ${news.getIndex()}">
+                            </a>
+                            <span class="title" th:text="${news.getTitle()}">title</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

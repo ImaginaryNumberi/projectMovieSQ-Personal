@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF_8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <script defer th:src="@{/resources/scripts/login.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/user.css}">
+</head>
+
+<body>
+<th:block layout:fragment="customContents">
+    <form id="loginForm">
+        <span class="title">회원 로그인</span>
+        <label class="label">
+            <span class="subtitle">아이디(이메일)</span>
+            <input autofocus type="email" class="_object-input input" maxlength="50" name="email" placeholder="아이디 (이메일)">
+        </label>
+        <span class="warning email" rel="emailWarning"></span>
+        <label class="label">
+            <span class="subtitle">비밀번호</span>
+            <input type="password" class="_object-input input" maxlength="50" name="password" placeholder="비밀번호 입력">
+        </label>
+        <span class="warning password" rel="passwordWarning"></span>
+        <span class="warning login" rel="loginWarning"></span>
+        <label class="_object-check-wrapper">
+            <input id="rememberId" class="_check_input" type="checkbox" name="rememberId">
+            <span class="_check_text">이메일 저장</span>
+        </label>
+        <label class="label">
+            <input class="_object-button _color-concept" type="submit" value="로그인">
+        </label>
+        <ul class="menu">
+            <li class="item">
+                <a class="link" th:href="@{/recover}">아이디 찾기/비밀번호 재설정</a>
+            </li>
+            <li class="item">
+                <a class="link" th:href="@{/register}">회원가입</a>
+            </li>
+        </ul>
+        <div class="speed-container">
+            <span class="subtitle">간편 로그인</span>
+            <div class="speedLogin">
+                <a class="logo kakao" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4882aeb707f4054de864814b0c14ce58&redirect_uri=https://moviesq.herrykim.com/auth/kakao/callback">
+                    <img class="image" src="/resources/images/kakao-logo.png" alt="">
+                </a>
+                <a class="logo naver" href="#">
+                    <img class="image" src="/resources/images/naver-logo.png" alt="">
+                </a>
+            </div>
+        </div>
+    </form>
+</th:block>
+</body>
+</html>

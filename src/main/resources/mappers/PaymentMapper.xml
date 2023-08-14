@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ixtx.projectmoviesq.mappers.PaymentMapper">
+
+    <!-- KHR WORK -->
+    <insert id="insertPayment"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ixtx.projectmoviesq.entities.PaymentEntity">
+        INSERT INTO `movie_sq`.`payments`(`user_email`,
+                                          `ticket_number`,
+                                          `category`,
+                                          `payment_company`,
+                                          `bi_number`,
+                                          `card_number`,
+                                          `payment_password`,
+                                          `payment_amount`,
+                                          `auth_code`,
+                                          `paid_at`,
+                                          `refunded_flag`,
+                                          `refunded_at`)
+        VALUES (#{userEmail},
+                #{ticketNumber},
+                #{category},
+                #{paymentCompany},
+                #{biNumber},
+                #{cardNumber},
+                #{paymentPassword},
+                #{paymentAmount},
+                #{authCode},
+                IFNULL(#{paidAt}, DEFAULT(`paid_at`)),
+                IFNULL(#{isRefunded}, DEFAULT(`refunded_flag`)),
+                #{refundedAt})
+    </insert>
+    <insert id="insertReservation"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index"
+            parameterType="com.ixtx.projectmoviesq.entities.ReservationEntity">
+        INSERT INTO `movie_sq`.`reservations`(`user_email`,
+                                              `ticket_number`,
+                                              `screen_schedule_index`,
+                                              `ticket_total`,
+                                              `reserved_seat_name`,
+                                              `expired_flag`,
+                                              `payment_amount`,
+                                              `canceled_at`,
+                                              `type_name`)
+        VALUES (#{userEmail},
+                #{ticketNumber},
+                #{screenScheduleIndex},
+                #{ticketTotal},
+                #{reservedSeatName},
+                #{isExpired},
+                #{paymentAmount},
+                #{canceledAt},
+                #{typeName})
+    </insert>
+    <!-- KHR 정보 받아오기 -->
+    <select id="selectScheduleInformationByIndex"
+            resultType="map">
+        SELECT `movie`.`index`                                AS `movieIndex`,
+               `movie`.`title_ko`                             AS `titleKo`,
+               `movie`.`rating`                               AS `rating`,
+               `theater`.`name`                               AS `theaterName`,
+               `screen`.`name`                                AS `screenName`,
+               DATE_FORMAT(`sch`.`time_start`, '%Y-%m-%d')    AS `date`,
+               CONCAT(DATE_FORMAT(`sch`.`time_start`, '%H:%i'), ' ~ ',
+                      DATE_FORMAT(`sch`.`time_end`, '%H:%i')) AS `time`
+        FROM `movie_sq`.`screen_schedules` AS `sch`
+                 INNER JOIN `movie_sq`.`movies` AS `movie` ON `sch`.`movie_index` = `movie`.`index`
+                 LEFT JOIN `movie_sq`.`theaters` AS `theater` ON `sch`.`theater_index` = `theater`.`index`
+                 LEFT JOIN `movie_sq`.`screens` AS `screen` ON `sch`.`theater_index` = `screen`.`theater_index`
+        WHERE `sch`.`index` = #{index}
+        LIMIT 1;
+    </select>
+    <select id="selectCardBinsByBiNumber" resultType="int">
+        SELECT COUNT(*)
+        FROM `movie_sq`.`credit_card_bins` AS `bins`
+        WHERE `bi_number` = #{cardNumber}
+          AND `company` = #{company}
+        LIMIT 1
+    </select>
+    <select id="selectInformationByTicketNumber"
+            resultType="map"
+            parameterType="com.ixtx.projectmoviesq.entities.ReservationEntity">
+        SELECT `movie`.`index`                                                                               AS `movieIndex`,
+               `reserve`.`ticket_number`                                                                     AS `ticketNumber`,
+               `movie`.`title_ko`                                                                            AS `movieName`,
+               `theater`.`name`                                                                              AS `theater`,
+               DATE_FORMAT(`sch`.`time_start`, '%Y-%m-%d')                                                   AS `date`,
+               `screen`.`name`                                                                               AS `screen`,
+               CONCAT(DATE_FORMAT(`sch`.`time_start`, '%H:%i'), ' ~ ', DATE_FORMAT(`sch`.time_end, '%H:%i')) AS `time`,
+               `reserve`.`ticket_total`                                                                      AS `ticketTotal`,
+               `reserve`.`type_name`                                                                         AS `typeName`,
+               `reserve`.`reserved_seat_name`                                                                AS `seatName`,
+               DATE_FORMAT(DATE_SUB(`sch`.`time_start`, INTERVAL 15 MINUTE),
+                           '%Y-%m-%d %H:%i')                                                                 AS `cancelTime`
+        FROM `movie_sq`.`reservations` AS `reserve`
+                 INNER jOIN `movie_sq`.`screen_schedules` AS `sch` ON `reserve`.`screen_schedule_index` = `sch`.`index`
+                 LEFT JOIN `movie_sq`.`movies` AS `movie` ON `sch`.`movie_index` = `movie`.`index`
+                 LEFT JOIN `movie_sq`.`theaters` AS `theater` ON `sch`.theater_index = `theater`.`index`
+                 LEFT JOIN `movie_sq`.`screens` AS `screen` ON `theater`.`index` = `screen`.`theater_index`
+        WHERE `ticket_number` = #{ticketNumber}
+        LIMIT 1
+    </select>
+
+
+
+
+
+
+
+
+
+    <!-- BDH WORK -->
+    <!-- 세션인덱스로 스크린 인덱스 값 가져오기 -->
+    <select id="selectScreenIndex" resultType="int"><![CDATA[
+        SELECT
+            IF(COUNT(`A`.`screen_index`) = 1, `A`.`screen_index`, 0) AS `screenIndex`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+        WHERE `A`.`index` = #{sessionIndex} &&
+              `A`.`time_start` > NOW();
+        ]]></select>
+    <!-- BDH WORK -->
+    <!-- 존재하지 않는 좌석값인지 아닌지 확인 -->
+    <select id="selectExitSeat" resultType="int"><![CDATA[
+        SELECT
+            IF(COUNT(`B`.`seat_name`) = 1, 1, 0) AS `exitSeat`
+        FROM `movie_sq`.`screen_schedules` AS `A`
+                 LEFT JOIN `movie_sq`.`seats` AS `B` ON `A`.`screen_index` = `B`.`screen_index`
+        WHERE `A`.`index` = #{sessionIndex} &&
+              `B`.`seat_name` = #{seatName};
+        ]]></select>
+    <!-- BDH WORK -->
+    <!-- reservations 테이블 insert -->
+    <insert id="insertReservationToReservations"
+            parameterType="com.ixtx.projectmoviesq.entities.ReservationEntity">
+        INSERT INTO `movie_sq`.`reservations` (`user_email`,
+                                               `ticket_number`,
+                                               `screen_schedule_index`,
+                                               `ticket_total`,
+                                               `reserved_seat_name`,
+                                               `expired_flag`,
+                                               `payment_amount`,
+                                               `type_name`)
+        VALUES (
+                   #{userEmail},
+                   #{ticketNumber},
+                   #{screenScheduleIndex},
+                   #{ticketTotal},
+                   #{reservedSeatName},
+                   #{isExpired},
+                   #{paymentAmount},
+                   #{typeName}
+               )
+    </insert>
+    <!-- BDH WORK -->
+    <!-- reservation_status 테이블 insert -->
+    <!-- Map, parameter 전달 방법 -->
+    <!--    <insert id="insertReservationValueToReservationStatus"-->
+    <!--            parameterType="map">-->
+    <!--        INSERT INTO `movie_sq`.`reservation_status` (`schedule_index`, `screen_index`,`seat_name`)-->
+    <!--        VALUES (-->
+    <!--                #{sessionIndex},-->
+    <!--                #{sessionScreenIndex},-->
+    <!--                #{seatName}-->
+    <!--               )-->
+    <!--    </insert>-->
+    <!-- No parameter 및 @RequestParam 전달 방법 -->
+    <insert id="insertReservationValueToReservationStatus">
+        INSERT INTO `movie_sq`.`reservation_status` (`schedule_index`, `screen_index`,`seat_name`)
+        VALUES (
+                   #{sessionIndex},
+                   #{sessionScreenIndex},
+                   #{seatName}
+               )
+    </insert>
+</mapper>

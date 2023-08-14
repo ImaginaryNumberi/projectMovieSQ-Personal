@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ixtx.projectmoviesq.mappers.MypageMapper">
+    <select id="selectUserByEmailPassword"
+            parameterType="com.ixtx.projectmoviesq.entities.UserEntity"
+            resultType="com.ixtx.projectmoviesq.entities.UserEntity">
+        SELECT `email`         AS `email`,
+               `password`      AS `password`,
+               `name`          AS `name`,
+               `birthday`      AS `birthday`,
+               `contact`       AS `contact`,
+               `kakao_email`   AS `kakaoEmail`,
+               `status`        AS `status`,
+               `admin_flag`    AS `isAdmin`,
+               `registered_at` AS `registeredAt`
+        FROM `movie_sq`.`users`
+        WHERE BINARY `email` = #{email}
+          AND BINARY `password` = #{password}
+        LIMIT 1
+    </select>
+    <select id="selectUserByEmail"
+            parameterType="com.ixtx.projectmoviesq.entities.UserEntity"
+            resultType="com.ixtx.projectmoviesq.entities.UserEntity">
+        SELECT `email`         AS `email`,
+               `password`      AS `password`,
+               `name`          AS `name`,
+               `birthday`      AS `birthday`,
+               `contact`       AS `contact`,
+               `kakao_email`   AS `kakaoEmail`,
+               `status`        AS `status`,
+               `admin_flag`    AS `isAdmin`,
+               `registered_at` AS `registeredAt`
+        FROM `movie_sq`.`users`
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </select>
+    <select id="selectReservationByIndex"
+            parameterType="com.ixtx.projectmoviesq.entities.ReservationEntity"
+            resultType="com.ixtx.projectmoviesq.entities.ReservationEntity">
+        SELECT `index`                 AS `index`,
+               `user_email`            AS `userEmail`,
+               `ticket_number`         AS `ticketNumber`,
+               `screen_schedule_index` AS `screenScheduleIndex`,
+               `ticket_total`          AS `ticketTotal`,
+               `reserved_seat_name`    AS `reservedSeatName`,
+               `expired_flag`          AS `isEexpired`,
+               `payment_amount`        AS `paymentAmount`,
+               `canceled_at`           AS `canceledAt`
+        FROM `movie_sq`.`reservations`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+    <select id="selectReservedInformationByIndex"
+            resultType="com.ixtx.projectmoviesq.dtos.TicketDto"
+            parameterType="com.ixtx.projectmoviesq.entities.ReservationEntity">
+        SELECT `reserve`.`index`                 AS `index`,
+               `reserve`.`user_email`            AS `userEmail`,
+               `reserve`.`ticket_number`         AS `ticketNumber`,
+               `reserve`.`screen_schedule_index` AS `screenScheduleIndex`,
+               `reserve`.`ticket_total`          AS `ticketTotal`,
+               `reserve`.`reserved_seat_name`    AS `reservedSeatName`,
+               `reserve`.`expired_flag`          AS `isEexpired`,
+               `reserve`.`payment_amount`        AS `paymentAmount`,
+               `reserve`.`canceled_at`           AS `canceledAt`,
+               `movie`.`title_ko`      AS `titleKo`,
+               `sch`.`time_start`      AS `timeStart`,
+               `theater`.`name`        AS `theaterName`,
+               `screen`.`name`         AS `screenName`
+        FROM `movie_sq`.`reservations` AS `reserve`
+                 LEFT JOIN `movie_sq`.`screen_schedules` AS `sch`
+                           ON `reserve`.`screen_schedule_index` = `sch`.`index`
+                 LEFT JOIN `movie_sq`.`movies` AS `movie` ON sch.movie_index = movie.`index`
+                 LEFT JOIN `movie_sq`.`theaters` AS `theater` ON `sch`.`theater_index` = `theater`.`index`
+                 LEFT JOIN `movie_sq`.`screens` AS `screen` ON `sch`.`screen_index` = `screen`.`index`
+        WHERE `reserve`.`index` = #{index}
+        LIMIT 1
+    </select>
+
+    <select id="selectReservationByEmail"
+            parameterType="com.ixtx.projectmoviesq.entities.UserEntity"
+            resultType="com.ixtx.projectmoviesq.dtos.TicketDto">
+        SELECT `reserve`.`index`              AS `index`,
+               `reserve`.`ticket_number`      AS `ticketNumber`,
+               `reserve`.`user_email`         AS `userEmail`,
+               `reserve`.`ticket_total`       AS `ticketTotal`,
+               `reserve`.`reserved_seat_name` AS `reservedSeatName`,
+               `reserve`.`payment_amount`     AS `paymentAmount`,
+               `sch`.time_start               AS `timeStart`,
+               `sch`.`time_end`               AS `timeEnd`,
+               `sch`.`movie_index`            AS `movieIndex`,
+               `sch`.`screen_index`           AS `screenIndex`,
+               `sch`.`theater_index`          AS `theaterIndex`,
+               `movie`.`title_ko`             AS `titleKo`,
+               `theater`.`name`               AS `theaterName`,
+               `screen`.`name`                AS `screenName`
+        FROM `movie_sq`.`reservations` AS `reserve`
+                 LEFT JOIN `movie_sq`.`screen_schedules` AS `sch` ON `reserve`.`screen_schedule_index` = `sch`.`index`
+                 LEFT JOIN `movie_sq`.`movies` AS `movie` ON `sch`.`movie_index` = `movie`.`index`
+                 LEFT JOIN `movie_sq`.`theaters` AS `theater` ON `sch`.`theater_index` = `theater`.`index`
+                 LEFT JOIN `movie_sq`.`screens` AS `screen` ON `sch`.`screen_index` = `screen`.`index`
+        WHERE BINARY `user_email` = #{email}
+          AND `expired_flag` = false
+          AND `sch`.`time_start` > NOW()
+        ORDER BY `sch`.`time_start`;
+    </select>
+    <select id="selectCancelReservationByEmail"
+            parameterType="com.ixtx.projectmoviesq.entities.UserEntity"
+            resultType="com.ixtx.projectmoviesq.dtos.TicketDto">
+        SELECT `reserve`.`index`              AS `index`,
+               `reserve`.`ticket_number`      AS `ticketNumber`,
+               `reserve`.`user_email`         AS `userEmail`,
+               `reserve`.`ticket_total`       AS `ticketTotal`,
+               `reserve`.`reserved_seat_name` AS `reservedSeatName`,
+               `reserve`.`payment_amount`     AS `paymentAmount`,
+               `reserve`.`canceled_at`        AS `canceledAt`,
+               `sch`.time_start               AS `timeStart`,
+               `sch`.`time_end`               AS `timeEnd`,
+               `sch`.`movie_index`            AS `movieIndex`,
+               `sch`.`screen_index`           AS `screenIndex`,
+               `sch`.`theater_index`          AS `theaterIndex`,
+               `movie`.`title_ko`             AS `titleKo`,
+               `theater`.`name`               AS `theaterName`,
+               `screen`.`name`                AS `screenName`
+        FROM `movie_sq`.`reservations` AS `reserve`
+                 LEFT JOIN `movie_sq`.`screen_schedules` AS `sch` ON `reserve`.`screen_schedule_index` = `sch`.`index`
+                 LEFT JOIN `movie_sq`.`movies` AS `movie` ON `sch`.`movie_index` = `movie`.`index`
+                 LEFT JOIN `movie_sq`.`theaters` AS `theater` ON `sch`.`theater_index` = `theater`.`index`
+                 LEFT JOIN `movie_sq`.`screens` AS `screen` ON `sch`.`screen_index` = `screen`.`index`
+        WHERE BINARY `user_email` = #{email}
+          AND `expired_flag` = true
+          AND `canceled_at` > DATE_SUB(NOW(), INTERVAL 1 MONTH);
+    </select>
+    <select id="selectScheduleByIndex"
+            resultType="com.ixtx.projectmoviesq.entities.ScheduleEntity">
+
+        SELECT `movie_index`   AS `movieIndex`,
+               `theater_index` AS `theaterIndex`,
+               `screen_index`  AS `screenIndex`,
+               `time_start`    AS `timeStart`,
+               `time_end`      AS `timeEnd`
+        FROM `movie_sq`.`screen_schedules`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+    <select id="selectMovieLogByEmail"
+            parameterType="com.ixtx.projectmoviesq.entities.UserEntity"
+            resultType="com.ixtx.projectmoviesq.dtos.TicketDto">
+        SELECT `reserve`.`index`              AS `index`,
+               `reserve`.`ticket_number`      AS `ticketNumber`,
+               `reserve`.`user_email`         AS `userEmail`,
+               `reserve`.`ticket_total`       AS `ticketTotal`,
+               `reserve`.`reserved_seat_name` AS `reservedSeatName`,
+               `reserve`.`payment_amount`     AS `paymentAmount`,
+               `sch`.time_start               AS `timeStart`,
+               `sch`.`time_end`               AS `timeEnd`,
+               `sch`.`movie_index`            AS `movieIndex`,
+               `sch`.`screen_index`           AS `screenIndex`,
+               `sch`.`theater_index`          AS `theaterIndex`,
+               `movie`.`title_ko`             AS `titleKo`,
+               `theater`.`name`               AS `theaterName`,
+               `screen`.`name`                AS `screenName`
+        FROM `movie_sq`.`reservations` AS `reserve`
+                 LEFT JOIN `movie_sq`.`screen_schedules` AS `sch` ON `reserve`.`screen_schedule_index` = `sch`.`index`
+                 LEFT JOIN `movie_sq`.`movies` AS `movie` ON `sch`.`movie_index` = `movie`.`index`
+                 LEFT JOIN `movie_sq`.`theaters` AS `theater` ON `sch`.`theater_index` = `theater`.`index`
+                 LEFT JOIN `movie_sq`.`screens` AS `screen` ON `sch`.`screen_index` = `screen`.`index`
+        WHERE BINARY `user_email` = #{email}
+          AND `expired_flag` = false
+          AND NOW() > `sch`.`time_start`
+        ORDER BY `sch`.`time_start` DESC;
+    </select>
+    <select id="selectPaymentByTicketNumber"
+            resultType="com.ixtx.projectmoviesq.entities.PaymentEntity">
+        SELECT `index`            AS `index`,
+               `user_email`       AS `userEmail`,
+               `ticket_number`    AS `ticketNumber`,
+               `category`         AS `category`,
+               `payment_company`  AS `paymentCompany`,
+               `bi_number`        AS `biNumber`,
+               `card_number`      AS `cardNumber`,
+               `payment_password` AS `paymentPassword`,
+               `payment_amount`   AS `paymentAmount`,
+               `auth_code`        AS `authCode`,
+               `paid_at`          AS `paidAt`,
+               `refunded_flag`    AS `isRefunded`,
+               `refunded_at`      AS `refundedAt`
+        FROM `movie_sq`.`payments`
+        WHERE `ticket_number` = #{ticketNumber}
+        LIMIT 1
+    </select>
+    <update id="updateUserInformation">
+        UPDATE `movie_sq`.`users`
+        SET `password`      = #{password},
+            `name`          = #{name},
+            `birthday`      = #{birthday},
+            `contact`       = #{contact},
+            `kakao_email`   = #{kakaoEmail},
+            `status`        = #{status},
+            `admin_flag`    = #{isAdmin},
+            `registered_at` = #{registeredAt}
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
+    <update id="updateUserStatus"
+            parameterType="com.ixtx.projectmoviesq.entities.UserEntity">
+        UPDATE `movie_sq`.`users`
+        SET `password`      = #{password},
+            `name`          = #{name},
+            `birthday`      = #{birthday},
+            `contact`       = #{contact},
+            `kakao_email`   = #{kakaoEmail},
+            `status`        = #{status},
+            `admin_flag`    = #{isAdmin},
+            `registered_at` = #{registeredAt}
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
+    <update id="updateReservationExpired"
+            parameterType="com.ixtx.projectmoviesq.entities.ReservationEntity">
+        UPDATE `movie_sq`.`reservations`
+        SET `user_email`            = #{userEmail},
+            `ticket_number`         = #{ticketNumber},
+            `screen_schedule_index` = #{screenScheduleIndex},
+            `ticket_total`          = #{ticketTotal},
+            `reserved_seat_name`    = #{reservedSeatName},
+            `expired_flag`          = #{isExpired},
+            `payment_amount`        = #{paymentAmount},
+            `canceled_at`           = #{canceledAt}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+    <update id="updatePaymentByTicketNumber"
+            parameterType="com.ixtx.projectmoviesq.entities.PaymentEntity">
+        UPDATE `movie_sq`.`payments`
+        SET `index`            = #{index},
+            `user_email`       = #{userEmail},
+            `ticket_number`    = #{ticketNumber},
+            `category`         = #{category},
+            `payment_company`  = #{paymentCompany},
+            `bi_number`        = #{biNumber},
+            `card_number`      = #{cardNumber},
+            `payment_password` = #{paymentPassword},
+            `payment_amount`   = #{paymentAmount},
+            `auth_code`        = #{authCode},
+            `paid_at`          = #{paidAt},
+            `refunded_flag`    = #{isRefunded},
+            `refunded_at`      = #{refundedAt}
+        WHERE `ticket_number` = #{ticketNumber}
+        LIMIT 1
+    </update>
+
+
+    <!-- BDH WORK -->
+    <!-- 해당 좌석 삭제 -->
+    <delete id="deleteSeatNameInReservationStatus"><![CDATA[
+        DELETE
+        FROM `movie_sq`.`reservation_status`
+        WHERE `movie_sq`.`reservation_status`.`schedule_index` = #{scheduleIndex} &&
+              `movie_sq`.`reservation_status`.`seat_name` = #{seatName}
+        LIMIT 1;
+        ]]></delete>
+</mapper>

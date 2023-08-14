@@ -1,0 +1,601 @@
+@charset "UTF-8";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+/*****ul 스타일 초기화*****/
+ul {
+    position: relative;
+    list-style-type: none;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-inline-start: 0;
+}
+
+/*
+::-webkit-scrollbar : 스크롤바 영역에 대한 설정
+::-webkit-scrollbar-thumb : 스크롤바 막대에 대한 설정
+::-webkit-scrollbar-track  : 스크롤바 뒷 배경에 대한 설정
+*/
+/* 스크롤바 커스텀 */
+.scrollCustom::-webkit-scrollbar {
+    height: 0.3rem;
+    width: 0.3rem; /* 스크롤바의 너비 */
+}
+
+.scrollCustom::-webkit-scrollbar-thumb {
+    visibility: hidden; /*스크롤바 숨기기*/
+    height: 0.5rem; /* 스크롤바의 길이 */
+    background: #c2c2c2; /* 스크롤바의 색상 */
+    border-radius: 0.625rem;
+}
+
+.scrollCustom::-webkit-scrollbar-track {
+}
+
+/*스크롤바 생기기*/
+.scrollCustom:hover.scrollCustom::-webkit-scrollbar-thumb {
+    /*visibility: visible;*/
+}
+
+.scrollCustom:hover.scrollCustom::-webkit-scrollbar-track {
+    /*background: #e2e2e2;*/
+}
+
+/*****전체 위치 및 화면 높넓이*****/
+#selectSeatContainer {
+    position: relative;
+    height: 43.0625rem;
+    width: 64rem;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    box-sizing: border-box;
+    background-color: black;
+    border: 0.125rem solid #eaeaea;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/*****좌석선택 머리(좌석 페이지)*****/
+#selectSeatContainer > .seating-head {
+    height: 15%;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+/* 영화예매 글자 */
+.seating-head > .seating-h4 {
+    background-color: #74ccd4;
+    padding-left: 1.25rem;
+    height: 100%;
+    width: 100%;
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    flex: 1 1 auto;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.seating-head > .seating-h4 > .title {
+    margin-left: 1.25rem;
+}
+
+/* 예매다시하기 글자*/
+.seating-head > .btnRefresh {
+    position: relative;
+    width: 15%;
+    height: 100%;
+    float: right;
+    padding: 0 1.25rem;
+    line-height: 3.5625rem;
+    text-decoration: none;
+    font-size: 0.875rem;
+    background-color: #5ca8d8;
+    color: #ffffff;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.ticketing-head > .btnRefresh:hover {
+    text-decoration: none;
+}
+
+/*****좌석선택 몸통(좌석 페이지)*****/
+
+/*영화예매 전체몸통*/
+.seating-body {
+    position: relative;
+    width: 100%;
+    height: 39.4375rem;
+}
+
+/*좌석선택 몸통*/
+.leftBody {
+    position: relative;
+    float: left;
+    /*width: 52rem;*/
+    width: 70%;
+    height: 39.125rem;
+    box-sizing: border-box;
+    background-color: #000000;
+}
+
+.leftBody > .cover {
+    position: absolute;
+    display: block;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 18rem 1.4375rem 0 0;
+    z-index: 20;
+    text-align: right;
+}
+
+.leftBody > .cover > div {
+    display: inline-block;
+    font-size: 1.0625rem;
+    color: #ffffff;
+    font-weight: 600;
+    padding-left: 1.75rem;
+}
+
+.leftBody > .seatBox {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.leftBody > .seatBox > .seatBoxTitle {
+    text-align: center;
+    font-size: 1.0625rem;
+    margin: 1.25rem 0 4.375rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.leftBody > .seatBox > .seatBoxScreen {
+    height: 2.125rem;
+    width: 34.25rem;
+    padding-top: 0.9375rem;
+    font-size: 0.875rem;
+    color: #ffffff;
+    font-weight: 600;
+    margin: 0 auto;
+    text-align: center;
+
+    /*background-image: url(../resources/images/seat/bg_reser.png);*/
+    /*background-position-x: 50%;*/
+    /*background-position-y: 0px;*/
+    /*background-size: initial;*/
+    /*background-repeat-x: no-repeat;*/
+    /*background-repeat-y: no-repeat;*/
+    /*background-attachment: initial;*/
+    /*background-origin: initial;*/
+    /*background-clip: initial;*/
+    /*background-color: initial;*/
+}
+
+.leftBody > .seatBox > .seats1 {
+    height: 16.875rem;
+    width: 100%;
+    /*width: 38.25rem;*/
+    color: #ffffff;
+    /*margin: 0 auto;*/
+    padding-top: 2rem;
+    box-sizing: border-box;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    /*background-color: red;*/
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.leftBody > .seatBox > .seats1 > .row {
+    position: relative;
+    margin-left: 8rem;
+    margin-bottom: 0.3rem;
+    white-space: nowrap;
+}
+
+.leftBody > .seatBox > .seats1 > .row > .position {
+    position: relative;
+    display: inline-block;
+    margin-right: 5rem;
+    height: 24px;
+    width: 24px;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.leftBody > .seatBox > .seats1 > .row > .seat {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin-right: 0.3rem;
+    position: relative;
+    background-color: #c8c8c8;
+    height: 30px;
+    width: 30px;
+    font-size: 11px;
+    text-align: center;
+    border-radius: 3px;
+    color: #ffffff;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.leftBody > .seatBox > .seats1 > .row > .seat:hover {
+    background-color: red;
+}
+
+.leftBody > .seatBox > .seats1 > .row > .soldOut {
+    /*background: #676767 url(../resources/images/seat/soldOutX.png) no-repeat 50% 50%;*/
+    text-indent: -9999px;
+    cursor: not-allowed;
+}
+
+.leftBody > .seatBox > .seats1 > .row > .selecting {
+    background-color: #74ccd4 !important;
+}
+
+/*.leftBody > .seatBox > .seats1 > .seats2 {*/
+/*    position: relative;*/
+
+/*    height: 100%;*/
+/*    width: 38.25rem;*/
+/*    margin: 0 auto;*/
+/*    color: #ffffff;*/
+
+/*    background-color: blue;*/
+/*}*/
+
+.leftBody > .seatBox > #seatStatus {
+    text-align: center;
+    margin: 1.25rem 0 0;
+}
+
+.leftBody > .seatBox > #seatStatus > span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 0.75rem;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.leftBody > .seatBox > #seatStatus > span > .onSale {
+    display: inline-block;
+    vertical-align: middle;
+    height: 0.8125rem;
+    width: 0.8125rem;
+    border-radius: 0.125rem;
+    margin: -0.125rem 0.25rem 0 0;
+    background: #c8c8c8;
+}
+
+.leftBody > .seatBox > #seatStatus > span > .soldOut {
+    display: inline-block;
+    vertical-align: middle;
+    height: 0.8125rem;
+    width: 0.8125rem;
+    border-radius: 0.125rem;
+    margin: -0.125rem 0.25rem 0 0;
+    background: #2d2d2d;
+}
+
+.leftBody > .seatBox > #seatStatus > span > .nowSelecting {
+    display: inline-block;
+    vertical-align: middle;
+    height: 0.8125rem;
+    width: 0.8125rem;
+    border-radius: 0.125rem;
+    margin: -0.125rem 0.25rem 0 0;
+    background: #74ccd4;
+}
+
+.leftBody > .choice {
+    position: absolute;
+    left: 1.875rem;
+    bottom: 5.9375rem;
+    text-align: left;
+}
+
+.leftBody > .choice > strong {
+    display: block;
+    font-size: 0.875rem;
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.leftBody > .choice > ul {
+    overflow: hidden;
+}
+
+.leftBody > .choice > ul > li {
+    float: left;
+    height: 1.875rem;
+    width: 1.875rem;
+    border-radius: 0.1875rem;
+    background: #2d2d2d;
+    margin-right: 0.3125rem;
+    text-align: center;
+    line-height: 1.8125rem;
+    font-size: 0.75rem;
+    color: #ffffff;
+}
+
+.leftBody > .choice > ul > li.on {
+    background: #74ccd4;
+    color: #000000;
+    font-weight: 600;
+}
+
+.leftBody > .bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4rem;
+    background: #2d2d2d;
+    text-align: left;
+}
+
+.leftBody > .bottom > .info {
+    position: relative;
+    /*문장이 길때 생략 ... 표현*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    width: 35rem;
+    float: left;
+    display: block;
+    padding: 0 0 0 1.875rem;
+    line-height: 3.9375rem;
+    /*font-size: 1.125rem;*/
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.leftBody > .bottom > .sum {
+    position: relative;
+    float: right;
+    display: block;
+    padding: 0 1.875rem 0 0;
+    line-height: 3.9375rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/*미니맵, 인원선택 몸통*/
+.rightBody {
+    position: relative;
+    float: left;
+    /*width: 23rem;*/
+    width: 30%;
+    height: 39.25rem;
+    box-sizing: border-box;
+    border-left: 0.125rem solid #eaeaea;
+    background-color: white;
+}
+
+.rightBody > .minimap-head {
+    position: relative;
+    /*margin: 0.6rem;*/
+    /*height: 3rem;*/
+    height: 7%;
+    width: 100%;
+    padding-left: 0.75rem;
+    box-sizing: border-box;
+    border-bottom: 0.125rem solid #eaeaea;
+}
+
+.rightBody > .minimap-head > h5 {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.rightBody > .minimap-box {
+    position: relative;
+    /*height: 15rem;*/
+    height: 35%;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 0.125rem solid #eaeaea;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rightBody > .minimap-box > .non-minimap {
+    text-align: center;
+    font-size: 1rem;
+    color: #bdbdbd;
+}
+
+.rightBody > .minimap-box > .minimap {
+    position: relative;
+    height: 15rem;
+    /*width: 21.65rem;*/
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 0.125rem solid #eaeaea;
+}
+
+.rightBody > .headCount-box {
+    position: relative;
+    /*height: 22.3rem;*/
+    height: 58%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1.5rem 0.75rem;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.rightBody > .headCount-box > .headCount-head {
+    width: 100%;
+    font-size: 0.875rem;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.rightBody > .headCount-box > .headCount-head > .first {
+    font-size: 1.0625rem;
+    font-weight: 600;
+}
+
+.rightBody > .headCount-box > .headCount-head > .second {
+    color: #909090;
+}
+
+.rightBody > .headCount-box > .headCount-list {
+    position: relative;
+}
+
+.rightBody > .headCount-box > .headCount-list > .major,
+.rightBody > .headCount-box > .headCount-list > .minor,
+.rightBody > .headCount-box > .headCount-list > .reset {
+    position: relative;
+    font-size: 0.875rem;
+    margin: 0.75rem 0 0 0;
+}
+
+.rightBody > .headCount-box > .headCount-list > .list {
+    position: relative;
+    margin: 0.25rem 0 0 0;
+    font-size: 0;
+}
+
+.rightBody > .headCount-box > .headCount-list > .list > label {
+    margin-right: 0.3125rem;
+}
+
+.rightBody > .headCount-box > .headCount-list > .list > label > .radio {
+    position: absolute;
+    /*appearance: auto;*/
+}
+
+.rightBody > .headCount-box > .headCount-list > .list > label > .radio + span {
+    display: inline-block;
+    vertical-align: middle;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 0.1875rem;
+    border: 0.0625rem solid #e1e1e1;
+    text-align: center;
+    line-height: 1.5rem;
+    font-size: 0.875rem;
+    color: #000000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.rightBody > .headCount-box > .headCount-list > .list > label > .radio + span:hover {
+    background-color: #eaeaea;
+}
+
+.rightBody > .headCount-box > .headCount-list > .list > label > .radio:checked + span {
+    background-color: #74ccd4;
+}
+
+.rightBody > .headCount-box > .headCount-list > .resetBtn {
+    height: 1.875rem;
+    width: 4rem;
+    border-radius: 0.1875rem;
+    border: 0.0625rem solid #e1e1e1;
+    margin: 0.25rem 0 0 0;
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.rightBody > .headCount-box > .headCount-list > .resetBtn:hover {
+    background-color: #eaeaea;
+}
+
+.rightBody > .headCount-box > .headCount-payment {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3.2rem;
+    width: 100%;
+    padding: 0.8125rem 0;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 1.2rem;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: #462d82;
+}
+
+/* 1024px */
+@media screen and (max-width: 64rem) {
+    #selectSeatContainer {
+        width: 90%;
+    }
+
+    .seating-head > .btnRefresh {
+        width: 17%;
+    }
+}
+
+@media screen and (max-width: 40rem) {
+    #selectSeatContainer {
+        width: 90%;
+
+        /*        align-items: flex-start;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;*/
+    }
+
+    #selectSeatContainer > .seating-head {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    #selectSeatContainer > .seating-head > .btnRefresh {
+        width: 100%;
+    }
+}

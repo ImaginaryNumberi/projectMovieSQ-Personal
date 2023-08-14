@@ -1,0 +1,828 @@
+#popUp > .button-container > ._object-button {
+    border-top-right-radius: unset;
+    border-top-left-radius: unset;
+}
+
+.user-container {
+    position: relative;
+    min-height: 40rem;
+    box-sizing: border-box;
+}
+
+/*region listForm*/
+
+#ticketListForm {
+    top: 0;
+    width: 100%;
+    max-width: 64rem;
+    position: relative;
+    transform: translateX(-50%);
+    padding: unset;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#ticketListForm > .text {
+    margin: 0.5rem;
+}
+
+#ticketListForm > .ticketList {
+    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    margin: 0.5rem;
+}
+
+#ticketListForm > .ticketList > .ticket {
+    background-color: #f8f8f8;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 0.2rem;
+    min-height: 14rem;
+}
+
+#ticketListForm > .ticketList > .ticket > .imageBox {
+    width: 18%;
+    object-fit: fill;
+    position: relative;
+    box-sizing: border-box;
+
+}
+
+#ticketListForm > .ticketList > .ticket.cancel > .imageBox {
+    width: 15%;
+}
+
+#ticketListForm > .ticketList > .ticket > .imageBox > .link > .image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+#ticketListForm > .ticketList > .ticket > .content {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+    width: 70%;
+    padding: 0.5rem 2rem;
+}
+
+#ticketListForm > .ticketList > .ticket > .content > .subtitle {
+    font-weight: 500;
+}
+
+
+#ticketListForm > .ticketList > .ticket > .content > .subtitle,
+#ticketListForm > .ticketList > .ticket > .content > .data {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+#ticketListForm > .ticketList > .ticket > .content > .subtitle > * + *,
+#ticketListForm > .ticketList > .ticket > .content > .data > * + * {
+    margin-top: 0.3rem;
+}
+
+
+#ticketListForm > .ticketList > .ticket > .content > .data > .text.date {
+    font-weight: 500;
+    color: #d24545;
+}
+
+#ticketListForm > .ticketList > .ticket > .content > .data > .text.number {
+    font-weight: 500;
+}
+
+#ticketListForm > .ticketList > .ticket > .content > .data > .text.payment {
+    font-weight: 500;
+    color: #3498db;
+}
+
+#ticketListForm > .ticketList > .ticket.cancel > .content > .data > .text.payment {
+    font-weight: 500;
+    color: #d24545;
+}
+
+
+#ticketListForm > .ticketList > .ticket.cancel > .content > .data > .text.date {
+    font-weight: inherit;
+    color: inherit;
+}
+
+
+#ticketListForm > .ticketList > .ticket.cancel > .content > .data > .text.cancelDate {
+    color: #3498db;
+    font-weight: 500;
+}
+
+#ticketListForm > .ticketList > .ticket > .content > .subtitle > .text,
+#ticketListForm > .ticketList > .ticket > .content > .data {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+#ticketListForm > .ticketList > .ticket > .button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    text-align: center;
+    gap: 1rem;
+    width: 15%;
+    padding-right: 2rem;
+    min-width: 8rem;
+}
+
+
+#ticketListForm > .ticketList > .ticket > .button-container > ._object-button._orange {
+    opacity: 0.85;
+}
+
+
+#ticketListForm > .noTicket {
+    background-color: #f8f8f8;
+    padding: 3rem 1rem;
+    margin: 1rem 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+#ticketListForm > .noTicket > .image {
+    width: 3.5rem;
+    object-fit: contain;
+}
+
+#ticketListForm > .noTicket > .text {
+    color: dimgray;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+.information {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30rem;
+    background: white;
+    z-index: 9;
+    display: none;
+    border-radius: 0.1rem;
+    height: 30rem;
+}
+
+.information.visible {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+
+.information > .main {
+    width: 100%;
+    overflow-y: scroll;
+    overscroll-behavior: none
+
+}
+
+.information > .main > * {
+    padding: 1rem 1.5rem;
+}
+
+
+.information > .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: 500;
+    background: var(--concept-color-mint);
+    color: white;
+    padding: 0.5rem;
+}
+
+.information > .top > .close {
+    position: absolute;
+    right: 0.5rem;
+}
+
+
+.information > .top > .title {
+    width: 100%;
+    text-align: center;
+}
+
+
+.information > .main > .guide {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.information > .main > .guide > * + * {
+    margin-top: 1rem;
+}
+
+.information > .main > .guide > .text > .red {
+    color: red;
+}
+
+
+.information > .main > .number {
+    /*height: 10%;*/
+    border-top: 0.025rem solid black;
+    border-bottom: 0.025rem solid black;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 3rem;
+}
+
+.information > .main > .number > * + * {
+    margin-top: 1rem;
+}
+
+
+.information > .main > .number > .ticketNumber {
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+}
+
+.information > .main > .content {
+    /*height: 30%;*/
+    border-bottom: 0.025rem solid black;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding: 3rem 3rem;
+}
+
+
+.information > .main > .content > * {
+    display: flex;
+    flex-direction: column;
+}
+
+.information > .main > .content > .data {
+    font-weight: 500;
+
+}
+
+
+.information > .main > .content > * > * + * {
+    margin-top: 2rem;
+}
+
+.information > .main > .bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+.information > .main > .bottom > .text {
+    width: 100%;
+    text-align: center;
+}
+
+.information > .top > .close:hover {
+    cursor: pointer;
+}
+
+.information > .main > .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+}
+
+
+.information > .main > .button-container > * {
+    width: 100%;
+}
+
+
+/*endregion*/
+
+/* region movieLog */
+#movieLog-container {
+    width: 100%;
+    padding: 0;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#movieLog-container > .text {
+    margin-top: 1rem;
+}
+
+#movieLog-container > .empty {
+    background-color: #f8f8f8;
+    border: 0.0625rem solid lightgray;
+    padding: 5rem 1rem;
+    margin: 1rem 0;
+    width: 100%;
+    height: 100%;
+
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#movieLog-container > .empty > .image {
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+#movieLog-container > .empty > .text {
+    margin-top: 0.25rem;
+    color: dimgray;
+}
+
+#ticketContainer {
+    margin-top: 1rem;
+    width: 100%;
+
+    display: grid;
+    column-gap: 1rem;
+    row-gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#movieLog-container .item {
+    background-color: #fffcfc;
+    border: 0.0625rem solid lightgray;
+    padding: 0.5rem 1rem;
+    margin: 0;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#movieLog-container .item:hover {
+    box-shadow: 0 0 0.5rem lightgray;
+    overflow: hidden;
+    position: relative;
+}
+
+#movieLog-container .item > .part.right {
+    width: 100%;
+    margin-left: 0.5rem;
+}
+
+#movieLog-container .item > .part > .image {
+    width: 6.5rem;
+}
+
+#movieLog-container .item > .part > .button {
+    text-align: center;
+    background-color: #74ccd4;
+    margin: 0.188rem 0 0 0;
+    bottom: 0;
+}
+
+#movieLog-container .item > .part > .title {
+    margin: 0.25rem 0;
+    font-weight: 500;
+    font-size: 1.25rem;
+}
+
+#movieLog-container .item > .part > .content {
+    margin-top: 0.125rem;
+
+    color: dimgray;
+    font-size: 0.875rem;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+}
+
+/* endregion movieLog */
+
+/* region receipt */
+
+#receipt-container {
+    top: 50%;
+    left: 50%;
+    width: 30rem;
+    max-width: 64rem;
+    position: absolute;
+    transform: translate(-50%, -50%);
+
+    display: none;
+
+    z-index: 9;
+}
+
+#receipt-container.visible {
+    display: block;
+}
+
+#receipt {
+    background-color: white;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#receipt > .head {
+    background-color: var(--concept-color-mint);
+    width: 100%;
+    height: 4rem;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#receipt > .head > .title {
+    font-weight: 700;
+    font-size: 1.675rem;
+    text-align: left;
+    margin: 1.5rem;
+}
+
+#receipt > .head > .close {
+    top: 0;
+    right: 0;
+    width: 4rem;
+    height: 4rem;
+    background-color: #00000060;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3klEQVR4nO2dO3LCQBAFdSRzJBP5Bg5x6EtDO4HAFHZhI7RvZ7ozSOg3j+UjrUrLIiIiIiIiIiIi0gDgZbRDGsNmAnwAJ+BtiEAgwCtwBD5HlHHBUpZvZVzYphRgd/XCnB/vl6YA+x9mshv1bmi7UkiZRYzIQOJmECe0IbHZY8U6Z44X7Jh1GtFOGacT7pBtWvHKmaYPUDFLhSAUyFAmEBO7lwvGhM5lAzKRa/mgTODYJjDBbu2CE+jUdgAEuQwlYRAEOEQxciBYRs5gsIycAWEZOYPCMnIGhmXkDA7LeAxWHKBlrAQrlGIZK8MDpVjGk+AfpVjGk+EPpVjGRnBHKZaxMfxSimXkXYtxvPFc22tWNoXbK+Xh/yzynFJOljEALCQH/MjKAb/Uc8CfvTngH8Mc8NBJDnhwMQc8/J4DnqDKAU/h5oCbHHLAbUA5uFEuCLeSBuFm6yC8HCGIhHPgBDhEkDQIglyGkDgAAp2W7sEJdmsbmAkc2wVlItc2AZnQuXwwJnYvG4gCGWoFWQpkmT5ApUzTilfMNp1w5YzTiHbIGi/YKXOsWMfscUKdZxAjEsDwWXhTsMybgr13Xxl3rJTDsiXnUizjdimHUQLeevUKZyIiIiIiIiIiIksTvgDVpsD7YQ60fQAAAABJRU5ErkJggg==");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 62.5%;
+    cursor: pointer;
+    position: absolute;
+
+    z-index: 6;
+}
+
+#receipt > .content {
+    width: 27rem;
+    display: grid;
+    column-gap: 0.25rem;
+    row-gap: 0;
+
+    padding: 1.5rem;
+}
+
+#receipt > .content .title {
+    color: gray;
+}
+
+#receipt > .content .content {
+    color: black;
+}
+
+#receipt > .content.part1,
+#receipt > .content.part2,
+#receipt > .content.part3 {
+    border-bottom: 0.0625rem solid lightgray;
+}
+
+#receipt > .content.part1 {
+    row-gap: 0.25rem;
+    column-gap: 0.25rem;
+    grid-template-columns: repeat(5, 1fr);
+
+    font-size: 0.938rem;
+}
+
+#receipt > .content.part1 > .content {
+    grid-column: 2 / 6;
+}
+
+#receipt > .content.part2,
+#receipt > .content.part3 {
+    grid-template-columns: repeat(8, 1fr);
+
+    font-size: 0.813rem;
+}
+
+#receipt > .content.part2 > .content.left,
+#receipt > .content.part3 > .content.left {
+    grid-column: 2 / 5;
+}
+
+#receipt > .content.part2 > .content.right {
+    grid-column: 6 / 9;
+}
+
+#receipt > .content.part3 > .title.right {
+    grid-column: 5 / 7;
+}
+
+#receipt > .content.part3 > .content.right {
+    grid-column: 7 / 9;
+}
+
+#receipt > .content.part3 > .content.address {
+    grid-column: 2 / 9;
+}
+
+#receipt > .content.part5 {
+    border-top: 0.0625rem solid lightgray;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: center
+}
+
+#receipt > .content > .button {
+    min-width: 5rem;
+    text-align: center;
+}
+
+/* endregion receipt */
+
+/*region userCheckForm */
+._object-form {
+    max-width: 64rem;
+    width: 30rem;
+    min-height: 40rem;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+
+    flex-direction: column;
+
+    box-sizing: border-box;
+    padding: 2.5rem;
+    justify-content: center;
+}
+
+
+._object-form > .title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-bottom: 0.25rem solid var(--concept-color-orangred);
+    text-align: center;
+    padding-bottom: 0.5rem;
+}
+
+._object-form > .text {
+    font-size: 0.9rem;
+    color: grey;
+    text-align: center;
+}
+
+._object-form > .label > .subtitle,
+._object-form > .content > .label > .subtitle {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+
+._object-form > .label,
+._object-form > .content > .label {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+
+}
+
+._object-form > * + * {
+    margin-top: 1.5rem;
+}
+
+
+._object-form > .label > .label.change > .contact {
+    appearance: unset;
+}
+
+._object-form > .label > .label.change {
+    align-self: flex-end;
+    position: absolute;
+    right: 0;
+    top: 1.3rem;
+
+}
+
+._object-form > .label > .input,
+._object-form > .content > .label > .input {
+    border-bottom: 0.0125rem solid #727272;
+    padding: 0.5rem;
+    background: none;
+    color: grey;
+}
+
+._object-form > .content > .label > .input.contact::placeholder {
+    color: black;
+}
+
+
+/* TODO : input disabled 이면 글씨 회색으로 유지 하기 (-) */
+._object-form > .content > .label.contact > .input.contact:disabled::placeholder {
+    color: grey;
+}
+
+._object-form > .label > .input.password::placeholder {
+    color: black;
+}
+
+
+._object-form > .warning {
+    max-height: 0;
+    color: #ef5350;
+    font-size: 0.9rem;
+    margin: unset;
+    overflow: hidden;
+    padding-top: 0;
+    transition-duration: 250ms;
+    transition-property: max-height, padding-top;
+    transition-timing-function: ease;
+}
+
+._object-form > .warning.visible {
+    max-height: 3rem;
+    padding: 0.5rem 0.5rem;
+}
+
+
+._object-form > .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+
+    margin-top: 2rem;
+}
+
+._object-form > .button-container > ._object-button {
+    min-width: 10rem;
+    box-sizing: border-box;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+}
+
+._object-form > .button-container > ._object-button._color-concept {
+    color: white;
+    cursor: pointer;
+}
+
+._object-form > .impossible {
+    background: #eeeeee;
+    margin-top: 0.2rem;
+    text-align: center;
+    border-radius: 0.1rem;
+    font-size: 0.9rem;
+    padding: 0.2rem 0;
+    color: #454545;
+}
+
+._object-form > .content {
+    flex-direction: column;
+    justify-content: stretch;
+    background: #abb2b9;
+    margin: 1rem 0.5rem;
+    border-radius: 0.1rem;
+    display: none;
+}
+
+._object-form > .content > .label {
+    padding: 0.8rem;
+}
+
+
+._object-form > .content > .label.contact > ._object-button {
+    margin: 0.25rem 0 0 0;
+}
+
+._object-form > .label.change {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+
+}
+
+._object-form > .label.change > .subtitle {
+    font-size: 1rem;
+    margin: 0 0 0 0.5rem;
+}
+
+
+/*endregion*/
+
+
+/*region userInformation*/
+
+
+/*endregion*/
+
+/* 1024px */
+@media screen and (max-width: 64rem) {
+    #movieLog-container {
+        width: 90%;
+    }
+}
+
+/* 640 */
+@media screen and (max-width: 40rem) {
+    #ticketContainer {
+        margin-top: 1rem;
+        width: 100%;
+
+        display: grid;
+        column-gap: 1rem;
+        row-gap: 1rem;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .information {
+        width: 90%;
+    }
+
+    #ticketListForm > .ticketList > .ticket {
+        flex-direction: column;
+        border-radius: 0.2rem;
+        position: relative;
+        min-height: 13rem;
+    }
+
+
+    #ticketListForm > .ticketList > .ticket.cancel {
+
+        min-height: 10rem;
+    }
+
+
+    #ticketListForm > .ticketList > .ticket > .imageBox {
+        width: 100%;
+        position: absolute;
+        top: 15%;
+    }
+
+
+    #ticketListForm > .ticketList > .ticket > .imageBox > .link {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+
+    #ticketListForm > .ticketList > .ticket > .imageBox > .link > .image {
+        width: 20%;
+    }
+
+    #ticketListForm > .ticketList > .ticket > .button-container {
+        position: absolute;
+        width: 80%;
+        padding: unset;
+        flex-direction: row;
+        right: 0;
+        bottom: 0.25rem;
+    }
+
+    #ticketListForm > .ticketList > .ticket > .button-container > ._object-button {
+        width: 100%;
+        font-size: 0.7rem;
+        margin: 0 1rem;
+        padding: 0.4rem;
+    }
+
+    #ticketListForm > .ticketList > .ticket > .content {
+        width: unset;
+        font-size: 80%;
+        padding: 0.5rem 0.5rem 0.5rem 5.5rem;
+    }
+
+    #ticketListForm > .ticketList > .ticket.cancel > .imageBox {
+        width: 100%;
+    }
+
+
+}

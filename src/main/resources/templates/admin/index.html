@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/index.css}">
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <div id="adminContainer">
+        <div class="_mode">관리자 모드</div>
+        <ul id="menuList">
+            <li class="menu" th:classappend="${#request.getRequestURI().equals('/admin') ? 'active' : ''}">
+                <a th:href="@{/admin/registerCommercial}">홈 편집</a></li>
+            <li class="menu" th:classappend="${#request.getRequestURI().equals('/admin') ? 'active' : ''}">
+                <a th:href="@{/admin/movie}">영화 목록</a></li>
+            <li class="menu" th:classappend="${#request.getRequestURI().equals('/admin') ? 'active' : ''}">
+                <a th:href="@{/admin/registerMovie}">영화 등록</a></li>
+            <li class="menu" th:classappend="${#request.getRequestURI().equals('/admin') ? 'active' : ''}">
+                <a th:href="@{/admin/registerMovieImage}">영화 이미지 추가</a></li>
+            <li class="menu" th:classappend="${#request.getRequestURI().equals('/admin') ? 'active' : ''}">
+                <a th:href="@{/admin/registerNotice}">공지사항/FAQ 등록</a></li>
+            <li class="menu" th:classappend="${#request.getRequestURI().equals('/admin') ? 'active' : ''}">
+                <a th:href="@{/admin/registerNews}">뉴스 등록</a></li>
+        </ul>
+    </div>
+</th:block>
+</body>
+</html>

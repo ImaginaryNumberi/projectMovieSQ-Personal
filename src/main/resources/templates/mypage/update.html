@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/mypage.css}">
+    <script defer th:src="@{/resources/scripts/mypage/update.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: mypage-submenu-fragment"></th:block>
+    <form id="updateForm" class="_object-form">
+        <span class="title">개인 정보 변경</span>
+        <label class="label">
+            <span class="subtitle">이름</span>
+            <input readonly class="_object-input input" maxlength="50" name="name" placeholder="성명 입력" type="text"
+                   th:value="${user.getName()}">
+        </label>
+        <div class="impossible">이름은 변경이 불가능합니다.</div>
+        <label class="label">
+            <span class="subtitle">생년월일</span>
+            <input readonly type="date" class="_object-input input" maxlength="10" name="birth"
+                   placeholder="8자리, '-'제외" th:value="${birth}">
+        </label>
+        <div class="impossible">생년월일은 변경이 불가능합니다.</div>
+        <label class="label">
+            <span class="subtitle">연락처</span>
+            <input type="text" class="_object-input input" maxlength="12" name="currentContact"
+                   placeholder="8자리,'-'제외" th:value="${user.getContact()}" disabled>
+            <label class="label change">
+                <input class="contact" type="checkbox" value="change" id="changeContact">
+                <span class="subtitle _object-button _blue">연락처 변경</span>
+            </label>
+        </label>
+        <div id="content" class="content">
+            <label class="label contact">
+                <span class="subtitle">변경할 연락처</span>
+                <input autofocus type="text" class="_object-input input contact" maxlength="11" name="contact"
+                       placeholder="휴대전화 ('-' 없이 입력)">
+                <input type="button" class="_object-button _blue" name="contactSend" value="인증번호 전송">
+            </label>
+            <label class="label contact">
+                <span class="subtitle">인증번호 확인</span>
+                <input disabled type="text" class="_object-input input contact" name="contactCode" maxlength="6"
+                       placeholder="인증번호 (6자리)">
+                <input disabled class="_object-button _blue" name="contactVerify" type="button" value="인증번호 확인">
+            </label>
+            <input hidden name="contactSalt" type="hidden">
+        </div>
+        <label class="label">
+            <span class="subtitle">아이디</span>
+            <input readonly type="text" class="_object-input input" maxlength="50" name="uEmail"
+                   th:value="${user.getEmail()}">
+        </label>
+        <div class="impossible">아이디는 변경이 불가능합니다.</div>
+        <label class="label password">
+            <span class="subtitle">비밀번호</span>
+            <input autofocus type="password" class="_object-input input password"
+                   maxlength="20" name="uPassword" placeholder="변경할 비밀번호를 입력해 주세요.">
+        </label>
+        <label class="label password">
+            <span class="subtitle">비밀번호 확인</span>
+            <input type="password" class="_object-input input password" maxlength="20" name="uPasswordCheck"
+                   placeholder="비밀번호를 한번 더 입력해 주세요.">
+        </label>
+        <div class="button-container">
+            <input class="_object-button button cancel" value="초기화" type="reset">
+            <input class="_object-button _color-concept button next" type="submit" value="변경">
+        </div>
+        <div class="button-container">
+            <input type="button" class="_object-button _orange" rel="userDelete" value="회원탈퇴">
+        </div>
+        <div>
+            <div>계정연결관리</div>
+            <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4882aeb707f4054de864814b0c14ce58&redirect_uri=https://moviesq.herrykim.com/auth/kakao/callback">
+                <img th:src="@{/resources/images/kakao-logo.png}" alt="">
+                <span style="color: red;"
+                      th:if="${user.getKakaoEmail() != null && user.isKakaoLinked() == true}">해제</span>
+                <span th:if="${user.isKakaoLinked() == false || user.getKakaoEmail() == null}">연결</span>
+            </a>
+        </div>
+    </form>
+</th:block>
+</body>
+</html>

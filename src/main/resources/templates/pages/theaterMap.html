@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=		e120559a3605aef7295f6f2c7062568f&libraries=services,clusterer,drawing"></script>
+    <script defer th:src="@{/resources/scripts/map.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/map.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/overlay.css}">
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <section id="map"></section>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin</title>
+
+    <script defer th:src="@{/resources/scripts/admin/commercial.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/index.css}">
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: admin-submenu-fragment"></th:block>
+    <form id="commercialList" class="_object-form">
+        <span class="title">광고 전체 목록</span>
+        <div class="total"><span class="text" th:text="'현재 등록된 광고수 :' + ${total} "></span></div>
+        <span class="subtitle">* 번호가 높은 순으로 메인화면에 보입니다 * </span>
+        <div class="content">
+            <table>
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th class="title">광고명</th>
+                    <th>광고 시작일</th>
+                    <th>광고 만료일</th>
+                    <th>메인화면 광고여부</th>
+                    <th>등록일</th>
+                    <th>정보수정</th>
+                    <th>삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="commercial : ${commercials}" class="commercial">
+                    <th rel="index" th:text="${commercial.getIndex()}"></th>
+                    <td class="title" th:text="${commercial.getCommercialName()}">
+                    </td>
+                    <td th:text="${#dates.format(commercial.getStartedAt(),'yyyy-MM-dd')}"></td>
+                    <td th:text="${#dates.format(commercial.getFinishedAt(),'yyyy-MM-dd')}"></td>
+                    <td>
+                        <label class="label show">
+                            <input th:data-index="${commercial.getIndex()}" class="option "
+                                   th:checked="${commercial.isHidden() == false}"
+                                   th:name="${commercial.getIndex()}" type="radio" value="false" rel="option">
+                            <span class="text">보여주기</span>
+                        </label>
+                        <label class="label hide">
+                            <input th:data-index="${commercial.getIndex()}" class="option"
+                                   th:checked="${commercial.isHidden() == true}"
+                                   th:name="${commercial.getIndex()}" type="radio" value="true" rel="option">
+                            <span class="text">내리기</span>
+                        </label>
+                    </td>
+                    <td th:text="${#dates.format(commercial.getCreatedAt(),'yyyy-MM-dd')}">
+                    </td>
+                    <td>
+                        <a th:href="@{'./modifyCommercial?index='+${commercial.getIndex()}}"
+                           class="modify _object-button _blue" rel="modify"
+                           th:data-index="${commercial.getIndex()}">수정</a>
+                    </td>
+                    <td>
+                        <a href="#" class="delete _object-button _orange" rel="delete"
+                           th:data-index="${commercial.getIndex()}">삭제</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="button-container">
+            <input class="_object-button" type="reset" value="초기화">
+            <input class="_object-button _color-concept" type="submit" value="광고여부 수정">
+        </div>
+    </form>
+
+</th:block>
+</body>
+</html>

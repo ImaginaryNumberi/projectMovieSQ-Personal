@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+
+
+    <!--도현Work-->
+    <!--폰트 어썸-->
+    <script src="https://kit.fontawesome.com/e4287538e7.js" crossorigin="anonymous"></script>
+    <!-- 일반 CSS -->
+    <link rel="stylesheet" th:href="@{../resources/stylesheets/reserve.css}">
+    <!-- 일반 JS -->
+    <script defer th:src="@{../resources/scripts/reserve.js}"></script>
+</head>
+
+<body>
+<th:block layout:fragment="customContents">
+
+    <!--BDH//-->
+    <div id="selectMovieContainer">
+        <!--<form id="sendSelecting" method="post">-->
+        <form id="sendSelecting">
+
+            <div class="inner1">
+
+                <!-- 전체 머릿말 // -->
+                <div class="ticketing-head">
+                    <h4 class="ticketing-h4">영화선택</h4>
+                    <div class="btnRefresh">
+                        <i class="fa-solid fa-rotate-right" style="color: #ffffff;"></i>
+                        예매 다시하기
+                    </div>
+                </div>
+                <!-- // 전체 머릿말 -->
+
+                <!-- 전체 몸통 //-->
+                <div class="ticketing-body">
+                    <!-- 지역 및 영화관 // -->
+                    <div class="cinema-list-container">
+                        <div class="list-head">
+                            <h5 class="ticketing-h5">영화관</h5>
+                        </div>
+                        <div class="list-body">
+                            <!-- 지역 리스트 -->
+                            <div class="step1 scrollCustom">
+                                <!-- 지역
+                                <ul id="regionList">
+
+                                  <li>
+                                    <input class="btnRegion" value="전체 (0)" data-region="전체" type="button">
+                                  </li>
+                                  <li>
+                                    <input class="btnRegion" value="서울 (0)" data-region="서울" type="button">
+                                  </li>
+                                  <li>
+                                    <input class="btnRegion" value="경기/인천 (0)" data-region="경기/인천" type="button">
+                                  </li>
+                                  <li>
+                                    <input class="btnRegion" value="충천/대전 (0)" data-region="충천/대전" type="button">
+                                  </li>
+                                  <li>
+                                    <input class="btnRegion" value="경북/대구 (0)" data-region="경북/대구" type="button">
+                                  </li>
+                                  <li>
+                                    <input class="btnRegion" value="경남/부산/울산 (0)" data-region="경남/부산/울산" type="button">
+                                  </li>
+                                  <li>
+                                    <input class="btnRegion" value="강원 (0)" data-region="강원" type="button">
+                                  </li>
+                                  <li>
+                                    <input class="btnRegion" value="제주 (0)" data-region="제주" type="button">
+                                  </li>
+
+                                </ul>
+                                -->
+                            </div>
+                            <!-- 영화관 리스트-->
+                            <div class="step2 scrollCustom">
+                                <ul id="cinemaList">
+                                    <!--
+                                    <li th:each="theater : ${theaters}" th:data-region="${theater['region']}">
+                                      <input class="btnTheater" type="button" th:value="${theater['theater']}">
+                                    </li>
+                                    -->
+                                    <!--
+                                    <li data-theater="CGV1" data-region="서울">
+                                      <input type="button" value="CGV1" class="btnTheater" rel="item">
+                                    </li>
+                                    -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // 지역 및 영화관 -->
+
+                    <!-- 영화 // -->
+                    <div class="movie-list-container">
+                        <div class="list-head">
+                            <h5 class="ticketing-h5">영화</h5>
+                        </div>
+                        <!-- 영화 리스트 -->
+                        <div class="list-body scrollCustom">
+                            <ul id="movieList">
+                                <!-- 영화
+                                <li data-movie="기동전사 건담 F91 : 로잘리아의 꽃">
+                                  <input type="button" value="기동전사 건담 F91 : 로잘리아의 꽃" class="btnMovie" rel="item">
+                                </li>
+                                -->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- // 영화 -->
+
+                    <!-- 날짜(요일) 리스트 //-->
+                    <div class="date-list-container">
+                        <div class="list-body scrollCustom">
+                            <ul id="timeList">
+                                <!--
+                                <li class="yearMonth" data-yearAndMonth="2023.07">2023.07</li>
+                                <li class="day" data-originTime="2023-07-28">
+                                  <input type="button" value="금 28" class="btnTime" data-origin-time="2023-07-28" rel="item">
+                                </li>
+                                -->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- // 날짜(요일) 리스트 -->
+
+
+                    <!-- 상영시간 //-->
+                    <!-- 선택시 정보 //-->
+                    <!-- 다음 버튼 // -->
+                    <div class="time-container">
+                        <div class="list-head">
+                            <h5 class="ticketing-h5">상영시간</h5>
+                        </div>
+                        <!-- 상영시간 리스트 -->
+                        <div id="screeningTimeList">
+                            <!--3개를 다 채우지 못했을 때-->
+                            <div id="lackOfElement" class="">
+                                <img th:src="@{../resources/images/no_choice.png}">
+                                <div>영화, 영화관, 날짜를<br>선택해주세요</div>
+                            </div>
+                            <input hidden id="index" type="number" name="index">
+                            <!--3개 다 골랐을 때-->
+                            <ul id="sufficientOfElement" class="scrollCustom screenHidden">
+                                <!--
+                                <li class="btnScreen" data-schedule="1" data-screen="CGV대구" data-runningTime="07:00~08:00">
+                                  <div class="screenName">1관/2D</div>
+                                  <div class="runningTimeAndSeat">
+                                    <span>07:00~08:00</span><span>55/<span>60석</span></span>
+                                  </div>
+                                </li>
+
+                                <li class="btnScreen" data-schedule="스케쥴 인덱스" data-screen="상영관 이름" data-runningTime="상영 시간">
+                                  <div class="screenName">#{상영관 이름}</div>
+                                  <div class="runningTimeAndSeat">
+                                    <span>#{러닝타임}</span><span>#{예약 수}/<span>#{전체 수}석</span></span>
+                                  </div>
+                                </li>
+                                -->
+                            </ul>
+                        </div>
+
+                        <!-- 선택후 -->
+                        <div class="info">
+                            <img class="reservePoster" th:src="@{../resources/images/no_movie.png}">
+                            <div class="text-box">
+                                <strong class="mvNm">&nbsp;</strong>
+                                <div>
+                                    <span>극장</span><span class="thNm"></span>
+                                </div>
+                                <div>
+                                    <span>상영관</span><span class="scNm"></span>
+                                </div>
+                                <div>
+                                    <span>상영등급</span><span class="rating"></span>
+                                </div>
+                                <div>
+                                    <span>날짜</span><span class="tiNm"></span>
+                                </div>
+                                <div>
+                                    <span>상영시간</span><span class="ruNm"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 다음 버튼-->
+                        <input class="next" type="submit" value="인원/좌석 선택">
+                        <!--                        <div class="next">-->
+                        <!--                            인원/좌석 선택-->
+                        <!--                        </div>-->
+                    </div>
+                    <!-- // 상영시간-->
+                    <!-- // 선택시 정보-->
+                    <!-- // 다음 버튼 -->
+                </div>
+                <!--// 전체 몸통-->
+
+            </div>
+        </form>
+    </div>
+
+</th:block>
+</body>
+</html>
+
+
+
+

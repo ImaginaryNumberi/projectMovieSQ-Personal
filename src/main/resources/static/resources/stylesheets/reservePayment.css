@@ -1,0 +1,806 @@
+@charset "UTF-8";
+
+* {
+    margin-inline: unset;
+    margin-block: unset;
+    padding-inline: unset;
+    padding-block: unset;
+}
+
+body {
+    position: relative;
+}
+
+#paymentContainer {
+    /*height: 48rem;*/
+    /*min-height: 43rem;*/
+
+    position: relative;
+    max-width: 64rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    box-sizing: border-box;
+    /*display: none;*/
+}
+
+
+#paymentContainer.hidden {
+    display: none;
+}
+
+
+/*region payForm*/
+#payForm {
+    max-width: 64rem;
+    min-width: 55rem;
+    height: 42rem;
+    width: 100%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#payForm.visible {
+    display: block;
+}
+
+#payForm > .head {
+    height: 3.625rem;
+    background-color: var(--concept-color-mint);
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#payForm > .head > .title {
+    font-size: 1rem;
+    float: left;
+    margin-left: 1rem;
+}
+
+#payForm > .group {
+    background-color: #f8f8f8;
+    box-sizing: border-box;
+    float: left;
+    height: 40rem;
+    position: relative;
+}
+
+#payForm > .group + .group {
+    border-left: 0.0125rem solid #abb2b9;
+}
+
+#payForm > .group > .title {
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.7rem;
+    background-color: #462d82;
+    color: white;
+    text-align: center;
+}
+
+#payForm > .group > .subGroup > .box {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    padding: 0 2rem;
+    font-size: 0.875rem;
+}
+
+#payForm > .group > .subGroup > .box + .box {
+    margin-top: 1rem;
+}
+
+
+#payForm > .reservation-container {
+    width: 40%;
+}
+
+#payForm > .reservation-container > .information,
+#payForm > .reservation-container > .detail-information,
+#payForm > .price-container > .information {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 0;
+}
+
+#payForm > .reservation-container > .detail-information {
+    border-top: 0.0125rem solid #abb2b9;
+    margin: 0.5rem 0;
+    padding: 1.5rem 0;
+}
+
+#payForm > .reservation-container > .information > .movieImage {
+    align-self: center;
+    width: 40%;
+    margin-bottom: 1rem;
+}
+
+#payForm > .reservation-container > .information > .movieTitle {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+    align-self: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+#payForm > .reservation-container > .information > .movieTitle > .movieName {
+    font-size: 1.15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: auto;
+
+}
+
+#payForm > .reservation-container > .information > .movieTitle > .image {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+#payForm > .reservation-container > .information > .movieTitle > .image.all {
+    background: url("../images/all-grade.png") no-repeat;
+    background-size: contain;
+    object-fit: fill;
+    min-width: 2rem;
+}
+
+#payForm > .reservation-container > .information > .movieTitle > .image.child {
+    background: url("../images/12-grade.png") no-repeat;
+    background-size: contain;
+    object-fit: fill;
+    width: 2rem;
+}
+
+#payForm > .reservation-container > .information > .movieTitle > .image.fifteen {
+    background: url("../images/15-grade.png") no-repeat;
+    background-size: contain;
+    object-fit: fill;
+    width: 2rem;
+}
+
+#payForm > .reservation-container > .information > .movieTitle > .image.adult {
+    background: url("../images/18-grade.png") no-repeat;
+    background-size: contain;
+    object-fit: fill;
+    width: 2rem;
+}
+
+#payForm > .reservation-container > .information > .box > .subtitle,
+#payForm > .reservation-container > .detail-information > .box > .subtitle {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+
+#payForm > .reservation-container > .information > .box > * + *,
+#payForm > .reservation-container > .detail-information > .box > * + * {
+    width: 100%;
+    word-break: keep-all;
+}
+
+
+#payForm > .reservation-container > .detail-information > .theater > .text {
+    margin-left: -0.8rem;
+}
+
+#payForm > .payWay-container {
+    width: 30%;
+}
+
+#payForm > .payWay-container > .payWay {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    justify-content: stretch;
+}
+
+#payForm > .payWay-container > .payWay > .label {
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 1rem;
+    border: 0.002rem solid #abb2b9;
+    /*border-radius: 0.5rem;*/
+    text-align: center;
+    background: white;
+}
+
+#payForm > .payWay-container > .payWay > .label:has(>.choice:checked) {
+    border: 0.002rem solid var(--concept-color-mint);
+}
+
+
+#payForm > .payWay-container > .payWay > .label:hover {
+    border: 0.002rem solid var(--concept-color-mint);
+}
+
+
+#payForm > .payWay-container > .payWay > * + * {
+    margin-top: 1rem;
+}
+
+#payForm > .payWay-container > .payWay > .speed-container {
+    display: none;
+}
+
+#payForm > .payWay-container > .payWay > .speed-container.visible {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+#payForm > .payWay-container > .payWay > .speed-container > .label {
+    cursor: pointer;
+    font-size: 1.2rem;
+
+    display: flex;
+}
+
+#payForm > .payWay-container > .payWay > .speed-container > .label > input {
+    appearance: auto;
+    accent-color: darkcyan;
+
+    margin-right: 0.5rem;
+}
+
+#payForm > .payWay-container > .payWay > .speed-container > .label + .label {
+    margin-top: 1.2rem;
+}
+
+#payForm > .payWay-container > .payWay > .speed-container > .label > .image {
+    width: 3.5rem;
+}
+
+#payForm > .payWay-container > .button-container,
+#payForm > .price-container > .button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    align-self: stretch;
+    height: 3.2rem;
+    position: absolute;
+    bottom: 0;
+}
+
+#payForm > .price-container > .button-container.mobile {
+    display: none;
+}
+
+
+#payForm > .payWay-container > .button-container > ._object-button,
+#payForm > .price-container > .button-container > ._object-button {
+    margin: unset;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    text-align: center;
+    height: 100%;
+    border-radius: unset;
+    width: 100%;
+}
+
+#payForm > .price-container {
+    width: 30%;
+}
+
+#payForm > .price-container > .information {
+    font-size: 1rem;
+    border-bottom: 0.0125rem solid #abb2b9;
+    box-sizing: border-box;
+    padding-bottom: 2rem;
+}
+
+#payForm > .price-container > .information > .subtitle {
+    font-size: 1.3rem;
+    margin: 1rem;
+}
+
+#payForm > .price-container > .information > .box {
+    margin: 2rem 0 1rem 2rem;
+}
+
+#payForm > .price-container > .information > .box > .subtitle {
+    font-size: 1rem;
+}
+
+#payForm > .price-container > .information > .box > .adult + .text {
+    margin-left: 0.9rem;
+}
+
+#payForm > .price-container > .information > .box > .adult + .text + .text {
+    margin-left: -0.5rem;
+}
+
+#payForm > .price-container > .information > .box > .text {
+    padding: 1.1rem;
+    font-size: 0.9rem;
+
+    color: #909090;
+}
+
+
+#payForm > .price-container > .button-container > ._object-button._orange {
+    margin: unset;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+    height: 100%;
+    border-radius: unset;
+    width: 180%;
+}
+
+#payForm > .price-container > .totalPrice {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-items: flex-start;
+}
+
+#payForm > .price-container > .totalPrice > .subtitle {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+#payForm > .price-container > .totalPrice > .box {
+    display: flex;
+    flex-direction: column;
+
+    margin: 1rem 0 1rem 1rem;
+}
+
+#payForm > .price-container > .totalPrice > .total.price {
+    align-self: flex-end;
+    font-size: 1.5rem;
+    margin: 6rem 1rem 0 0;
+}
+
+/*endregion*/
+
+/* region cardContainer*/
+
+#cardContainer {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 20rem;
+    background-color: white;
+    position: fixed;
+    z-index: 9;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    display: none;
+}
+
+#cardContainer.visible {
+    display: flex;
+}
+
+#cardContainer > .card {
+    margin-top: 0.5rem;
+    user-select: none;
+    border-radius: 0.5rem;
+    position: relative;
+    height: 10rem;
+    width: 15rem;
+    background: linear-gradient(45deg, #187ab7, white);
+}
+
+
+#cardContainer > .card > .imageBox {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.65rem 1rem;
+}
+
+#cardContainer > .card > .imageBox > .image {
+    height: 3rem;
+}
+
+#cardContainer > .card > .imageBox > .image.logo {
+    width: 30%;
+}
+
+#cardContainer > .card > .card-number-box {
+    padding: 1rem 2rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+#cardContainer > .card > .card-number-box > * + * {
+    margin-left: 0.5rem;
+}
+
+#cardContainer > .card > .box-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 1rem;
+    font-size: 0.8rem;
+}
+
+#cardContainer > .card > .box-container > .title {
+    font-weight: 500;
+}
+
+#cardContainer > .card > .box-container > .box {
+    align-self: flex-end;
+    padding-right: 1rem;
+    font-size: 1rem;
+}
+
+#cardContainer > .card > .box-container > .box > .title {
+    font-size: 0.7rem;
+}
+
+#cardContainer > .card > .box-container > .box > .subtitle {
+    text-align: center;
+}
+
+#cardContainer > #cardInputForm {
+    margin: 1rem;
+    width: 30rem;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 9;
+}
+
+#cardContainer > #cardInputForm > .title {
+    font-size: 1.3rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 0.25rem solid var(--concept-color-mint);
+    text-align: center;
+    font-weight: 600;
+}
+
+#cardContainer > #cardInputForm > .label {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    padding: 0 2rem;
+}
+
+#cardContainer > #cardInputForm > .label > #cardCompany {
+    align-self: flex-start;
+    width: 60%;
+    border: 0.025rem solid;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+#cardContainer > #cardInputForm > .label > .input,
+#cardContainer > #cardInputForm > .label > .pwd > .input,
+#cardContainer > #cardInputForm > .label > .expire > .input {
+    border-bottom: 0.0125rem solid #727272;
+    padding: 0.5rem;
+    background: none;
+    color: grey;
+}
+
+#cardContainer > #cardInputForm > .label > .pwd > .input,
+#cardContainer > #cardInputForm > .label > .expire > .input {
+    width: 2rem;
+    text-align: center;
+    letter-spacing: 0.3rem;
+}
+
+#cardContainer > #cardInputForm > .label > .expire > .input.year {
+    width: 3.5rem;
+}
+
+#cardContainer > #cardInputForm > .label > .birth-input {
+    width: 5rem;
+    letter-spacing: 0.3rem;
+}
+
+#cardContainer > #cardInputForm > .label > .number {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+}
+
+#cardContainer > #cardInputForm > .label > .number > .input {
+    width: calc((100% / 4) - 3.5rem);
+    border-bottom: 0.0125rem solid #727272;
+    padding: 0.5rem 0.5rem;
+    background: none;
+    color: grey;
+    box-sizing: content-box;
+    letter-spacing: 0.1rem;
+}
+
+#cardContainer > #cardInputForm > .label > .number > .input + .input {
+    margin-left: 0.5rem;
+}
+
+#cardContainer > #cardInputForm > .label > .subtitle {
+    font-size: 0.8rem;
+    margin-top: 1rem;
+}
+
+#cardContainer > #cardInputForm > .button-container {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+#cardContainer > #cardInputForm > .button-container > ._object-button._color-concept {
+    color: white;
+    text-align: center;
+    text-decoration: none;
+
+    margin: 0 0.5rem;
+    padding: 0.5rem 0.5rem;
+    box-sizing: border-box;
+}
+
+#cardContainer > #cardInputForm > .button-container > ._object-button {
+    color: black;
+    text-align: center;
+    text-decoration: none;
+
+    width: 10rem;
+    margin: 0 0.5rem;
+    padding: 0.5rem 0.5rem;
+    box-sizing: border-box;
+}
+
+#cardContainer > #cardInputForm > .warning {
+    max-height: 0;
+    color: #ef5350;
+    font-size: 0.85rem;
+    margin: unset;
+    overflow: hidden;
+    padding-top: 0;
+    transition-duration: 250ms;
+    transition-property: max-height, padding-top;
+    transition-timing-function: ease;
+}
+
+#cardContainer > #cardInputForm > .warning.visible {
+    max-height: 2rem;
+    padding: 1rem 2rem;
+}
+
+/*endregion*/
+
+
+a:hover {
+    cursor: pointer;
+}
+
+
+/* region finishContainer*/
+#finishContainer {
+    position: relative;
+    /* top: 50%; */
+    left: 50%;
+    transform: translate(-50%, 0);
+    /* min-width: 30rem; */
+    width: 30rem;
+    height: 42rem;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#finishContainer.visible {
+    display: flex;
+}
+
+#finishContainer > .title {
+    font-size: 1.3rem;
+    font-weight: 600;
+
+    text-align: center;
+    padding: 0.25rem;
+    width: 100%;
+
+    background: var(--concept-color-mint);
+    border-radius: 0.2rem;
+}
+
+#finishContainer > .information {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 1rem 0;
+    background-color: #f8f8f8;
+    padding-bottom: 1rem;
+
+    border-radius: 0.25rem;
+}
+
+#finishContainer > .information > .image {
+    width: 40%;
+    align-self: center;
+    margin-top: 1rem;
+}
+
+#finishContainer > .information > .detail {
+    margin-top: 1rem;
+    padding: 0 1rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#finishContainer > .information > .detail > .box {
+    display: flex;
+    flex-direction: column;
+}
+
+#finishContainer > .information > .detail > .box > .subtitle {
+    font-weight: 500;
+    margin-right: 5rem;
+}
+
+#finishContainer > .information > .detail > .box > .subtitle + .subtitle {
+    margin-top: 0.2rem;
+}
+
+#finishContainer > .information > .detail > .box > .text {
+    font-size: 0.9rem;
+}
+
+#finishContainer > .information > .detail > .box > .text + .text {
+    margin-top: 0.34rem;
+}
+
+#finishContainer > .text {
+    font-size: 0.85rem;
+    color: #808b96;
+}
+
+#finishContainer > .text + .text {
+    margin-top: 0.2rem;
+}
+
+#finishContainer > .text.warning {
+    color: red;
+    font-weight: 500;
+}
+
+#finishContainer > .button-container {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+#finishContainer > .button-container > ._object-button {
+    color: black;
+    text-align: center;
+    text-decoration: none;
+
+    width: 10rem;
+
+}
+
+#finishContainer > .button-container > ._object-button._color-concept {
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+/*endregion*/
+
+
+/*region mobile*/
+@media screen and (max-width: 40rem) {
+    #cardContainer {
+        width: 90%;
+        height: 85%;
+        overflow-y: scroll;
+        overscroll-behavior: none;
+    }
+
+
+    #payForm > .reservation-container {
+        height: 100%;
+    }
+
+    #cardContainer > #cardInputForm {
+        width: 90%;
+    }
+
+    #cardContainer > #cardInputForm > .label > .number > .input {
+        width: 2.5rem;
+        letter-spacing: unset;
+    }
+
+    #payForm {
+        min-width: unset;
+        height: 100%;
+    }
+
+    #payForm > .group {
+        float: unset;
+        width: 100%;
+    }
+
+    #footer {
+        display: none;
+    }
+
+    #payForm > .payWay-container > .button-container {
+        display: none;
+    }
+
+    #payForm > .price-container > .button-container.mobile {
+        bottom: 3.2rem;
+        display: block;
+    }
+
+    #payForm >.group.payWay-container{
+        height: auto;
+    }
+
+    #cardContainer > .card > .imageBox > .image {
+        height: 2rem;
+    }
+
+    #cardContainer > .card > .card-number-box {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    #cardContainer > .card > .box-container {
+        font-size: 0.65rem;
+    }
+
+    #finishContainer {
+        width: 90%;
+        /* height: 90%; */
+        padding: 2rem 1rem;
+        margin: 1rem 0;
+    }
+
+    #finishContainer > .button-container {
+        width: 95%;
+    }
+
+
+
+
+
+}
+
+
+/*endregion*/

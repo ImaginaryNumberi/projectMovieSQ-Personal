@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/detail.css}">
+    <script defer th:src="@{/resources/scripts/detail.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: movie-submenu-fragment"></th:block>
+    <div id="movieDetailContainer">
+        <img id="poster" class="image" th:src="'/movie/image?index=' + ${movie.getIndex()}">
+        <div id="detailContainer">
+            <div id="informationContainer">
+                <div class="information">
+                    <div class="titleContainer">
+                        <div class="ratingContainer">
+                            <div class="rating all" th:if="${movie.getRating() == 'All'}"></div>
+                            <div class="rating twelve" th:if="${movie.getRating() == '12'}"></div>
+                            <div class="rating fifteen" th:if="${movie.getRating() == '15'}"></div>
+                            <div class="rating eighteen" th:if="${movie.getRating() == '18'}"></div>
+                        </div>
+                        <div class="titleKo" th:text="${movie.getTitleKo()}">제목</div>
+                    </div>
+                    <div class="titleEn" th:text="${movie.getTitleEn()}"></div>
+                    <div class="info"
+                         th:text="${movie.getRating_title()} + ' · ' + ${movie.getReleaseDate()} + ' · ' +  ${movie.getGenre()} + ' · ' +  ${movie.getRunningTime()} + '분'">
+                        등급,개봉일,장르, 러닝타임
+                    </div>
+                    <button class="percentageButton" name="percentage"><a th:href="@{/reserve}"><span
+                            class="title">예매율</span> <span class="content"
+                                                           th:text="${#numbers.formatDecimal(movie.getReservationRate(),1,1) +'%'}">99%</span></a>
+                    </button>
+                </div>
+                <button class="ticket"><a th:href="@{/reserve}">예매하기</a></button>
+            </div>
+            <div id="synopsisContainer">
+                <div class="synopsis">
+                    <div class="title">줄거리</div>
+                    <div class="content" th:text="${movie.getSynopsis()}">줄거리 내용</div>
+                </div>
+                <div class="director">
+                    <div class="title">배우/제작진</div>
+                    <div class="director">
+                        <div class="title">감독</div>
+                        <div class="content" th:text="${movie.getDirector()}"></div>
+                    </div>
+                    <div class="cast">
+                        <div class="title">배우</div>
+                        <div class="content" th:text="${movie.getCast()}"></div>
+                    </div>
+                    <div class="agency">
+                        <div class="title">배급</div>
+                        <div class="content" th:text="${movie.getAgency()}"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="pictureContainer">
+                <div class="title">스틸컷</div>
+                <div class="content">
+                    <img id="motion" class="image" th:data-index="${movie.getIndex()}"
+                         th:src="'/movie/image?index=' + ${movie.getIndex()} + '&poster=false'">
+                </div>
+            </div>
+            <div id="trailerContainer">
+                <div class="title">예고편</div>
+                <div class="content">
+                    <!-- 유튜브 자동재생시 URL에 Get Parameter전달해야함  src=URL?autoplay=1&mute=1 추가-->
+                    <iframe class="frame" th:src="${movie.getTrailerUrl()}"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="viewerCover" class=""></div>
+    <img id="viewer" class="">
+</th:block>
+</body>
+</html>

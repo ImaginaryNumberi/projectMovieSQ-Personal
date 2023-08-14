@@ -1,0 +1,181 @@
+.title {
+    font-size: 1.3rem;
+    border-bottom: 0.25rem solid var(--concept-color-orangred);
+    display: inline-block;
+    text-align: left;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+}
+
+#scheduleList {
+    margin: 0 auto;
+}
+
+#getSchedule {
+    text-align: center;
+}
+
+#getSchedule > tr > td {
+    border-bottom: 0.0625rem solid #d5d8dc;
+}
+
+button {
+    background-color: #5dade2;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0.375rem 1rem;
+    border: none;
+    margin-right: 0.5rem;
+}
+
+.delete {
+    background-color: #abb2b9;
+}
+
+.delete:hover {
+    border: none;
+    background-color: #808b96;
+}
+
+.delete:active {
+    background-color: #566573;
+}
+
+
+button:hover {
+    border: none;
+    background-color: #3498db;
+}
+
+button:active {
+    border: none;
+    background-color: #2e86c1;
+}
+
+#register-btn {
+    margin-top: 5rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#modifyCover,
+#registerCover {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000a0;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    transition-duration: 250ms;
+    transition-property: opacity;
+    transition-timing-function: ease;
+    z-index: 1;
+}
+
+#modifyCover.visible,
+#registerCover.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#modifyForm,
+#registerSchedule {
+    top: 50%;
+    left: 50%;
+    align-items: stretch;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    opacity: 0;
+    padding: 2.5rem;
+    pointer-events: none;
+    position: fixed;
+    transform: scale(90%) translate(-50%, -50%);
+    transform-origin: center;
+    transition-property: opacity, transform;
+    transition-timing-function: ease;
+    z-index: 2;
+}
+
+#modifyForm.visible,
+#registerSchedule.visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: scale(100%) translate(-50%, -50%);
+}
+
+#modifyForm > .title,
+#registerSchedule > .title {
+    font-size: 2rem;
+}
+
+#modifyForm > * + *,
+#registerSchedule > * + * {
+    margin-top: 0.5rem;
+}
+
+#modifyForm > .label,
+#registerSchedule > .label {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#modifyForm > .label .input,
+#registerSchedule > .label .input {
+    width: 25rem;
+    border-bottom: 0.0625rem solid #d5d8dc;
+    flex: 1;
+    padding: 0.625rem 0;
+}
+
+#modifyForm > .button-container,
+#registerSchedule > .button-container {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+#modifyForm > .button-container > .button,
+#registerSchedule > .button-container > .button {
+    background-color: #abb2b9;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0.625rem 1rem;
+}
+
+#modifyForm > .button-container > .button:hover,
+#registerSchedule > .button-container > .button:hover {
+    background-color: #808b96;
+}
+
+#modifyForm > .button-container > .button:active,
+#registerSchedule > .button-container > .button:active {
+    background-color: #566573;
+}
+
+#modifyForm > .button-container > .button + .button,
+#registerSchedule > .button-container > .button + .button {
+    margin-left: 0.5rem;
+}
+
+#modifyForm > .button-container > .button.modify,
+#registerSchedule > .button-container > .button.regist {
+    background-color: #5dade2;
+}
+
+#modifyForm > .button-container > .button.modify:hover,
+#registerSchedule > .button-container > .button.modify:hover {
+    background-color: #3498db;
+}
+
+#modifyForm > .button-container > .button.modify:active,
+#registerSchedule > .button-container > .button.modify:active {
+    background-color: #2e86c1;
+}

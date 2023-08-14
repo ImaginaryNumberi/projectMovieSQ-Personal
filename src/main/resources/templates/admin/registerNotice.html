@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/support.css}">
+    <script defer th:src="@{/resources/libraries/ckeditor/ckeditor.js}"></script>
+    <script defer th:src="@{/resources/scripts/admin/registerNotice.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: admin-submenu-fragment"></th:block>
+    <div id="registerNoticeContainer">
+        <form class="_object-form" id="noticeForm" method="post" enctype="multipart/form-data">
+            <h2 class="title">공지사항/FAQ 등록</h2>
+            <span class="subtitle">제목</span>
+            <label class="label">
+                <input autofocus class="_object-input input" maxlength="50" name="title" placeholder="제목을 입력해주세요"
+                       required type="text">
+            </label>
+            <span class="subtitle">구분</span>
+            <select class="select" name="category">
+                <option selected disabled>선택</option>
+                <option value="notice">Notice</option>
+                <option value="faq">FAQ</option>
+            </select>
+            <span class="subtitle">내용</span>
+            <label class="label">
+                <textarea class="textarea" name="content"></textarea>
+            </label>
+            <!--            <span class="subtitle">첨부파일</span>
+                        <label class="label">
+                            <input class="_object-input input file" id="inputFile" name="file" onchange="fileCheck(this)"
+                                   accept="image/gif, image/jpeg,image/png" type="file" required>
+                        </label>-->
+            <div class="button-container">
+                <input class="_object-button" type="reset" value="초기화">
+                <input class="_object-button cancel" onClick="history.go(-1)" value="취소">
+                <input class="_object-button _color-concept" type="submit" value="등록">
+            </div>
+        </form>
+        <span th:if="${result != null}" th:text="${result}"></span>
+    </div>
+</th:block>
+</body>
+</html>

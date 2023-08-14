@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <script defer th:src="@{/resources/scripts/admin/manageSchedule.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/common.css}">
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/admin/manageSchedule.css}">
+    <title>Admin</title>
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: admin-submenu-fragment"></th:block>
+    
+    <div id="scheduleList">
+        <h1 class="title"> 상영 스케쥴 관리 </h1>
+        <table id="scheduleTable">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>영화</th>
+                <th>극장</th>
+                <th>스크린</th>
+                <th>시작 시간</th>
+                <th>종료 시간</th>
+            </tr>
+            </thead>
+            <tbody id="getSchedule">
+            </tbody>
+        </table>
+        <div id="pagination">
+        </div>
+    </div>
+    <button id="register-btn">등록하기</button>
+    <div id="registerCover">
+        <div>
+            <form id="registerSchedule">
+                <h2 class="title">스케줄 등록</h2>
+                <input type="hidden" id="scheduleIndex">
+                <label class="label">영화 인덱스:
+                    <input class="input" type="text" id="movieIndex">
+                </label>
+                <label class="label">극장 인덱스:
+                    <input class="input" type="text" id="theaterIndex">
+                </label>
+                <label class="label">스크린 인덱스:
+                    <input class="input" type="text" id="screenIndex">
+                </label>
+                <label class="label">시작 날짜:
+                    <input class="input" type="date" id="startDate">
+                </label>
+                <label class="label">시작 시간:
+                    <input class="input" type="time" id="startTime">
+                </label>
+                <label class="label">종료 날짜:
+                    <input class="input" type="date" id="endDate">
+                </label>
+                <label class="label">종료 시간:
+                    <input class="input" type="time" id="endTime">
+                </label>
+                <div class="button-container">
+                    <button type="button" class="button regist" id="registerButton">등록</button>
+                    <button type="button" class="button">닫기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="modifyCover"></div>
+    <div id="modifyFormContainer">
+        <form id="modifyForm">
+            <h2 class="title">스케쥴 수정</h2>
+            <label class="label">
+                <input readonly class="input" name="index" type="text" style="display: none;">
+            </label>
+            <label class="label">영화
+                <input class="input" name="movieIndex" type="number">
+            </label>
+            <label class="label">극장
+                <input class="input" name="theaterIndex" type="number">
+            </label>
+            <label class="label">스크린
+                <input class="input" name="screenIndex" type="number">
+            </label>
+            <label class="label">시작일
+                <input class="input" name="startDate" type="date">
+            </label>
+            <label class="label">시작 시간
+                <input class="input" name="startTime" type="time">
+            </label>
+            <label class="label">종료일
+                <input class="input" name="endDate" type="date">
+            </label>
+            <label class="label">종료 시간
+                <input class="input" name="endTime" type="time">
+            </label>
+            <div class="button-container">
+                <input class="button modify" type="submit" value="수정하기">
+                <input class="button" id="closeButton" rel="close" type="button" value="닫기">
+            </div>
+        </form>
+    </div>
+</th:block>
+</body>
+</html>

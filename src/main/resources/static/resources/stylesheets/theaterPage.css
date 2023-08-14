@@ -1,0 +1,50 @@
+#map {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    margin-left: 1rem;
+}
+
+#container img {
+    width: 1050px;
+    height: 400px;
+}
+
+span {
+    border-bottom: #5ca8d8 solid 0.25rem;
+    font-size: 1.75rem;
+    font-weight: 500;
+    flex: 0 0 auto;
+    margin-left: 15rem;
+}
+
+
+#container {
+    display: flex;
+    margin: auto;
+}
+
+.find-load a {
+    display: block;
+    width: 100px;
+    height: 39px;
+    padding: 0 15px;
+    background: #fb4357;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 39px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2rem;
+}
+
+h1 {
+    height: 41px;
+    margin: 30px 0 15px;
+    background: url(https://img.cgv.co.kr/r2014/images/common/bg/bg_h3_line.jpg) repeat-x 0 50%;
+    line-height: 41px;
+    text-align: center;
+    font-weight: 500;
+}

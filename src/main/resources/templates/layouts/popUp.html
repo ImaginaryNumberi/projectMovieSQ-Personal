@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="popUp">
+    <div id="cover"></div>
+    <div id="popUp">
+        <div class="title">알림</div>
+        <div class="content">
+            <span class="text subtitle" rel="paramOne"></span>
+            <span class="text" rel="paramTwo"></span>
+        </div>
+        <div class="button-container">
+            <input readonly class="_object-button" type="button" value="확인" data-method="okay">
+            <input readonly class="_object-button" type="button" value="닫기" data-method="close">
+            <input readonly class="_object-button" type="button" value="닫기" data-method="main">
+            <a th:href="@{/login}" class="_object-button " data-method="login">로그인</a>
+            <a th:href="@{/login}" class="_object-button _color-concept" data-method="loginColor">로그인</a>
+            <input readonly class="_object-button _color-concept" type="button" value="비밀번호 재설정"
+                   data-method="recoverPassword">
+            <input readonly class="_object-button _color-concept" type="button" value="삭제" data-method="deleteOk">
+        </div>
+    </div>
+</div>

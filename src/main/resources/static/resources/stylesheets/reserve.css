@@ -1,0 +1,538 @@
+@charset "UTF-8";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+/*****ul 스타일 초기화*****/
+ul {
+    position: relative;
+    list-style-type: none;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-inline-start: 0;
+}
+
+/* 리스트 요소 숨기기 */
+.regionHidden,
+.theaterHidden,
+.movieHidden,
+.dayHidden,
+.screenHidden {
+    display: none;
+}
+
+/*요소들 배경 및 글자 색*/
+.btnRegion,
+.btnTheater,
+.btnMovie,
+.btnTime {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    height: 3.125rem;
+    width: 100%;
+    padding: 0 0.625rem;
+    background-color: white;
+    box-sizing: border-box;
+    white-space: normal;
+    text-align: left;
+    transition: background-color 0.3s ease;
+    border-bottom: 0.1rem solid #f7f8f9;
+}
+
+.btnRegion:hover,
+.btnTheater:hover,
+.btnMovie:hover,
+.btnTime:hover {
+    background-color: #eaeaea;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btnRegion,
+.btnTheater,
+.btnTime {
+    font-size: 0.875rem;
+}
+
+.btnMovie {
+    width: 100%;
+
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.btnTime {
+    width: 100%;
+
+    font-weight: 600;
+}
+
+/*버튼 클릭시 선택되어진 효과*/
+.btnSelected {
+    background-color: #ffffff;
+    border: 0.125rem solid #74ccd4;
+    box-sizing: border-box;
+    font-weight: 600;
+}
+
+/*상영관 리스트 버튼 호버 및 클릭 효과*/
+.btnScreen:hover {
+    background-color: #eaeaea;
+    transition: background-color 0.3s ease;
+}
+
+.screenBtnSelected {
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border: 0.125rem solid #462d82 !important;
+}
+
+/*
+::-webkit-scrollbar : 스크롤바 영역에 대한 설정
+::-webkit-scrollbar-thumb : 스크롤바 막대에 대한 설정
+::-webkit-scrollbar-track  : 스크롤바 뒷 배경에 대한 설정
+*/
+/* 스크롤바 커스텀 */
+.scrollCustom::-webkit-scrollbar {
+    width: 0.25rem; /* 스크롤바의 너비 */
+}
+
+.scrollCustom::-webkit-scrollbar-thumb {
+    visibility: hidden; /*스크롤바 숨기기*/
+    height: 0.5rem; /* 스크롤바의 길이 */
+    background: #c2c2c2; /* 스크롤바의 색상 */
+    border-radius: 0.625rem;
+}
+
+.scrollCustom::-webkit-scrollbar-track {
+}
+
+/*스크롤바 생기기*/
+.scrollCustom:hover.scrollCustom::-webkit-scrollbar-thumb {
+    visibility: visible;
+}
+
+.scrollCustom:hover.scrollCustom::-webkit-scrollbar-track {
+    background: #e2e2e2;
+}
+
+/*#full {*/
+/*    position: relative;*/
+/*    height: 50rem;*/
+/*    width: 118.9375rem;*/
+/*    margin: 3rem 0;*/
+/*    !*top: 50%;*!*/
+/*    !*left: 50%;*!*/
+/*    !*transform: translate3d(-50%, -50%, 0);*!*/
+/*    !*padding-left: 21.96875rem;*!*/
+/*    !*padding-right: 21.96875rem;*!*/
+/*    background-color: red;*/
+/*}*/
+
+/*****전체 위치 및 화면 높넓이*****/
+#selectMovieContainer {
+    position: relative;
+    width: 64rem;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    box-sizing: border-box;
+    font-size: 0.875rem;
+    flex: 1 1 auto;
+}
+
+#selectMovieContainer > #sendSelecting {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    margin-block-end: 0;
+    border: 0.125rem solid #eaeaea;
+}
+
+#selectMovieContainer > #sendSelecting > .inner1 {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/*****영화예매 머리(예약 페이지)*****/
+#selectMovieContainer > #sendSelecting > .inner1 > .ticketing-head {
+    position: relative;
+    height: 3.625rem;
+    width: 100%;
+    background-color: #74ccd4;
+}
+
+/* 영화예매 글자 */
+.ticketing-head > .ticketing-h4 {
+    position: relative;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+    float: left;
+    margin-block-start: unset;
+    margin-block-end: unset;
+    padding-left: 1.25rem;
+    color: #000;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* 예매다시하기 글자*/
+.ticketing-head > .btnRefresh {
+    position: relative;
+    height: 3.625rem;
+    float: right;
+    padding: 0 1.25rem;
+    line-height: 3.5625rem;
+    text-decoration: none;
+    font-size: 0.875rem;
+    background-color: #5ca8d8;
+    color: #ffffff;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.ticketing-head > .btnRefresh:hover {
+    text-decoration: none;
+}
+
+/*영화예매 전체몸*/
+.ticketing-body {
+    position: relative;
+    height: 39.4375rem;
+    width: 100%;
+}
+
+/*****영화관, 영화, 상영시간 머리말 공통*****/
+.ticketing-body .list-head {
+    position: relative;
+    height: 9%;
+    padding-left: 1.25rem;
+    box-sizing: border-box;
+    border-bottom: 0.125rem solid #eaeaea;
+}
+
+.ticketing-body .list-head .ticketing-h5 {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    font-size: inherit;
+    font-weight: 600;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+/*영화관 몸통*/
+.ticketing-body > .cinema-list-container {
+    position: relative;
+    float: left;
+    height: 39.45rem;
+    width: 30%;
+    box-sizing: border-box;
+}
+
+.ticketing-body > .cinema-list-container > .list-head {
+    width: 100%;
+}
+
+/*영화관 list*/
+.ticketing-body > .cinema-list-container > .list-body {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/*영화관 지역*/
+.ticketing-body > .cinema-list-container > .list-body > .step1 {
+    position: relative;
+    height: 36rem;
+    width: 30%;
+    float: left;
+    background: #f7f8f9;
+    border-right: 0.125rem solid #eaeaea;
+    overflow-y: scroll;
+    box-sizing: border-box;
+}
+
+/*영화관 이름*/
+.ticketing-body > .cinema-list-container > .list-body > .step2 {
+    position: relative;
+    height: 35.3rem;
+    width: 70%;
+    background: #fff;
+    overflow-y: scroll;
+    box-sizing: border-box;
+}
+
+/*영화 몸통*/
+.ticketing-body > .movie-list-container {
+    position: relative;
+    float: left;
+    width: 30%;
+    height: 39.45rem;
+    box-sizing: border-box;
+    border-left: 0.125rem solid #eaeaea;
+}
+
+.ticketing-body > .movie-list-container > .list-head {
+    width: 100%;
+}
+
+.ticketing-body > .movie-list-container > .list-body {
+    position: relative;
+    width: 100%;
+    height: 35.4rem;
+    overflow-y: scroll;
+    box-sizing: border-box;
+}
+
+/*요일 몸통*/
+.ticketing-body > .date-list-container {
+    position: relative;
+    float: left;
+    width: 8%;
+    height: 39.45rem;
+    box-sizing: border-box;
+    border-left: 0.125rem solid #eaeaea;
+}
+
+.ticketing-body > .date-list-container > .list-body {
+    position: relative;
+    height: 39.4rem;
+    width: 105%;
+    overflow-y: scroll;
+    box-sizing: border-box;
+}
+
+.yearMonth {
+    position: relative;
+    padding: 0.5rem 0.5rem;
+    color: #000000;
+    text-align: left;
+    border-top: 0.125rem solid #eaeaea;
+    border-bottom: 0.125rem solid #eaeaea;
+    box-sizing: border-box;
+    font-size: inherit;
+    font-weight: 600;
+}
+
+.day {
+}
+
+.saturday {
+    color: #1e90ff;
+}
+
+.sunday {
+    color: #ff4a4a;
+}
+
+/*상영관 및 정보 좌석선택버튼 전체몸통*/
+.ticketing-body > .time-container {
+    position: relative;
+    display: inline-block;
+    float: left;
+    width: 32%;
+    height: 100%;
+    box-sizing: border-box;
+    border-left: 0.125rem solid #eaeaea;
+}
+
+/*상영시간 헤드*/
+.ticketing-body > .time-container > .list-head {
+    /*width: 22.5rem;*/
+}
+
+/* 상영시간 리스트 몸통 */
+.ticketing-body > .time-container > #screeningTimeList {
+    position: relative;
+    width: 100%;
+    height: 54%;
+}
+
+/*3개 요소 다 채우지 못했을 때*/
+.ticketing-body > .time-container > #screeningTimeList > #lackOfElement {
+    position: relative;
+    height: 4.875rem;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 1rem;
+    color: #bdbdbd;
+}
+
+/* 3개 요소 다 채웠을때, 상영관 리스트*/
+.ticketing-body > .time-container > #screeningTimeList > #sufficientOfElement {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+/*상영관 정보 몸통*/
+.ticketing-body > .time-container > #screeningTimeList > #sufficientOfElement > .btnScreen {
+    position: relative;
+    width: 100%;
+    height: 3.75rem;
+    padding: 0.5rem;
+    border-bottom: 0.1rem solid #f7f8f9;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* 상영관 이름*/
+.ticketing-body > .time-container > #screeningTimeList > #sufficientOfElement > .btnScreen > .screenName {
+    width: 100%;
+    position: relative;
+    font-size: inherit;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+/* 상영시간 및 좌석수 */
+.ticketing-body > .time-container > #screeningTimeList > #sufficientOfElement > .btnScreen > .runningTimeAndSeat {
+    width: 100%;
+    position: relative;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.ticketing-body > .time-container > #screeningTimeList > #sufficientOfElement > .btnScreen > .runningTimeAndSeat > span:first-child {
+    position: relative;
+    float: left;
+    font-size: 0.875rem;
+}
+
+.ticketing-body > .time-container > #screeningTimeList > #sufficientOfElement > .btnScreen > .runningTimeAndSeat > span:last-child {
+    position: relative;
+    float: right;
+    font-size: 0.875rem;
+}
+
+.ticketing-body > .time-container > #screeningTimeList > #sufficientOfElement > .btnScreen > .runningTimeAndSeat > span:last-child > span {
+    color: #74ccd4;
+    font-size: 0.875rem;
+}
+
+/*영화 정보*/
+.ticketing-body > .time-container > .info {
+    position: relative;
+    height: 29%;
+    width: 100%;
+    box-sizing: border-box;
+    background: #f2f2f2;
+    padding: 1rem 0.75rem;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+/*영화 이미지*/
+.ticketing-body > .time-container > .info > img {
+    position: relative;
+    float: left;
+    /*height: 9.375rem;*/
+    width: 6.5rem;
+    box-sizing: border-box;
+    margin-right: 0.75rem;
+}
+
+.ticketing-body > .time-container > .info > .text-box {
+    position: relative;
+    overflow: hidden;
+}
+
+/*영화정보 이름*/
+.ticketing-body > .time-container > .info > .text-box > strong {
+    position: relative;
+    display: block;
+    margin-bottom: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*영화정보 여러가지*/
+.ticketing-body > .time-container > .info > .text-box > div {
+    margin-bottom: 0.35rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ticketing-body > .time-container > .info > .text-box > div > span:first-child {
+    display: inline-block;
+    width: 3.5rem;
+    font-size: 0.75rem;
+    color: #909090;
+}
+
+.ticketing-body > .time-container > .info > .text-box > div > span:last-child {
+    font-size: 0.75rem;
+}
+
+/*좌석선택 버튼*/
+.ticketing-body > .time-container > .next {
+    position: relative;
+    width: 100.5%;
+    height: 3.2rem;
+    padding: 0.8125rem 0;
+    background-color: #462d82;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 1.2rem;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.ticketing-body > .time-container > .next:hover {
+    color: #74ccd4;
+    transition: color 0.3s ease;
+}
+
+/* 1024px */
+@media screen and (max-width: 64rem) {
+    #selectMovieContainer {
+        width: 90%;
+
+        font-size: 0.875rem;
+    }
+
+    h5 {
+        font-size: inherit;
+    }
+
+    .btnRegion,
+    .btnTheater,
+    .btnMovie,
+    .btnTime {
+        font-size: inherit;
+    }
+
+    .yearMonth {
+        font-size: inherit;
+    }
+}

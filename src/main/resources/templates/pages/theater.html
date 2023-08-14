@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moviesq</title>
+    <script defer th:src="@{/resources/scripts/theater.js}"></script>
+    <script defer th:src="@{/resources/scripts/map.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/theater.css}">
+</head>
+<body>
+<th:block layout:fragment="customContents">
+    <th:block th:replace="layouts/header :: theater-submenu-fragment"></th:block>
+    <div id="theaterContainer">
+        <h1 class="title">극장</h1>
+        <div class="theater-find">
+            <div class="inner">
+                <div class="searchBox">
+                    <label>
+                        <input type="text" id="searchTheater" class="searchTheater" placeholder="영화관 이름을 입력해주세요.">
+                    </label>
+                </div>
+                <div class="body">
+                    <!--지역 목록을 받아옴-->
+                    <div id="area" class="area">
+                        <ul id="areaList"></ul>
+                    </div>
+                    <!--영화관 리스트 받아오기-->
+                    <div class="list">
+                        <ul id="theaterList"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+</body>
+</html>

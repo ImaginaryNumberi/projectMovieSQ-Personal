@@ -1,0 +1,227 @@
+@charset "UTF-8";
+
+/* region index */
+#adminContainer {
+    top: 0;
+    left: 50%;
+    width: 100%;
+
+}
+
+#adminContainer > #menuList > .menu {
+    margin-top: 0.5rem;
+}
+
+/* endregion index */
+
+/*region commercialForm*/
+
+
+
+#commercial > .top {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#commercial > .top > .back {
+    background-color: inherit;
+    border: 0.0625rem solid lightgray;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    padding: 0.3rem;
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+}
+
+#commercial > .top > .back > .image {
+    object-fit: fill;
+}
+
+
+#commercialForm > .imageBox,
+#commercial > .imageBox {
+    height: 7rem;
+    margin-left: 5rem;
+}
+
+#commercialForm > .imageBox > .image,
+#commercial > .imageBox > .image {
+    height: 100%;
+}
+
+/*endregion*/
+
+
+/*region commercialList*/
+#commercialList {
+    width: 100%;
+    flex: 1 1 auto;
+    left: 50%;
+    top: 50%;
+    max-width: 64rem;
+    position: relative;
+    transform: translateX(-50%);
+    margin: 2rem 0;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+#commercialList > .total {
+    margin-bottom: 1rem;
+    margin-top: 0.25rem;
+}
+
+#commercialList > .subtitle {
+    color: #808b96;
+    font-size: 0.8rem;
+    margin: unset;
+}
+
+#commercialList > .content {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+#commercialList > .content > table {
+    border-collapse: collapse;
+}
+
+#commercialList > .content > table > thead > tr > th {
+    background-color: #d5d8dc55;
+    /*border-top: 0.0625rem solid #d5d8dc;*/
+    border-bottom: 0.0625rem solid #d5d8dc;
+    font-size: 1rem;
+    padding: 0.85rem;
+    white-space: nowrap;
+}
+
+
+#commercialList > .content > table > tbody > tr > * {
+    border-bottom: 0.0625rem solid #d5d8dc;
+    font-size: 0.85rem;
+    padding: 0.5rem;
+    white-space: nowrap;
+}
+
+
+#commercialList > .content > table > tbody > tr > td:nth-child(3) {
+    color: #3498db;
+}
+
+#commercialList > .content > table > tbody > tr > td:nth-child(4) {
+    color: #d24545;
+}
+
+#commercialList > .content > table > tbody > tr > td:nth-child(7) {
+    width: unset;
+    display: flex;
+    justify-content: center;
+}
+
+
+#commercialList > .content > table > tbody > tr > td:nth-child(5) > .label > input[type=radio] {
+    appearance: menulist-button;
+    accent-color: darkcyan;
+    margin-right: 0.2rem;
+}
+
+#commercialList > .content > table > tbody > tr > td:nth-child(7) > .modify {
+    font-size: 0.875rem;
+    margin: unset;
+    display: flex;
+    align-items: center;
+    width: 1rem;
+    justify-content: center;
+    height: 0.75rem;
+
+}
+
+#commercialList > .content > table > tbody > tr > td:nth-child(8) > .delete {
+    font-size: 0.875rem;
+    margin: unset;
+    display: flex;
+    align-items: center;
+    width: 1rem;
+    justify-content: center;
+    height: 0.75rem;
+}
+
+
+#commercialList > .content > table > tbody > tr > td {
+    max-width: 10rem;
+    width: 100%;
+}
+
+#commercialList > .content > table > tbody > tr:hover {
+    background-color: var(--concept-color-gray);
+}
+
+#commercialList > .content > table > tbody > tr > .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+#commercialList > .content > table > tbody > tr > td > .label + .label {
+    margin-left: 0.5rem;
+}
+
+#commercialList > .button-container {
+    width: 40%;
+    margin: 2rem 0;
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+}
+
+#commercialList > .button-container > * {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/*endregion*/
+
+/*region choice*/
+
+.option-container {
+    position: relative;
+    flex-direction: row;
+    text-align: center;
+    font-size: 1.3rem;
+    width: 100%;
+    flex: 1 1 auto;
+    left: 50%;
+    top: 50%;
+    max-width: 64rem;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 1rem;
+}
+
+.option-container > .label {
+    padding-bottom: 0.5rem;
+    width: 10rem;
+}
+
+
+._object-form>.result {
+    height:1rem;
+    color: red;
+    width: 10rem;
+    margin: 2rem 0 0.5rem 2rem;
+}
+
+
+/*endregion*/
